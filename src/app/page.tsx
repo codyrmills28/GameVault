@@ -18,7 +18,8 @@ import {
   Users, 
   Coins, 
   Terminal, 
-  Check 
+  Check,
+  HardDrive
 } from "lucide-react";
 
 // Mock games data for the interactive widget
@@ -105,7 +106,6 @@ export default function LandingPage() {
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-mutedText">
             <a href="#features" className="hover:text-white transition-colors">Features</a>
             <a href="#demo" className="hover:text-white transition-colors">The Vault Demo</a>
-            <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
           </nav>
 
@@ -129,230 +129,156 @@ export default function LandingPage() {
         <div className="absolute top-20 left-1/4 w-96 h-96 bg-accentPurple/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="absolute top-40 right-1/4 w-96 h-96 bg-accentBlue/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accentPurple/10 border border-accentPurple/20 text-xs font-semibold text-accentPurple mb-6 animate-float">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-semibold text-emerald-400 mb-6 animate-float">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>The New Standard in Game Server Hosting</span>
+          <span>100% Free • Local Hosting • Zero Cloud Fees</span>
         </div>
 
         <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight max-w-4xl leading-tight mb-6">
-          One Subscription. <br />
+          Your Hardware. <br />
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-accentPurple via-fuchsia-400 to-accentBlue text-glow-purple">
             Infinite Game Worlds.
           </span>
         </h1>
 
         <p className="text-mutedText text-lg sm:text-xl max-w-2xl mb-8 leading-relaxed">
-          Ditch paying for multiple servers your friends only play half the time. Host a world, archive it in the Vault when you switch games, and restore it months later. Zero data loss, zero wasted cash.
+          Ditch paying for multiple cloud servers your friends only play half the time. Host your own worlds locally on your PC, archive them to your hard drive when you switch games, and restore them instantly. Zero data loss, zero wasted cash.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-md mb-16">
           <Link 
             href="/register" 
-            className="flex-1 bg-accentPurple hover:bg-accentPurpleHover text-white px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 shadow-lg shadow-accentPurple/30 border border-accentPurple/40 text-center"
+            className="w-full sm:w-auto bg-accentPurple hover:bg-accentPurpleHover text-white px-8 py-4 rounded-xl text-base font-bold transition-all duration-200 shadow-lg shadow-accentPurple/20 border border-accentPurple/40"
           >
-            Start Your Vault
+            Download Free
           </Link>
           <a 
             href="#demo" 
-            className="flex-1 glass-panel hover:bg-white/5 border border-white/10 text-white px-8 py-4 rounded-xl text-base font-bold transition-all duration-300 text-center"
+            className="w-full sm:w-auto bg-white/5 hover:bg-white/10 border border-white/10 text-white px-8 py-4 rounded-xl text-base font-bold transition-all duration-200 flex items-center justify-center gap-2"
           >
-            See How It Works
+            <Zap className="w-5 h-5 text-yellow-400" />
+            See How it Works
           </a>
         </div>
 
-        {/* Feature Highlights */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-5xl mt-8">
-          {[
-            { icon: Zap, label: "Instant Deployments", desc: "Online in 10 seconds" },
-            { icon: Layers, label: "Active Game Swapping", desc: "No command line required" },
-            { icon: Database, label: "Infinite Vault Storage", desc: "Keep old maps forever" },
-            { icon: ShieldCheck, label: "Enterprise Compute", desc: "Ryzen 9 & NVMe SSDs" }
-          ].map((item, i) => (
-            <div key={i} className="glass-panel p-5 rounded-xl border border-white/5 flex flex-col items-center">
-              <div className="p-3 bg-white/5 rounded-lg mb-3">
-                <item.icon className="w-6 h-6 text-accentPurple" />
-              </div>
-              <span className="font-bold text-sm mb-1">{item.label}</span>
-              <span className="text-xs text-mutedText text-center">{item.desc}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Interactive Demo Section */}
-      <section id="demo" className="py-20 px-6 bg-[#0a0c12]/80 border-y border-borderDark relative">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-12 gap-12 items-center">
+        {/* Demo Interactive Widget */}
+        <div id="demo" className="w-full max-w-4xl mx-auto mt-10">
+          <div className="text-left mb-6 ml-4">
+            <h3 className="font-extrabold text-xl tracking-wider uppercase text-slate-300">Your Local Machine</h3>
+          </div>
           
-          <div className="md:col-span-5 flex flex-col justify-center">
-            <div className="inline-flex items-center gap-1.5 text-accentPurple font-semibold text-sm mb-3">
-              <RefreshCw className="w-4 h-4 animate-spin-slow" />
-              <span>Interactive Swap Simulator</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold mb-6 leading-tight">
-              Ditch the Config Files.<br />
-              <span className="text-accentBlue">Swap in 2 Clicks.</span>
-            </h2>
-            <p className="text-mutedText mb-6 leading-relaxed">
-              When your friend group finishes a Minecraft season and wants to hop on Valheim, you don't need a second subscription. 
-            </p>
-            <ol className="space-y-4 mb-8">
-              {[
-                "Select your running Minecraft server and click 'Vault'.",
-                "Your world is packaged, zipped, and securely saved in the Vault.",
-                "Choose Valheim from your Vault and restore it into the active slot.",
-                "Your IP address updates, and you're ready to sail the seas!"
-              ].map((step, idx) => (
-                <li key={idx} className="flex gap-3 text-sm text-slate-300">
-                  <span className="flex-shrink-0 w-6 h-6 bg-accentPurple/20 border border-accentPurple/30 text-accentPurple rounded-full flex items-center justify-center font-bold text-xs">
-                    {idx + 1}
-                  </span>
-                  <span>{step}</span>
-                </li>
-              ))}
-            </ol>
-            <div className="flex gap-4">
-              <Link href="/register" className="bg-accentBlue hover:bg-accentBlueHover text-black px-6 py-3 rounded-lg text-sm font-bold transition-all duration-200 shadow-lg shadow-accentBlue/20">
-                Unlock Active Slots
-              </Link>
-            </div>
-          </div>
-
-          {/* Interactive Vault Animation Widget */}
-          <div className="md:col-span-7 flex flex-col justify-center">
-            <div className="glass-panel-purple rounded-2xl p-6 border border-accentPurple/20 relative overflow-hidden box-glow-purple">
-              {/* Terminal-style header */}
-              <div className="flex items-center justify-between border-b border-borderDark pb-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  <span className="text-xs text-mutedText font-mono ml-2">Console: gamevault-slot-01</span>
-                </div>
-                <div className="text-xs font-semibold px-2.5 py-1 rounded bg-accentPurple/20 text-accentPurple">
-                  1 Subscription Slot
-                </div>
-              </div>
-
-              {/* Slot Bay */}
-              <div className="mb-6">
-                <span className="text-xs font-semibold text-mutedText tracking-wider uppercase block mb-3">
-                  Active Server Slot
+          <div className="grid md:grid-cols-[1.5fr_1fr] gap-6">
+            
+            {/* Active Server Slot */}
+            <div className="glass-panel p-6 rounded-2xl border border-accentPurple/30 shadow-[0_0_50px_-12px_rgba(167,139,250,0.15)] relative overflow-hidden flex flex-col min-h-[380px]">
+              <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-accentPurple to-accentBlue"></div>
+              
+              <div className="flex items-center justify-between mb-8">
+                <span className="text-xs font-bold uppercase tracking-wider text-mutedText flex items-center gap-2">
+                  <Terminal className="w-4 h-4" />
+                  Active Execution Slot
                 </span>
-                
-                {/* Active Server Card */}
-                <div className={`p-5 rounded-xl border relative transition-all duration-700 bg-slate-900/60 ${
-                  transitionStep === "archiving" ? "scale-95 opacity-20 -translate-y-8 border-accentPurple" :
-                  transitionStep === "restoring" ? "scale-95 opacity-20 translate-y-8 border-accentBlue" :
-                  `border-white/10 ${activeGame.border}`
+                <span className={`text-[10px] px-2 py-1 rounded font-mono font-bold uppercase tracking-widest ${
+                  activeStatus === "Online" ? "bg-emerald-500/20 text-emerald-400 animate-pulse" : "bg-amber-500/20 text-amber-400"
                 }`}>
-                  <div className="flex items-start justify-between">
-                    <div className="flex gap-3.5">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${activeGame.color} flex items-center justify-center text-2xl shadow-lg`}>
-                        {activeGame.icon}
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-lg">{activeGame.name}</h3>
-                          <span className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${
-                            activeStatus === "Online" ? "bg-emerald-500/10 text-emerald-400" :
-                            activeStatus === "Vaulting..." ? "bg-purple-500/10 text-purple-400 animate-pulse" :
-                            "bg-cyan-500/10 text-cyan-400 animate-pulse"
-                          }`}>
-                            {activeStatus}
-                          </span>
-                        </div>
-                        <p className="text-xs text-mutedText">{activeGame.description}</p>
-                      </div>
-                    </div>
+                  {activeStatus}
+                </span>
+              </div>
 
-                    {/* Stats display */}
-                    <div className="text-right">
-                      <span className="text-xs text-mutedText block">IP Address</span>
-                      <span className="font-mono text-sm text-slate-300">162.254.204.18:{activeGame.port}</span>
+              {/* Active Game Content */}
+              <div className={`transition-all duration-500 ${transitioning && transitionStep === "archiving" ? "translate-y-10 opacity-0" : transitioning && transitionStep === "restoring" ? "translate-y-10 opacity-0" : "translate-y-0 opacity-100"} flex-1 flex flex-col justify-center`}>
+                <div className="flex items-center gap-5 mb-6">
+                  <div className={`w-16 h-16 rounded-xl flex items-center justify-center text-3xl bg-gradient-to-br ${activeGame.color} shadow-lg`}>
+                    {activeGame.icon}
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-extrabold text-white">{activeGame.name}</h2>
+                    <p className="text-sm text-mutedText">{activeGame.description}</p>
+                  </div>
+                </div>
+
+                <div className="glass-panel rounded-xl border border-white/5 p-4 mb-6">
+                  <p className="text-sm font-mono text-slate-300 italic">"{activeGame.activeText}"</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mt-auto border-t border-white/5 pt-6">
+                  <div>
+                    <div className="flex justify-between text-xs mb-2">
+                      <span className="text-mutedText">CPU Usage</span>
+                      <span className="font-mono text-slate-200">{cpu}%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-accentPurple rounded-full transition-all duration-1000" style={{ width: `${cpu * 2}%` }}></div>
                     </div>
                   </div>
-
-                  {/* Resource meters */}
-                  <div className="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-white/5">
-                    <div>
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="text-mutedText">CPU Usage</span>
-                        <span className="font-mono text-slate-300">{cpu}%</span>
-                      </div>
-                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-accentPurple transition-all duration-1000" 
-                          style={{ width: `${activeStatus === "Online" ? cpu * 3.5 : 0}%` }}
-                        ></div>
-                      </div>
+                  <div>
+                    <div className="flex justify-between text-xs mb-2">
+                      <span className="text-mutedText">RAM Allocation</span>
+                      <span className="font-mono text-slate-200">{ram}%</span>
                     </div>
-                    <div>
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="text-mutedText">Memory ({activeGame.ram} Allocated)</span>
-                        <span className="font-mono text-slate-300">{activeStatus === "Online" ? `${ram}%` : "0%"}</span>
-                      </div>
-                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-accentBlue transition-all duration-1000" 
-                          style={{ width: `${activeStatus === "Online" ? ram : 0}%` }}
-                        ></div>
-                      </div>
+                    <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-accentBlue rounded-full transition-all duration-1000" style={{ width: `${ram}%` }}></div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Transition Indicator Line */}
-              <div className="flex items-center justify-center my-4 h-1">
-                <div className={`h-full bg-accentPurple transition-all duration-700 ${transitioning ? "w-full opacity-60" : "w-0 opacity-0"}`}></div>
+              {/* Overlay while archiving */}
+              {transitioning && (
+                <div className="absolute inset-0 bg-[#0a0c12]/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center">
+                  <RefreshCw className="w-8 h-8 text-accentPurple animate-spin mb-4" />
+                  <p className="text-sm font-bold text-white tracking-widest uppercase">{activeStatus}</p>
+                </div>
+              )}
+            </div>
+
+            {/* The Vault List */}
+            <div className="glass-panel p-6 rounded-2xl border border-white/5 flex flex-col">
+              <div className="flex items-center gap-2 mb-6">
+                <Archive className="w-5 h-5 text-mutedText" />
+                <span className="text-sm font-bold uppercase tracking-wider text-slate-300">Local Hard Drive Vault</span>
               </div>
 
-              {/* The Vault */}
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-mutedText tracking-wider uppercase flex items-center gap-1.5">
-                    <Archive className="w-3.5 h-3.5 text-accentPurple" />
-                    <span>The Game History Vault</span>
-                  </span>
-                  <span className="text-xs text-mutedText">Unlimited slots</span>
-                </div>
+              <p className="text-xs text-mutedText mb-4">Click a game to instantly swap it into the active execution slot.</p>
 
-                {/* Vaulted worlds list */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {vaultedGames.map((game) => (
-                    <div 
-                      key={game.id} 
-                      onClick={() => handleSwap(game.id)}
-                      className={`p-3 rounded-xl border border-white/5 bg-[#151720]/60 hover:bg-cardHover cursor-pointer transition-all duration-300 hover:border-accentPurple/40 group ${
-                        transitioning ? "opacity-40 pointer-events-none" : ""
-                      }`}
-                    >
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-lg">{game.icon}</span>
-                        <h4 className="font-bold text-xs truncate group-hover:text-accentPurple transition-colors">{game.name}</h4>
-                      </div>
-                      <div className="flex items-center justify-between text-[10px] text-mutedText">
-                        <span>Size: 2.4 GB</span>
-                        <span className="text-accentBlue font-bold group-hover:text-glow-cyan">Restore</span>
+              <div className="flex-1 space-y-3 overflow-y-auto pr-2 custom-scrollbar">
+                {vaultedGames.map((game) => (
+                  <button 
+                    key={game.id}
+                    onClick={() => handleSwap(game.id)}
+                    disabled={transitioning}
+                    className="w-full text-left p-3 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/10 transition-all duration-200 flex items-center gap-4 group disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl bg-gradient-to-br ${game.color} shadow opacity-80 group-hover:opacity-100 transition-opacity`}>
+                      {game.icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-sm text-slate-200 truncate">{game.name}</h4>
+                      <div className="flex items-center gap-2 text-[10px] text-mutedText">
+                        <span className="flex items-center gap-1"><Database className="w-3 h-3" /> {game.ram}</span>
+                        <span className="flex items-center gap-1"><Globe className="w-3 h-3" /> Port {game.port}</span>
                       </div>
                     </div>
-                  ))}
-                </div>
+                    <RefreshCw className="w-4 h-4 text-slate-600 group-hover:text-accentPurple transition-colors" />
+                  </button>
+                ))}
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </section>
 
-      {/* Features Grid Section */}
-      <section id="features" className="py-20 px-6 max-w-7xl mx-auto">
+      {/* Features Matrix */}
+      <section id="features" className="py-20 px-6 max-w-7xl mx-auto border-t border-borderDark relative">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-accentPurple/5 rounded-full blur-[150px] pointer-events-none"></div>
+        
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-5xl font-extrabold mb-4">
-            Built for Gamers. Optimized for Value.
+            Built for Gamers. Fully Local.
           </h2>
           <p className="text-mutedText max-w-2xl mx-auto">
-            Get top-tier server hardware without the enterprise price tag. Our custom orchestration layer handles archiving so you only pay for what you actually use.
+            Take full advantage of the gaming PC you already own. GameVault handles the complicated networking, storage, and orchestration automatically.
           </p>
         </div>
 
@@ -360,33 +286,33 @@ export default function LandingPage() {
           {[
             {
               icon: Cpu,
-              title: "Enterprise Grade Core",
-              desc: "Every subscription slot runs on a high-frequency AMD Ryzen 9 7900X CPU. Say goodbye to block lag, tick drops, and rubber-banding."
+              title: "Harness Your Hardware",
+              desc: "Don't rent a 2GB RAM cloud server when you have a 32GB beast at home. GameVault runs locally on your Windows PC utilizing your own CPU cores for zero lag."
             },
             {
               icon: Layers,
               title: "Instant Game Swapping",
-              desc: "Archive your Minecraft world, deploy ARK, and play in under 60 seconds. Our automated systems pack, compress, and archive state seamlessly."
+              desc: "Archive your Minecraft world, deploy ARK, and play in under 60 seconds. Our automated systems pack, compress, and save states seamlessly to your hard drive."
             },
             {
-              icon: Database,
-              title: "Zero-Loss Vault Storage",
-              desc: "We back up your world saves, player files, configurations, and mods. Even if you cancel your subscription, your vault remains intact for 6 months."
+              icon: HardDrive,
+              title: "Local Hard Drive Vaults",
+              desc: "We back up your world saves, player files, configurations, and mods directly to your disk. You retain 100% ownership of your files, accessible at any time."
             },
             {
               icon: Globe,
-              title: "Global Server Nodes",
-              desc: "Choose from nodes in Silicon Valley, Virginia, Frankfurt, or Singapore. Spin up in any region to guarantee optimal ping for your party."
+              title: "Auto UPnP Port Forwarding",
+              desc: "Forget logging into your router. GameVault uses UPnP to automatically forward and map ports so your friends can connect immediately via your public IP."
             },
             {
-              icon: RefreshCw,
-              title: "Auto-Save Synchronization",
-              desc: "Our servers automatically save progress every 15 minutes. When you hit archive, we run a final save sweep to ensure not a single block is lost."
+              icon: ShieldCheck,
+              title: "Crash Recovery",
+              desc: "Background monitors watch your server processes. If a crash is detected, GameVault will automatically try to restart your server to keep your players online."
             },
             {
               icon: Users,
-              title: "Friend-Shared Access",
-              desc: "Invite your gaming group as team members. Allow friends to boot, stop, or swap servers so you don't have to be online for them to play."
+              title: "Collaborator Access",
+              desc: "Invite your gaming group to the local dashboard. They can help install mods, restart servers, or read audit logs—all from an intuitive UI."
             }
           ].map((item, idx) => (
             <div key={idx} className="glass-panel p-8 rounded-2xl border border-white/5 hover:border-accentPurple/25 transition-all duration-300 group hover:box-glow-purple">
@@ -400,153 +326,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 px-6 bg-[#0a0c12]/80 border-t border-borderDark relative">
-        <div className="absolute top-10 right-1/4 w-80 h-80 bg-accentPurple/5 rounded-full blur-[100px] pointer-events-none"></div>
-
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-5xl font-extrabold mb-4">
-              Simple, Slot-Based Pricing
-            </h2>
-            <p className="text-mutedText max-w-2xl mx-auto">
-              Every plan includes unlimited vault archives, complete automated backups, and global server deployments. Pick a plan based on how many servers you want online concurrently.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            
-            {/* Starter Plan */}
-            <div className="glass-panel p-8 rounded-2xl border border-white/5 flex flex-col justify-between hover:border-white/10 transition-all duration-200">
-              <div>
-                <span className="text-xs font-bold text-mutedText uppercase tracking-wider block mb-1">Starter</span>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-extrabold">$9</span>
-                  <span className="text-mutedText text-sm">/ month</span>
-                </div>
-                <p className="text-xs text-mutedText mb-6">Perfect for small friend groups playing one game at a time.</p>
-                <div className="border-t border-white/5 pt-6 mb-8">
-                  <ul className="space-y-4">
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span className="font-bold">1 Active Server Slot</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>Unlimited Vault Archives</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>4GB RAM Allocation Slot</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>Standard Global Nodes</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <Link 
-                href="/register?plan=STARTER" 
-                className="w-full text-center bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-3 rounded-xl transition-all duration-200 text-sm"
-              >
-                Choose Starter
-              </Link>
-            </div>
-
-            {/* Party Plan */}
-            <div className="glass-panel-purple p-8 rounded-2xl border border-accentPurple/40 flex flex-col justify-between hover:box-glow-purple transition-all duration-300 relative">
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-accentPurple text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-md">
-                Most Popular
-              </div>
-              <div>
-                <span className="text-xs font-bold text-accentPurple uppercase tracking-wider block mb-1">Party</span>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-extrabold">$19</span>
-                  <span className="text-mutedText text-sm">/ month</span>
-                </div>
-                <p className="text-xs text-slate-300 mb-6">Perfect for multi-game squads swapping back and forth.</p>
-                <div className="border-t border-accentPurple/20 pt-6 mb-8">
-                  <ul className="space-y-4">
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0 font-bold" />
-                      <span className="font-bold text-white">2 Active Server Slots</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>Unlimited Vault Archives</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>12GB Shared RAM Slot</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>Premium Global Nodes</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>Automated Mod Installers</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <Link 
-                href="/register?plan=PARTY" 
-                className="w-full text-center bg-accentPurple hover:bg-accentPurpleHover text-white font-bold py-3 rounded-xl transition-all duration-200 text-sm shadow-md shadow-accentPurple/10 border border-accentPurple/30"
-              >
-                Choose Party
-              </Link>
-            </div>
-
-            {/* Guild Plan */}
-            <div className="glass-panel p-8 rounded-2xl border border-white/5 flex flex-col justify-between hover:border-white/10 transition-all duration-200">
-              <div>
-                <span className="text-xs font-bold text-mutedText uppercase tracking-wider block mb-1">Guild</span>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-extrabold">$39</span>
-                  <span className="text-mutedText text-sm">/ month</span>
-                </div>
-                <p className="text-xs text-mutedText mb-6">Perfect for gaming communities hosting multiple simultaneous maps.</p>
-                <div className="border-t border-white/5 pt-6 mb-8">
-                  <ul className="space-y-4">
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span className="font-bold">4 Active Server Slots</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>Unlimited Vault Archives</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>24GB Shared RAM Slot</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>Dedicated CPU Cores</span>
-                    </li>
-                    <li className="flex items-center gap-3 text-sm text-slate-300">
-                      <Check className="w-4 h-4 text-accentPurple flex-shrink-0" />
-                      <span>Priority Support & Discord bot</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <Link 
-                href="/register?plan=GUILD" 
-                className="w-full text-center bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-3 rounded-xl transition-all duration-200 text-sm"
-              >
-                Choose Guild
-              </Link>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
-      <section id="faq" className="py-20 px-6 max-w-4xl mx-auto">
+      <section id="faq" className="py-20 px-6 max-w-4xl mx-auto border-t border-borderDark">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-extrabold">Frequently Asked Questions</h2>
         </div>
@@ -554,24 +335,24 @@ export default function LandingPage() {
         <div className="space-y-4">
           {[
             {
+              q: "Is it really 100% free?",
+              a: "Yes! GameVault is a local application that runs on your own hardware. Because we do not provide cloud servers or off-site data storage, there are absolutely zero subscription fees."
+            },
+            {
               q: "How does the Game History Vault actually work?",
-              a: "When you archive a server, we run a command to shut down the server process, trigger a full world save, tar-compress your server folder (including world blocks, inventory, configuration files, and installed mods), and sync it to our off-site S3 vault storage. We then release the hardware resources and public IP. When you restore, we pull that archive back down, unpack it onto a hosting node, and boot it up. All your progress is exactly where you left it."
+              a: "When you archive a server, we run a command to shut down the server process, trigger a full world save, tar-compress your server folder (including world blocks, inventory, configuration files, and installed mods), and store it on your PC's hard drive. When you restore, we pull that archive back out and boot it up. All your progress is exactly where you left it."
             },
             {
-              q: "Is there any limit to the number of archives I can store?",
-              a: "No! All plans come with unlimited Vault archives. You can preserve 50 different Minecraft maps, Valheim worlds, and Project Zomboid setups from years of friend-group gaming without paying a penny extra. You only pay for active slot execution."
+              q: "Do I need to know how to port forward?",
+              a: "No! GameVault has a built-in UPnP networking layer. When you start a game, it automatically talks to your home router to securely open the necessary ports, and closes them when you shut the server down."
             },
             {
-              q: "Can I swap games instantly?",
-              a: "Yes! The process is automated. Archiving a server takes roughly 15-30 seconds depending on size, and restoring takes roughly 30-45 seconds. It is completely hands-off."
+              q: "Do my friends need to install GameVault?",
+              a: "No, only the person hosting the server needs to run GameVault. Your friends will connect via the game's built-in multiplayer menu using your public IP address, exactly like a normal dedicated server."
             },
             {
-              q: "Do I get a static IP address?",
-              a: "Since subscription slots are shared hardware, your IP address may update when you restore a server from the Vault to an active slot. However, we provide a free custom subdomain (e.g. `yourparty.gamevault.gg`) that automatically updates to point to your active node IP so you don't have to keep sharing new IP addresses in Discord."
-            },
-            {
-              q: "What happens to my Vaulted worlds if I cancel my subscription?",
-              a: "If you pause or cancel your subscription, we keep all your Vault archives securely saved in cold storage for 6 months for free. You can reactivate your account at any time during this window to restore your worlds."
+              q: "Can I use GameVault while playing the game on the same PC?",
+              a: "Yes! Modern gaming PCs have more than enough RAM and CPU cores to host a dedicated server for a small group of friends while simultaneously running the game client."
             }
           ].map((item, index) => (
             <div 
@@ -602,16 +383,16 @@ export default function LandingPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accentPurple/10 rounded-full blur-[100px] pointer-events-none"></div>
         
         <h2 className="text-3xl sm:text-5xl font-extrabold mb-4">
-          Never Lose a Gaming Memory.
+          Take Back Your Game Servers.
         </h2>
         <p className="text-mutedText max-w-2xl mx-auto mb-8">
-          Join thousands of gamer friend groups hosting smarter. Get your GameVault online today and swap games at a moment's notice.
+          Join thousands of gamer friend groups hosting smarter. Install GameVault on your PC today and run your own local game network for free.
         </p>
         <Link 
           href="/register" 
           className="inline-block bg-accentPurple hover:bg-accentPurpleHover text-white px-8 py-4 rounded-xl text-base font-bold transition-all duration-200 shadow-lg shadow-accentPurple/20 border border-accentPurple/40"
         >
-          Create Your Account Now
+          Download Free Now
         </Link>
       </section>
 
