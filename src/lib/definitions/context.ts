@@ -21,6 +21,7 @@ export function buildContext(input: {
     name,
     nameSanitized: name.replace(/[^a-zA-Z0-9]/g, "_"),
     password: pw,
+    passwordEmpty: pw ? "" : "1",
     port,
     ram,
   };

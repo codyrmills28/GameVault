@@ -1,7 +1,7 @@
 import type { GameDefinitionSpec, InstallMethod, ParamSpec, ArgSpec } from "./types";
 import { collectVariables } from "./template";
 
-export const KNOWN_FIXED_VARS = ["name", "nameSanitized", "password", "port", "ram"] as const;
+export const KNOWN_FIXED_VARS = ["name", "nameSanitized", "password", "passwordEmpty", "port", "ram"] as const;
 
 function argStrings(args: ArgSpec[]): string[] {
   return args.flatMap((a) => (typeof a === "string" ? [a] : [...a.value, `{${a.includeWhen}}`]));
