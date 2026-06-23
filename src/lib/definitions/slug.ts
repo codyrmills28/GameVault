@@ -3,11 +3,12 @@
  * e.g. "ARK: Survival Evolved!" → "ark-survival-evolved"
  */
 export function slugify(name: string): string {
-  return name
+  const s = name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-") // replace non-alphanumeric runs with hyphens
     .replace(/^-+|-+$/g, "")      // trim leading/trailing hyphens
     .replace(/-{2,}/g, "-");       // collapse consecutive hyphens
+  return s || "custom-game";
 }
 
 /**

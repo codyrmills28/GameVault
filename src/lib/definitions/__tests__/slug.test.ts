@@ -19,11 +19,11 @@ describe("slugify", () => {
   });
 
   it("handles empty string", () => {
-    expect(slugify("")).toBe("");
+    expect(slugify("")).toBe("custom-game");
   });
 
   it("handles all-special characters", () => {
-    expect(slugify("!!!")).toBe("");
+    expect(slugify("!!!")).toBe("custom-game");
   });
 
   it("preserves existing lowercase slug", () => {
