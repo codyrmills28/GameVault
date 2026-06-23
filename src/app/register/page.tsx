@@ -12,17 +12,8 @@ function RegisterForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [plan, setPlan] = useState("STARTER");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  // Pre-select plan from query parameter
-  useEffect(() => {
-    const planParam = searchParams.get("plan");
-    if (planParam && ["STARTER", "PARTY", "GUILD"].includes(planParam.toUpperCase())) {
-      setPlan(planParam.toUpperCase());
-    }
-  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +29,7 @@ function RegisterForm() {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, plan }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       const data = await res.json();
@@ -79,11 +70,11 @@ function RegisterForm() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="grid md:grid-cols-12 gap-8">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           
-          {/* Step 1: User details (Left side) */}
-          <div className="md:col-span-6 space-y-4">
-            <h3 className="font-bold text-base text-white border-b border-white/5 pb-2 mb-3">1. Account Details</h3>
+          {/* Step 1: User details */}
+          <div className="space-y-4">
+            <h3 className="font-bold text-base text-white border-b border-white/5 pb-2 mb-3">Account Details</h3>
             
             <div>
               <label className="text-xs font-semibold text-mutedText tracking-wider uppercase block mb-1.5">
@@ -137,44 +128,7 @@ function RegisterForm() {
             </div>
           </div>
 
-          {/* Step 2: Plan Select (Right side) */}
-          <div className="md:col-span-6 flex flex-col justify-between">
-            <div>
-              <h3 className="font-bold text-base text-white border-b border-white/5 pb-2 mb-4">2. Select Hosting Tier</h3>
-              
-              <div className="space-y-3">
-                {[
-                  { id: "STARTER", name: "Starter Tier", price: "$9/mo", slots: "1 Active Slot", ram: "4GB RAM" },
-                  { id: "PARTY", name: "Party Tier", price: "$19/mo", slots: "2 Active Slots", ram: "12GB RAM" },
-                  { id: "GUILD", name: "Guild Tier", price: "$39/mo", slots: "4 Active Slots", ram: "24GB RAM" }
-                ].map((p) => (
-                  <div
-                    key={p.id}
-                    onClick={() => setPlan(p.id)}
-                    className={`p-3.5 rounded-xl border-2 cursor-pointer transition-all duration-200 flex justify-between items-center ${
-                      plan === p.id 
-                        ? `${p.id === "STARTER" ? "border-slate-300 bg-slate-400/5" : p.id === "PARTY" ? "border-accentPurple bg-accentPurple/5" : "border-accentBlue bg-accentBlue/5"}`
-                        : "border-white/5 bg-slate-950/40 hover:bg-slate-950/60"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                        plan === p.id ? "border-accentPurple" : "border-slate-500"
-                      }`}>
-                        {plan === p.id && <div className="w-2 h-2 rounded-full bg-accentPurple"></div>}
-                      </div>
-                      <div>
-                        <span className="font-bold text-xs block text-slate-200">{p.name}</span>
-                        <span className="text-[10px] text-mutedText block">{p.slots} • {p.ram}</span>
-                      </div>
-                    </div>
-                    <span className="font-extrabold text-sm text-slate-100">{p.price}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8 md:mt-0">
+            <div className="mt-8">
               <button
                 type="submit"
                 disabled={loading}

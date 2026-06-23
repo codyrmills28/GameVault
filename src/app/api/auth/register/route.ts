@@ -4,7 +4,7 @@ import { hashPassword, signToken } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, password, plan = "STARTER" } = await req.json();
+    const { name, email, password, plan = "FREE" } = await req.json();
 
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -27,10 +27,8 @@ export async function POST(req: NextRequest) {
     // Hash password
     const hashedPassword = hashPassword(password);
 
-    // Get active slots based on plan
-    let activeSlots = 1;
-    if (plan === "PARTY") activeSlots = 2;
-    if (plan === "GUILD") activeSlots = 4;
+    // Give unlimited active slots for local hosting
+    let activeSlots = 999;
 
     // Create user and subscription in a transaction
     const result = await prisma.$transaction(async (tx) => {
