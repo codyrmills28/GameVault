@@ -19,7 +19,8 @@ import {
   ShieldAlert,
   ArrowLeft,
   Sparkles,
-  Info
+  Info,
+  Settings
 } from "lucide-react";
 
 interface CreateServerViewProps {
@@ -31,7 +32,10 @@ const AVAILABLE_GAMES = [
   { id: "VALHEIM", name: "Valheim", icon: "⛵", color: "from-amber-500 to-amber-700 bg-amber-500/10 border-amber-500/30 text-amber-400", desc: "Co-op Viking exploration", recRam: 6.0 },
   { id: "ENSHROUDED", name: "Enshrouded", icon: "🔥", color: "from-blue-500 to-indigo-700 bg-blue-500/10 border-blue-500/30 text-blue-400", desc: "Co-op survival action RPG", recRam: 8.0 },
   { id: "ZOMBOID", name: "Project Zomboid", icon: "🧟", color: "from-red-500 to-rose-700 bg-red-500/10 border-red-500/30 text-red-400", desc: "Zombie survival RPG", recRam: 8.0 },
-  { id: "ARK", name: "ARK: Survival Evolved", icon: "🦖", color: "from-cyan-500 to-blue-700 bg-cyan-500/10 border-cyan-500/30 text-cyan-400", desc: "Dinosaur taming action", recRam: 12.0 }
+  { id: "ARK", name: "ARK: Survival Evolved", icon: "🦖", color: "from-cyan-500 to-blue-700 bg-cyan-500/10 border-cyan-500/30 text-cyan-400", desc: "Dinosaur taming action", recRam: 12.0 },
+  { id: "TERRARIA", name: "Terraria", icon: "🌳", color: "from-lime-500 to-green-700 bg-lime-500/10 border-lime-500/30 text-lime-400", desc: "2D sandbox adventure", recRam: 2.0 },
+  { id: "PALWORLD", name: "Palworld", icon: "🦊", color: "from-orange-500 to-rose-700 bg-orange-500/10 border-orange-500/30 text-orange-400", desc: "Creature-collecting survival", recRam: 8.0 },
+  { id: "RUST", name: "Rust", icon: "⚙️", color: "from-stone-500 to-red-800 bg-stone-500/10 border-stone-500/30 text-stone-400", desc: "PvP survival crafting", recRam: 10.0 }
 ];
 
 const REGIONS = [
@@ -56,8 +60,8 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
   const handleGameSelect = (game: typeof AVAILABLE_GAMES[0]) => {
     setSelectedGame(game);
     setRam(game.recRam); // Set recommended RAM automatically
-    if (game.id === "MINECRAFT") {
-      setPassword(""); // Clear password for Minecraft only
+    if (game.id === "MINECRAFT" || game.id === "TERRARIA") {
+      setPassword(""); // Clear password for optional games
     }
   };
 
@@ -156,6 +160,7 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
             {[
               { label: "Mod Manager", icon: Wrench, href: "/dashboard/mods" },
               { label: "World Backups", icon: FolderSync, href: "/dashboard/backups" },
+              { label: "Server Config", icon: Settings, href: "/dashboard/config" },
               { label: "Team Members", icon: Users, href: "/dashboard/team" },
               { label: "Audit Logs", icon: History, href: "/dashboard/logs" }
             ].map((link, i) => (
@@ -257,7 +262,11 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
                           game.id === "VALHEIM" ? "from-amber-600 to-amber-800" :
                           game.id === "ENSHROUDED" ? "from-blue-600 to-indigo-800" :
                           game.id === "ZOMBOID" ? "from-red-600 to-rose-800" :
-                          "from-cyan-600 to-blue-800"
+                          game.id === "ARK" ? "from-cyan-600 to-blue-800" :
+                          game.id === "TERRARIA" ? "from-lime-600 to-green-800" :
+                          game.id === "PALWORLD" ? "from-orange-600 to-rose-800" :
+                          game.id === "RUST" ? "from-stone-600 to-red-800" :
+                          "from-slate-600 to-slate-800"
                         } shadow`}>
                           {game.icon}
                         </div>
@@ -299,7 +308,7 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
             </div>
 
             {/* Server Password (All games except Minecraft) */}
-            {selectedGame.id !== "MINECRAFT" && (
+            {selectedGame.id !== "MINECRAFT" && selectedGame.id !== "TERRARIA" && (
               <div className="animate-slide-down">
                 <label className="text-xs font-bold text-mutedText tracking-wider uppercase block mb-2">
                   Server Password
@@ -417,11 +426,32 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
                         Running local Project Zomboid servers requires **SteamCMD**. Clicking **Start** on the dashboard automatically installs SteamCMD, extracts it, and triggers the **~3GB Project Zomboid Dedicated Server download** in the background. Progress logs will be available in the console dialog.
                       </p>
                     </>
-                  ) : (
+                  ) : selectedGame.id === "ARK" ? (
                     <>
                       <span className="font-bold text-white block">SteamCMD & ARK: Survival Evolved Large Download Warning</span>
                       <p className="leading-relaxed">
                         Running local ARK servers requires **SteamCMD**. Please note that the ARK Dedicated Server is a **~15GB download**. Clicking **Start** will download it in the background. Ensure you have sufficient disk space and connection bandwidth. Live progress will be printed to the console output stream.
+                      </p>
+                    </>
+                  ) : selectedGame.id === "TERRARIA" ? (
+                    <>
+                      <span className="font-bold text-white block">SteamCMD & Terraria Download Info</span>
+                      <p className="leading-relaxed">
+                        Running local Terraria servers requires **SteamCMD**. Clicking **Start** will download the **~1GB Terraria Dedicated Server** in the background. Password is optional.
+                      </p>
+                    </>
+                  ) : selectedGame.id === "PALWORLD" ? (
+                    <>
+                      <span className="font-bold text-white block">SteamCMD & Palworld Download Size Warning</span>
+                      <p className="leading-relaxed">
+                        Running local Palworld servers requires **SteamCMD**. Clicking **Start** will download the **~4GB Palworld Dedicated Server** in the background. Recommended RAM is 8GB or higher.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <span className="font-bold text-white block">SteamCMD & Rust Large Download Warning</span>
+                      <p className="leading-relaxed">
+                        Running local Rust servers requires **SteamCMD**. The Rust Dedicated Server is a **~10GB download**. Clicking **Start** will download it in the background. Rust servers require at least 10GB RAM.
                       </p>
                     </>
                   )}
