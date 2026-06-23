@@ -22,6 +22,7 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
       requiresJava: true,
       launch: {
         executable: "java",
+        executableOnPath: true,
         args: ["-Xms512M", "-Xmx{ram}G", "-jar", "server.jar", "nogui"],
         stdinStopCommand: "stop\n",
       },
@@ -78,7 +79,9 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
     spec: {
       install: { appId: "380870", installSubDir: "zomboid-server", checkFile: "StartServer64.bat", requiredDiskGB: 3.0 },
       launch: {
-        executable: "cmd.exe", cwdSubDir: "zomboid-server",
+        executable: "cmd.exe",
+        executableOnPath: true,
+        cwdSubDir: "zomboid-server",
         args: ["/c", "StartServer64.bat", "-cachedir=./zomboid-data", "-servername", "servertest"],
       },
       defaultPort: 16261, params: [],
@@ -118,6 +121,7 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
       install: { appId: "282440", installSubDir: "terraria-server", checkFile: "TerrariaServer.exe", requiredDiskGB: 1.0 },
       launch: {
         executable: "TerrariaServer.exe", cwdSubDir: "terraria-server",
+        preLaunchDirs: ["worlds"],
         args: [
           "-port", "7777", "-players", "8",
           { value: ["-pass", "{password}"], includeWhen: "password" },

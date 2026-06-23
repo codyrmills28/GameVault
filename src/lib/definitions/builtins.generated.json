@@ -16,6 +16,7 @@
       "requiresJava": true,
       "launch": {
         "executable": "java",
+        "executableOnPath": true,
         "args": [
           "-Xms512M",
           "-Xmx{ram}G",
@@ -182,6 +183,7 @@
       },
       "launch": {
         "executable": "cmd.exe",
+        "executableOnPath": true,
         "cwdSubDir": "zomboid-server",
         "args": [
           "/c",
@@ -289,6 +291,9 @@
       "launch": {
         "executable": "TerrariaServer.exe",
         "cwdSubDir": "terraria-server",
+        "preLaunchDirs": [
+          "worlds"
+        ],
         "args": [
           "-port",
           "7777",

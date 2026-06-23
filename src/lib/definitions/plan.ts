@@ -1,3 +1,4 @@
+import path from "path";
 import type {
   GameDefinitionSpec, InstallMethod, DefinitionContext,
   ConfigStrategy, Protocol, StdoutPattern,
@@ -15,6 +16,15 @@ export interface LaunchPlan {
   executable: string; args: string[]; cwdSubDir?: string;
   env?: Record<string, string>; stdoutPatterns?: StdoutPattern[];
   stdinStopCommand?: string; launchScript?: string;
+  executableOnPath?: boolean;
+  preLaunchDirs?: string[];
+}
+
+/** Resolve the command to spawn. If executableOnPath is true the executable is
+ *  found on PATH (e.g. "java", "cmd.exe") and is returned as-is. Otherwise it
+ *  is resolved as a path relative to the install directory. */
+export function resolveCommand(installDir: string, executable: string, executableOnPath?: boolean): string {
+  return executableOnPath ? executable : path.join(installDir, executable);
 }
 export interface PortPlan { protocol: Protocol; port: number; }
 
@@ -49,6 +59,8 @@ export function planLaunch(spec: GameDefinitionSpec, ctx: DefinitionContext): La
     stdoutPatterns: l.stdoutPatterns,
     stdinStopCommand: l.stdinStopCommand,
     launchScript: l.launchScript,
+    executableOnPath: l.executableOnPath,
+    preLaunchDirs: l.preLaunchDirs,
   };
 }
 

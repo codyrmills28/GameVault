@@ -7,7 +7,7 @@ import { mapPort, unmapPort, getPublicIP } from "./upnp";
 import { startMonitoring, stopMonitoring, clearStatsHistory } from "./processMonitor";
 import { parseSpec } from "./definitions/serialize";
 import { buildContext } from "./definitions/context";
-import { planInstall, planConfigFiles, planLaunch, planPorts } from "./definitions/plan";
+import { planInstall, planConfigFiles, planLaunch, planPorts, resolveCommand } from "./definitions/plan";
 import { writeStrategyConfig } from "./definitions/strategies";
 import type { GameDefinitionSpec } from "./definitions/types";
 
@@ -466,6 +466,13 @@ export async function startLocalServer(serverId: string, game: string, ramAlloca
   const launch = planLaunch(spec, ctx);
   const cwd = launch.cwdSubDir ? getLocalServerDir(serverId, launch.cwdSubDir) : baseDir;
 
+  // Create any directories required before launch (e.g. Terraria "worlds/")
+  if (launch.preLaunchDirs?.length) {
+    for (const d of launch.preLaunchDirs) {
+      fs.mkdirSync(path.join(installDir, d), { recursive: true });
+    }
+  }
+
   let child;
   if (launch.launchScript) {
     child = spawn("cmd.exe", ["/c", launch.launchScript], {
@@ -474,10 +481,8 @@ export async function startLocalServer(serverId: string, game: string, ramAlloca
       env: { ...process.env, ...(launch.env || {}) },
     });
   } else {
-    // Bare commands (java, cmd.exe) spawn by name; everything else is a relative path joined to cwd
-    const exe = launch.executable;
-    const isBareCommand = exe === "java" || exe === "cmd.exe";
-    const resolvedExe = isBareCommand ? exe : path.join(cwd, exe);
+    // Resolve the executable: PATH commands (java, cmd.exe) by name; all others relative to installDir
+    const resolvedExe = resolveCommand(installDir, launch.executable, launch.executableOnPath);
     child = spawn(resolvedExe, launch.args, {
       cwd,
       stdio: ["pipe", "pipe", "pipe"],
@@ -627,10 +632,14 @@ export async function stopLocalServer(serverId: string): Promise<void> {
   // Reset crash counter on intentional stop
   crashCounters.delete(serverId);
 
+  // Resolve definition once; reuse for both UPnP and stdinStopCommand
+  const resolvedDef = server ? await resolveDefinition(server).catch(() => null) : null;
+
   if (server && (server.enableUpnp || server.runnerType === "LOCAL")) {
     appendLog(serverDir, "[UPnP] Releasing router port mappings...");
     try {
-      const { spec } = await resolveDefinition(server);
+      if (!resolvedDef) throw new Error("No game definition found");
+      const { spec } = resolvedDef;
       const ctx = buildContext({
         name: server.name,
         password: server.password,
@@ -651,7 +660,7 @@ export async function stopLocalServer(serverId: string): Promise<void> {
     appendLog(serverDir, "Termination request received. Terminating process tree...");
 
     // Use the spec's stdinStopCommand for graceful shutdown (e.g. Minecraft sends "stop\n")
-    const { spec } = await resolveDefinition(server!).catch(() => ({ spec: null as any }));
+    const { spec } = resolvedDef ?? { spec: null as any };
     if (child && spec?.launch?.stdinStopCommand) {
       try {
         child.stdin.write(spec.launch.stdinStopCommand);

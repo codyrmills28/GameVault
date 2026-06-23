@@ -40,6 +40,8 @@ export interface LaunchSpec {
   stdoutPatterns?: StdoutPattern[];
   stdinStopCommand?: string;
   launchScript?: string;
+  executableOnPath?: boolean;   // true: spawn executable by name (found on PATH, e.g. "java", "cmd.exe"); false/omitted: resolve against the install dir
+  preLaunchDirs?: string[];     // directories (relative to install dir) to create before launch
 }
 
 export interface GameDefinitionSpec {
