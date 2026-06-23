@@ -34,6 +34,12 @@ export async function POST(
         });
         return NextResponse.json(updated);
       } catch (err: any) {
+        // The start failed (e.g. SteamCMD install error). startLocalServer may have set the
+        // status to STARTING; reset it to STOPPED so the server isn't stuck and can be retried.
+        await prisma.server.update({
+          where: { id: serverId },
+          data: { status: "STOPPED", pid: null, cpuUsage: 0, memoryUsage: 0 },
+        }).catch(() => {});
         return NextResponse.json({ error: err.message }, { status: 400 });
       }
     }
