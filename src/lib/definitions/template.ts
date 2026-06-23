@@ -14,7 +14,7 @@ export function collectVariables(input: string): string[] {
   let m: RegExpExecArray | null;
   VAR_RE.lastIndex = 0;
   while ((m = VAR_RE.exec(input)) !== null) out.add(m[1]);
-  return [...out];
+  return Array.from(out);
 }
 
 export function renderArgs(args: ArgSpec[], ctx: DefinitionContext): string[] {
