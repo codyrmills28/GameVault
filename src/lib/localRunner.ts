@@ -38,7 +38,7 @@ export function getGameSteamInfo(game: string): { appId: string; installSubDir: 
     case "ZOMBOID": return { appId: "380870", installSubDir: "zomboid-server", checkFile: "StartServer64.bat" };
     case "ARK": return { appId: "376030", installSubDir: "ark-server", checkFile: "ShooterGame/Binaries/Win64/ShooterGameServer.exe" };
     case "TERRARIA": return { appId: "282440", installSubDir: "terraria-server", checkFile: "TerrariaServer.exe" };
-    case "PALWORLD": return { appId: "2394010", installSubDir: "palworld-server", checkFile: "Pal/Binaries/Win64/PalServer-Win64-Test-Cmd.exe" };
+    case "PALWORLD": return { appId: "2394010", installSubDir: "palworld-server", checkFile: "PalServer.exe" };
     case "RUST": return { appId: "258550", installSubDir: "rust-server", checkFile: "RustDedicated.exe" };
     default: return null;
   }
@@ -245,26 +245,40 @@ function installSteamCmdApp(
 
       const cleanInstallDir = installDir.replace(/\\/g, "/");
 
+      // +app_info_update 1 forces SteamCMD to refresh its app-metadata cache before the
+      // install. On a freshly bootstrapped SteamCMD the cache is empty, and running
+      // app_update immediately fails with "Missing configuration" (exit code 8) because
+      // the depot config for the app hasn't synced yet.
       const child = spawn(steamcmdExe, [
         "+force_install_dir", cleanInstallDir,
         "+login", "anonymous",
+        "+app_info_update", "1",
         "+app_update", appId,
         "validate",
         "+quit"
       ]);
 
+      // Capture SteamCMD's real error so failures report the cause, not just an exit code.
+      let steamErrorDetail = "";
       child.stdout.on("data", (data) => {
         const line = data.toString().trim();
         if (line) {
           const cleanLine = line.replace(/[\r\n]+/g, " ");
-          if (cleanLine.includes("progress") || cleanLine.includes("Downloading") || cleanLine.includes("Update state")) {
+          if (/ERROR!|Failed to install|No subscription|Invalid Password|Disk write failure/i.test(cleanLine)) {
+            steamErrorDetail = cleanLine;
+            onLog(`[SteamCMD Error] ${cleanLine}`);
+          } else if (cleanLine.includes("progress") || cleanLine.includes("Downloading") || cleanLine.includes("Update state")) {
             onLog(`[SteamCMD Status] ${cleanLine}`);
           }
         }
       });
 
       child.stderr.on("data", (data) => {
-        onLog(`[SteamCMD warning] ${data.toString().trim()}`);
+        const line = data.toString().trim();
+        if (line) {
+          steamErrorDetail = line.replace(/[\r\n]+/g, " ");
+          onLog(`[SteamCMD warning] ${line}`);
+        }
       });
 
       child.on("close", (code) => {
@@ -272,7 +286,8 @@ function installSteamCmdApp(
           onLog(`${appName} download completed!`);
           resolve();
         } else {
-          reject(new Error(`SteamCMD App ${appId} download process exited with code ${code}`));
+          const detail = steamErrorDetail ? ` - ${steamErrorDetail}` : " (see steamcmd/logs/console_log.txt for details)";
+          reject(new Error(`SteamCMD App ${appId} download process exited with code ${code}${detail}`));
         }
       });
     } catch (err: any) {
@@ -799,12 +814,12 @@ export async function startLocalServer(serverId: string, game: string, ramAlloca
 
   } else if (game.toUpperCase() === "PALWORLD") {
     const palworldDir = getLocalServerDir(serverId, "palworld-server");
-    const exePath = path.join(palworldDir, "Pal", "Binaries", "Win64", "PalServer-Win64-Test-Cmd.exe");
+    const exePath = path.join(palworldDir, "PalServer.exe");
 
     if (!fs.existsSync(exePath)) {
       try {
         await prisma.server.update({ where: { id: serverId }, data: { status: "STARTING" } });
-        await installSteamCmdApp(serverId, "2394010", "Palworld Dedicated Server", palworldDir, "Pal/Binaries/Win64/PalServer-Win64-Test-Cmd.exe", logWriter);
+        await installSteamCmdApp(serverId, "2394010", "Palworld Dedicated Server", palworldDir, "PalServer.exe", logWriter);
       } catch (err: any) {
         logWriter(`Palworld Installation failed: ${err.message}`);
         throw new Error(`Palworld install failed: ${err.message}`);
@@ -1098,26 +1113,37 @@ export async function updateGameServer(serverId: string): Promise<void> {
     const cleanInstallDir = installDir.replace(/\\/g, "/");
 
     await new Promise<void>((resolve, reject) => {
+      // +app_info_update 1 forces a metadata cache refresh before app_update — without it a
+      // cold SteamCMD cache yields "Missing configuration" (exit code 8).
       const child = spawn(steamcmdExe, [
         "+force_install_dir", cleanInstallDir,
         "+login", "anonymous",
+        "+app_info_update", "1",
         "+app_update", steamInfo.appId,
         "validate",
         "+quit"
       ]);
 
+      let steamErrorDetail = "";
       child.stdout.on("data", (data) => {
         const line = data.toString().trim();
         if (line) {
           const cleanLine = line.replace(/[\r\n]+/g, " ");
-          if (cleanLine.includes("progress") || cleanLine.includes("Downloading") || cleanLine.includes("Update state") || cleanLine.includes("Success")) {
+          if (/ERROR!|Failed to install|No subscription|Invalid Password|Disk write failure/i.test(cleanLine)) {
+            steamErrorDetail = cleanLine;
+            logWriter(`[Update Error] ${cleanLine}`);
+          } else if (cleanLine.includes("progress") || cleanLine.includes("Downloading") || cleanLine.includes("Update state") || cleanLine.includes("Success")) {
             logWriter(`[Update Status] ${cleanLine}`);
           }
         }
       });
 
       child.stderr.on("data", (data) => {
-        logWriter(`[Update Warning] ${data.toString().trim()}`);
+        const line = data.toString().trim();
+        if (line) {
+          steamErrorDetail = line.replace(/[\r\n]+/g, " ");
+          logWriter(`[Update Warning] ${line}`);
+        }
       });
 
       child.on("close", (code) => {
@@ -1125,7 +1151,8 @@ export async function updateGameServer(serverId: string): Promise<void> {
           logWriter(`[Update] ${server.game} update completed successfully!`);
           resolve();
         } else {
-          reject(new Error(`SteamCMD update exited with code ${code}`));
+          const detail = steamErrorDetail ? ` - ${steamErrorDetail}` : " (see steamcmd/logs/console_log.txt for details)";
+          reject(new Error(`SteamCMD update exited with code ${code}${detail}`));
         }
       });
     });
