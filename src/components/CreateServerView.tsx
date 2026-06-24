@@ -53,6 +53,10 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
     fetch("/api/definitions")
       .then((res) => res.json())
       .then((data) => {
+        if (data.error) {
+          setError(`Failed to load game definitions: ${data.error}. Please ensure your database is running and migrated.`);
+          return;
+        }
         const list: any[] = data.definitions ?? [];
         setDefs(list);
         if (list.length > 0) {
@@ -65,6 +69,7 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
       })
       .catch((err) => {
         console.error("Failed to load definitions:", err);
+        setError("Network error: Failed to connect to the server to load game definitions.");
       });
   }, []);
 
