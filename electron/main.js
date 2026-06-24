@@ -113,6 +113,7 @@ async function createWindow(port) {
     width: 1280,
     height: 800,
     show: false,
+    icon: path.join(__dirname, "..", "build", "icon.ico"),
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
