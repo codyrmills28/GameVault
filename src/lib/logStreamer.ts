@@ -1,7 +1,18 @@
 import { EventEmitter } from "events";
 
-export const serverLogs = new Map<string, string[]>();
-export const logEmitter = new EventEmitter();
+const globalForLogs = globalThis as unknown as {
+  serverLogs: Map<string, string[]>;
+  logEmitter: EventEmitter;
+};
+
+export const serverLogs = globalForLogs.serverLogs || new Map<string, string[]>();
+export const logEmitter = globalForLogs.logEmitter || new EventEmitter();
+
+if (process.env.NODE_ENV !== "production") {
+  globalForLogs.serverLogs = serverLogs;
+  globalForLogs.logEmitter = logEmitter;
+}
+
 // Increase the max listeners to avoid memory leak warnings if many clients connect
 logEmitter.setMaxListeners(100);
 
