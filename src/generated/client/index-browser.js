@@ -125,8 +125,7 @@ exports.Prisma.UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   name: 'name',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  role: 'role'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SubscriptionScalarFieldEnum = {
@@ -154,8 +153,6 @@ exports.Prisma.ServerScalarFieldEnum = {
   enableUpnp: 'enableUpnp',
   ipAddress: 'ipAddress',
   port: 'port',
-  definitionId: 'definitionId',
-  paramValues: 'paramValues',
   cpuUsage: 'cpuUsage',
   memoryUsage: 'memoryUsage',
   createdAt: 'createdAt',
@@ -202,23 +199,6 @@ exports.Prisma.CollaboratorScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.GameDefinitionScalarFieldEnum = {
-  id: 'id',
-  slug: 'slug',
-  displayName: 'displayName',
-  icon: 'icon',
-  color: 'color',
-  description: 'description',
-  recommendedRamGB: 'recommendedRamGB',
-  requiredDiskGB: 'requiredDiskGB',
-  ownerId: 'ownerId',
-  isBuiltIn: 'isBuiltIn',
-  installMethod: 'installMethod',
-  spec: 'spec',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -237,8 +217,7 @@ exports.Prisma.ModelName = {
   Archive: 'Archive',
   ActivityLog: 'ActivityLog',
   Backup: 'Backup',
-  Collaborator: 'Collaborator',
-  GameDefinition: 'GameDefinition'
+  Collaborator: 'Collaborator'
 };
 
 /**
