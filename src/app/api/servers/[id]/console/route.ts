@@ -1,9 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { serverLogs, logEmitter } from "@/lib/logStreamer";
 import { localProcesses } from "@/lib/localRunner";
+import { getAuthenticatedUser } from "@/lib/auth";
+import { verifyServerAccess } from "@/lib/serverAuth";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const serverId = params.id;
+
+  // Require an authenticated user with access to this server before streaming
+  // its console output. Without this, any local client could read any
+  // server's logs by id.
+  const user = await getAuthenticatedUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const access = await verifyServerAccess(serverId, user.id);
+  if (!access) {
+    return NextResponse.json({ error: "Server not found" }, { status: 404 });
+  }
 
   const stream = new ReadableStream({
     start(controller) {
@@ -18,7 +32,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       const listener = (msg: string) => {
         controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify({ type: 'log', text: msg })}\n\n`));
       };
-      
+
       logEmitter.on(`log:${serverId}`, listener);
 
       // Cleanup on disconnect
@@ -41,6 +55,19 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const serverId = params.id;
+
+    // Sending a command writes to the server process's stdin, so require an
+    // authenticated user with access to this server. Without this, any local
+    // client could inject arbitrary commands into a running game server.
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const access = await verifyServerAccess(serverId, user.id);
+    if (!access) {
+      return NextResponse.json({ error: "Server not found" }, { status: 404 });
+    }
+
     const body = await req.json();
     const { command } = body;
 
@@ -59,7 +86,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
     // Write command to process stdin with newline
     child.stdin.write(command + "\n");
-    
+
     return NextResponse.json({ success: true });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

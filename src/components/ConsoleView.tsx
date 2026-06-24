@@ -18,7 +18,8 @@ import {
   AlertCircle,
   Pause,
   Send,
-  ChevronDown
+  ChevronDown,
+  Search
 } from "lucide-react";
 
 export default function ConsoleView({ user, servers }: { user: any, servers: any[] }) {
@@ -31,6 +32,11 @@ export default function ConsoleView({ user, servers }: { user: any, servers: any
   const [isPaused, setIsPaused] = useState(false);
   const [command, setCommand] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+
+  const visibleLogs = search
+    ? logs.filter((line) => line.toLowerCase().includes(search.toLowerCase()))
+    : logs;
 
   const logsEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -288,17 +294,31 @@ export default function ConsoleView({ user, servers }: { user: any, servers: any
                 </div>
                 <span className="text-xs font-mono text-slate-500 ml-2">stdout</span>
               </div>
-              <button
-                onClick={() => setIsPaused(!isPaused)}
-                className={`text-xs px-2 py-1 rounded border flex items-center gap-1 font-bold transition-colors ${
-                  isPaused 
-                    ? "bg-amber-500/20 text-amber-400 border-amber-500/30 hover:bg-amber-500/30" 
-                    : "bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700 hover:text-white"
-                }`}
-              >
-                {isPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
-                {isPaused ? "RESUME" : "PAUSE"}
-              </button>
+              <div className="flex items-center gap-2">
+                <div className="relative">
+                  <Search className="w-3 h-3 text-slate-500 absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Filter logs…"
+                    className="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded pl-7 pr-2 py-1 w-40 focus:outline-none focus:border-accentPurple focus:ring-1 focus:ring-accentPurple placeholder:text-slate-500"
+                    autoComplete="off"
+                    spellCheck="false"
+                  />
+                </div>
+                <button
+                  onClick={() => setIsPaused(!isPaused)}
+                  className={`text-xs px-2 py-1 rounded border flex items-center gap-1 font-bold transition-colors ${
+                    isPaused
+                      ? "bg-amber-500/20 text-amber-400 border-amber-500/30 hover:bg-amber-500/30"
+                      : "bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700 hover:text-white"
+                  }`}
+                >
+                  {isPaused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
+                  {isPaused ? "RESUME" : "PAUSE"}
+                </button>
+              </div>
             </div>
 
             {/* Logs Area */}
@@ -309,8 +329,10 @@ export default function ConsoleView({ user, servers }: { user: any, servers: any
             >
               {logs.length === 0 ? (
                 <div className="text-slate-600 italic">Waiting for server output...</div>
+              ) : visibleLogs.length === 0 ? (
+                <div className="text-slate-600 italic">No lines match the filter.</div>
               ) : (
-                logs.map((log, i) => (
+                visibleLogs.map((log, i) => (
                   <div key={i} className="whitespace-pre-wrap break-words leading-relaxed">
                     {log}
                   </div>
