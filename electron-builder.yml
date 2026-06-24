@@ -33,6 +33,9 @@ win:
     - nsis
   defaultArch: x64
   icon: build/icon.ico
+  # Intentionally version-less: the marketing site's "latest" download link
+  # (releases/latest/download/RealmSwap-Setup.exe) depends on a stable filename.
+  # Do not re-add ${version} here without updating that URL.
   artifactName: ${productName}-Setup.${ext}
 nsis:
   oneClick: false
