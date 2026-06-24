@@ -233,7 +233,7 @@ function ParamsBuilder({
         <div key={i} className="p-3 rounded-xl bg-slate-950/40 border border-white/5 space-y-2">
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <FieldLabel>Key</FieldLabel>
+              <FieldLabel help={FIELD_HELP.paramKey}>Key</FieldLabel>
               <InputBase
                 value={row.key}
                 onChange={(e) => update(i, { key: e.target.value })}
@@ -241,7 +241,7 @@ function ParamsBuilder({
               />
             </div>
             <div>
-              <FieldLabel>Label</FieldLabel>
+              <FieldLabel help={FIELD_HELP.paramLabel}>Label</FieldLabel>
               <InputBase
                 value={row.label}
                 onChange={(e) => update(i, { label: e.target.value })}
@@ -251,7 +251,7 @@ function ParamsBuilder({
           </div>
           <div className="grid grid-cols-3 gap-2">
             <div>
-              <FieldLabel>Type</FieldLabel>
+              <FieldLabel help={FIELD_HELP.paramType}>Type</FieldLabel>
               <select
                 value={row.type}
                 onChange={(e) => update(i, { type: e.target.value as ParamType })}
@@ -264,7 +264,7 @@ function ParamsBuilder({
               </select>
             </div>
             <div>
-              <FieldLabel>Default</FieldLabel>
+              <FieldLabel help={FIELD_HELP.paramDefault}>Default</FieldLabel>
               <InputBase
                 value={row.default}
                 onChange={(e) => update(i, { default: e.target.value })}
@@ -280,12 +280,13 @@ function ParamsBuilder({
                   className="accent-accentPurple"
                 />
                 Required
+                <FieldHelp text={FIELD_HELP.paramRequired} label="Required" />
               </label>
             </div>
           </div>
           {row.type === "enum" && (
             <div>
-              <FieldLabel>Options (comma-separated)</FieldLabel>
+              <FieldLabel help={FIELD_HELP.paramOptions}>Options (comma-separated)</FieldLabel>
               <InputBase
                 value={row.options}
                 onChange={(e) => update(i, { options: e.target.value })}
@@ -296,7 +297,7 @@ function ParamsBuilder({
           {row.type === "number" && (
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <FieldLabel>Min</FieldLabel>
+                <FieldLabel help={FIELD_HELP.paramMin}>Min</FieldLabel>
                 <InputBase
                   type="number"
                   value={row.min}
@@ -305,7 +306,7 @@ function ParamsBuilder({
                 />
               </div>
               <div>
-                <FieldLabel>Max</FieldLabel>
+                <FieldLabel help={FIELD_HELP.paramMax}>Max</FieldLabel>
                 <InputBase
                   type="number"
                   value={row.max}
@@ -357,7 +358,7 @@ function ConfigFilesBuilder({
       {rows.map((row, i) => (
         <div key={i} className="p-3 rounded-xl bg-slate-950/40 border border-white/5 space-y-2">
           <div>
-            <FieldLabel>File Path (relative to install dir)</FieldLabel>
+            <FieldLabel help={FIELD_HELP.configPath}>File Path (relative to install dir)</FieldLabel>
             <InputBase
               value={row.path}
               onChange={(e) => update(i, { path: e.target.value })}
@@ -365,7 +366,7 @@ function ConfigFilesBuilder({
             />
           </div>
           <div>
-            <FieldLabel>Template (use {"{{param}}"} for variables)</FieldLabel>
+            <FieldLabel help={FIELD_HELP.configTemplate}>Template (use {"{{param}}"} for variables)</FieldLabel>
             <TextareaBase
               rows={4}
               value={row.template}
@@ -412,6 +413,16 @@ function PortsBuilder({
 
   return (
     <div className="space-y-2">
+      <div className="flex items-center gap-2 mb-1">
+        <span className="w-24 inline-flex items-center gap-1 text-xs text-slate-400 font-semibold">
+          Protocol
+          <FieldHelp text={FIELD_HELP.portProtocol} label="Protocol" />
+        </span>
+        <span className="flex-1 inline-flex items-center gap-1 text-xs text-slate-400 font-semibold">
+          Port
+          <FieldHelp text={FIELD_HELP.portNumber} label="Port" />
+        </span>
+      </div>
       {rows.map((row, i) => (
         <div key={i} className="flex items-center gap-2">
           <select
