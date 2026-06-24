@@ -61,6 +61,7 @@ export async function GET(
               signal: ac.signal,
             })) {
               if (ac.signal.aborted) break;
+              if (lines.length === 0) continue;
               send(formatSseEvent(lines.join("\n")));
             }
           } catch (err: any) {
