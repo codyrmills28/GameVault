@@ -42,13 +42,27 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
 
+      # GitHub's Windows runners check out on D: but the home dir is on C:. With
+      # output:standalone, @vercel/nft globs C:\Users\runneradmin during the
+      # trace and hits the deny-ACL "Application Data" junction -> EPERM, failing
+      # the build. Building on the same drive as home (C:) avoids the cross-drive
+      # glob. Copy excludes git/build artifacts; deps are installed fresh on C:.
+      - name: Copy workspace to C drive (same drive as home)
+        shell: pwsh
+        run: |
+          robocopy $env:GITHUB_WORKSPACE C:\rsbuild /E /XD .git node_modules .next dist /NFL /NDL /NJH /NJS /NP
+          if ($LASTEXITCODE -ge 8) { exit 1 } else { exit 0 }
+
       - name: Install dependencies
+        working-directory: 'C:\rsbuild'
         run: npm ci
 
       - name: Set package version
+        working-directory: 'C:\rsbuild'
         run: npm version ${{ steps.ver.outputs.version }} --no-git-tag-version --allow-same-version
 
       - name: Build Windows installer
+        working-directory: 'C:\rsbuild'
         env:
           DATABASE_URL: file:./dev.db
         run: npm run electron:build
@@ -60,4 +74,4 @@ jobs:
           name: ${{ steps.ver.outputs.tag }}
           draft: false
           prerelease: false
-          files: dist/RealmSwap-Setup.exe
+          files: 'C:\rsbuild\dist\RealmSwap-Setup.exe'
