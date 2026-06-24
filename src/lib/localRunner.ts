@@ -11,6 +11,7 @@ import { planInstall, planConfigFiles, planLaunch, planPorts, resolveCommand } f
 import { writeStrategyConfig } from "./definitions/strategies";
 import type { GameDefinitionSpec } from "./definitions/types";
 import { setProgress, clearProgress, parseSteamProgress, computePercent } from "./downloadProgress";
+import { dataRoot } from "./appPaths";
 
 // Global process map to persist running processes across Next.js dev server hot-reloads
 const globalForRunner = globalThis as unknown as {
@@ -68,8 +69,8 @@ export function checkJavaInstalled(): Promise<boolean> {
 // Ensure local directories exist
 function getLocalServerDir(serverId: string, sub?: string): string {
   const dir = sub
-    ? path.join(process.cwd(), "local-servers", serverId, sub)
-    : path.join(process.cwd(), "local-servers", serverId);
+    ? path.join(dataRoot(), "local-servers", serverId, sub)
+    : path.join(dataRoot(), "local-servers", serverId);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -118,9 +119,9 @@ function downloadFile(
 
 // Setup SteamCMD on demand
 export function setupSteamCMD(onLog: (msg: string) => void): Promise<string> {
-  const steamcmdDir = path.join(process.cwd(), "steamcmd");
+  const steamcmdDir = path.join(dataRoot(), "steamcmd");
   const exePath = path.join(steamcmdDir, "steamcmd.exe");
-  const zipPath = path.join(process.cwd(), "steamcmd.zip");
+  const zipPath = path.join(dataRoot(), "steamcmd.zip");
 
   if (fs.existsSync(exePath)) {
     return Promise.resolve(exePath);
@@ -671,7 +672,7 @@ async function handleProcessExit(serverId: string, code: number | null, signal: 
 // Main: Stop local game server gracefully
 export async function stopLocalServer(serverId: string): Promise<void> {
   const child = localProcesses.get(serverId);
-  const serverDir = path.join(process.cwd(), "local-servers", serverId);
+  const serverDir = path.join(dataRoot(), "local-servers", serverId);
   const server = await prisma.server.findUnique({ where: { id: serverId } });
 
   // Mark as intentional stop so crash detection doesn't trigger
@@ -751,7 +752,7 @@ export async function stopLocalServer(serverId: string): Promise<void> {
 
 // Reads tail logs of local server
 export function getLocalServerLogs(serverId: string): string {
-  const logFile = path.join(process.cwd(), "local-servers", serverId, "server.log");
+  const logFile = path.join(dataRoot(), "local-servers", serverId, "server.log");
   if (!fs.existsSync(logFile)) {
     return "No logs available. Start the server to generate logs.";
   }
@@ -770,7 +771,7 @@ export async function updateGameServer(serverId: string): Promise<void> {
   if (installMethod !== "STEAMCMD") throw new Error(`Updates are only supported for SteamCMD games.`);
 
   const installPlan = planInstall(spec, "STEAMCMD");
-  const baseDir = path.join(process.cwd(), "local-servers", serverId);
+  const baseDir = path.join(dataRoot(), "local-servers", serverId);
   const installDir = path.join(baseDir, installPlan.installSubDir!);
   const logWriter = (msg: string) => appendLog(baseDir, msg);
 
