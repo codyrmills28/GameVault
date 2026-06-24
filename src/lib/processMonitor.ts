@@ -21,6 +21,7 @@ if (!globalForMonitor.lastCpuTime) {
 const monitorIntervals = globalForMonitor.monitorIntervals;
 const statsHistory = globalForMonitor.statsHistory;
 const lastCpuTime = globalForMonitor.lastCpuTime;
+const errorCounts = new Map<string, number>();
 
 const MAX_HISTORY = 30; // ~5 minutes at 10s intervals
 const SAMPLE_INTERVAL_MS = 10000;
@@ -41,13 +42,21 @@ interface ProcessStats {
 // unchanged. This does not affect liveness/crash detection, which is driven entirely
 // by the parent process's "exit" event in localRunner (handleProcessExit).
 function queryProcessStats(pid: number): Promise<ProcessStats> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     // One PowerShell call: build a ParentProcessId map of all processes, DFS from the
     // root PID, and sum WorkingSetSize (bytes) and CPU time (Kernel+User, 100ns units
     // -> seconds). Emits "<cpuSeconds>,<workingSetBytes>" or 'GONE' if the root is dead.
     const cmd = `powershell -NoProfile -Command "$ErrorActionPreference='SilentlyContinue'; $root=${pid}; $all=Get-CimInstance Win32_Process; $map=@{}; $kids=@{}; foreach($p in $all){ $id=[int]$p.ProcessId; $par=[int]$p.ParentProcessId; $map[$id]=$p; if(-not $kids.ContainsKey($par)){ $kids[$par]=New-Object System.Collections.ArrayList }; [void]$kids[$par].Add($id) }; if(-not $map.ContainsKey($root)){ Write-Output 'GONE'; exit }; $stack=New-Object System.Collections.Stack; [void]$stack.Push($root); $seen=@{}; $ws=0.0; $cpu=0.0; while($stack.Count -gt 0){ $cur=$stack.Pop(); if($seen.ContainsKey($cur)){ continue }; $seen[$cur]=$true; $proc=$map[$cur]; if($proc){ $ws+=[double]$proc.WorkingSetSize; $cpu+=([double]$proc.KernelModeTime+[double]$proc.UserModeTime)/10000000.0; if($kids.ContainsKey($cur)){ foreach($c in $kids[$cur]){ [void]$stack.Push($c) } } } }; Write-Output ([string]$cpu + ',' + [string]$ws)"`;
     exec(cmd, { timeout: 5000 }, (err, stdout) => {
-      if (err || !stdout || stdout.trim() === "GONE") {
+      if (stdout && stdout.trim() === "GONE") {
+        resolve({ cpuPercent: 0, memoryMB: 0 });
+        return;
+      }
+      if (err) {
+        reject(new Error(`PowerShell process stats failed: ${err.message}`));
+        return;
+      }
+      if (!stdout) {
         resolve({ cpuPercent: 0, memoryMB: 0 });
         return;
       }
@@ -98,6 +107,15 @@ export function startMonitoring(serverId: string, pid: number): void {
         if (history.memory.length > MAX_HISTORY) history.memory.shift();
       }
 
+      // Reset error count on success
+      if ((errorCounts.get(serverId) || 0) > 0) {
+        errorCounts.set(serverId, 0);
+        await prisma.server.update({
+          where: { id: serverId },
+          data: { healthStatus: "OK" }
+        }).catch(() => {});
+      }
+
       // Update DB with latest values (convert memoryMB to GB for display)
       await prisma.server.update({
         where: { id: serverId },
@@ -106,8 +124,30 @@ export function startMonitoring(serverId: string, pid: number): void {
           memoryUsage: parseFloat((stats.memoryMB / 1024).toFixed(2)),
         },
       }).catch(() => {}); // Silently fail if server was deleted
-    } catch (e) {
-      // Silently ignore sampling errors
+    } catch (e: any) {
+      // Handle sampling errors
+      const fails = (errorCounts.get(serverId) || 0) + 1;
+      errorCounts.set(serverId, fails);
+
+      if (fails === 3) { // After 3 consecutive failures (~30s), mark degraded and alert
+        console.error(`[Process Monitor Error] Server ${serverId}:`, e.message);
+        
+        await prisma.server.update({
+          where: { id: serverId },
+          data: { healthStatus: "DEGRADED" }
+        }).catch(() => {});
+
+        const server = await prisma.server.findUnique({ where: { id: serverId } }).catch(() => null);
+        if (server) {
+          await prisma.activityLog.create({
+            data: {
+              userId: server.userId,
+              action: "SYSTEM_ERROR",
+              details: `Process monitoring failed for ${server.name} (DEGRADED). Error: ${e.message}`
+            }
+          }).catch(() => {});
+        }
+      }
     }
   }, SAMPLE_INTERVAL_MS);
 

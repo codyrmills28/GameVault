@@ -48,6 +48,13 @@ async function checkScheduledBackups() {
           await createBackup(server.id, "AUTOMATED");
         } catch (backupErr: any) {
           console.error(`[Backup Scheduler Error] Failed for server '${server.name}':`, backupErr.message);
+          await prisma.activityLog.create({
+            data: {
+              userId: server.userId,
+              action: "SYSTEM_ERROR",
+              details: `Automated backup failed for ${server.name}: ${backupErr.message}`
+            }
+          }).catch(() => {}); // Fallback if logging fails
         }
       }
     }

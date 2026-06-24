@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/components/ModalProvider";
+import { useToast } from "@/components/ToastProvider";
 import { 
   Server as ServerIcon, 
   Archive, 
@@ -33,7 +34,8 @@ import {
   Settings,
   Pause,
   Search,
-  Send
+  Send,
+  Activity
 } from "lucide-react";
 
 interface DashboardViewProps {
@@ -80,7 +82,30 @@ function ServerPlayerCount({ server }: { server: any }) {
     };
   }, [server.id, server.status]);
 
-  if (!queryData) return null;
+  if (!queryData) {
+    return (
+      <div className="flex items-center gap-2">
+        {server.status === "RUNNING" && !server.healthStatus && (
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+            <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
+            <span className="text-xs font-semibold text-emerald-300">ONLINE</span>
+          </div>
+        )}
+        {server.status === "RUNNING" && server.healthStatus === "DEGRADED" && (
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30" title="Monitoring Degraded">
+            <Activity className="w-3.5 h-3.5 text-amber-400" />
+            <span className="text-xs font-semibold text-amber-300">DEGRADED</span>
+          </div>
+        )}
+        {server.status === "RUNNING" && server.healthStatus === "FAILING" && (
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30" title="Server Failing">
+            <AlertCircle className="w-3.5 h-3.5 text-red-400" />
+            <span className="text-xs font-semibold text-red-300">FAILING</span>
+          </div>
+        )}
+      </div>
+    );
+  }
   
   if (queryData.status === "online" && typeof queryData.players === "number") {
     return (
@@ -109,6 +134,9 @@ function ServerPlayerCount({ server }: { server: any }) {
 export default function DashboardView({ initialData }: DashboardViewProps) {
   const router = useRouter();
   const { showModal } = useModal();
+  const { addToast } = useToast();
+  const seenLogIdsRef = useRef<Set<string>>(new Set());
+  const initialLoadRef = useRef(true);
   const [data, setData] = useState(initialData);
   const [copiedIp, setCopiedIp] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null); // "server-id" or "archive-id"
@@ -155,15 +183,26 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
         if (res.ok) {
           const updated = await res.json();
           setData(updated);
+          
+          if (updated.activityLogs) {
+            updated.activityLogs.forEach((log: any) => {
+              if (!initialLoadRef.current && log.action === "SYSTEM_ERROR" && !seenLogIdsRef.current.has(log.id)) {
+                addToast("error", log.details);
+              }
+              seenLogIdsRef.current.add(log.id);
+            });
+          }
+          initialLoadRef.current = false;
         }
       } catch (err) {
         console.error("Error polling server states:", err);
       }
     };
 
+    fetchUpdates(); // Initial fetch
     const interval = setInterval(fetchUpdates, 8000); // Poll every 8s
     return () => clearInterval(interval);
-  }, []);
+  }, [addToast]);
 
   // Keep the paused flag readable inside the EventSource handler closure
   useEffect(() => {
@@ -731,6 +770,16 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                             {isLocal && (
                               <span className="text-[9px] px-1.5 py-0.5 rounded font-bold bg-accentPurple/10 text-accentPurple border border-accentPurple/25">
                                 LOCAL
+                              </span>
+                            )}
+                            {isRunning && server.healthStatus === "DEGRADED" && (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded font-bold bg-amber-500/10 text-amber-400 border border-amber-500/25 flex items-center gap-1" title="Monitoring degraded">
+                                <Activity className="w-2.5 h-2.5" /> DEGRADED
+                              </span>
+                            )}
+                            {isRunning && server.healthStatus === "FAILING" && (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded font-bold bg-red-500/10 text-red-400 border border-red-500/25 flex items-center gap-1" title="Server failing">
+                                <AlertCircle className="w-2.5 h-2.5" /> FAILING
                               </span>
                             )}
                             {isRunning && <ServerPlayerCount server={server} />}
