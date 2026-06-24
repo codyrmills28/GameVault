@@ -10,7 +10,7 @@ import { buildContext } from "./definitions/context";
 import { planInstall, planConfigFiles, planLaunch, planPorts, resolveCommand } from "./definitions/plan";
 import { writeStrategyConfig } from "./definitions/strategies";
 import type { GameDefinitionSpec } from "./definitions/types";
-import { setProgress, clearProgress, parseSteamProgress, computePercent } from "./downloadProgress";
+import { setProgress, clearProgress, parseSteamProgress, computePercent, isMissingConfigError } from "./downloadProgress";
 import { dataRoot } from "./appPaths";
 
 // Global process map to persist running processes across Next.js dev server hot-reloads
@@ -264,56 +264,78 @@ function installSteamCmdApp(
       onLog("This is a background download and may take several minutes depending on connection speeds. Please wait...");
 
       const cleanInstallDir = installDir.replace(/\\/g, "/");
+      const MAX_ATTEMPTS = 3;
 
-      // +app_info_update 1 forces SteamCMD to refresh its app-metadata cache before the
-      // install. On a freshly bootstrapped SteamCMD the cache is empty, and running
-      // app_update immediately fails with "Missing configuration" (exit code 8) because
-      // the depot config for the app hasn't synced yet.
-      const child = spawn(steamcmdExe, [
-        "+force_install_dir", cleanInstallDir,
-        "+login", "anonymous",
-        "+app_info_update", "1",
-        "+app_update", appId,
-        "validate",
-        "+quit"
-      ]);
+      // Runs one SteamCMD app_update and resolves with the exit code plus the
+      // last captured error line. Never rejects — the caller decides on retry.
+      //
+      // +app_info_update 1 refreshes the app-metadata cache before the install.
+      // On a freshly bootstrapped SteamCMD the cache is still empty, so the first
+      // app_update can fail with "Missing configuration" (exit code 8); the next
+      // attempt warms the cache and succeeds, so we retry that specific failure.
+      const runAppUpdate = (): Promise<{ code: number | null; detail: string }> =>
+        new Promise((res) => {
+          const child = spawn(steamcmdExe, [
+            "+force_install_dir", cleanInstallDir,
+            "+login", "anonymous",
+            "+app_info_update", "1",
+            "+app_update", appId,
+            "validate",
+            "+quit"
+          ]);
 
-      // Capture SteamCMD's real error so failures report the cause, not just an exit code.
-      let steamErrorDetail = "";
-      child.stdout.on("data", (data) => {
-        const line = data.toString().trim();
-        if (line) {
-          const cleanLine = line.replace(/[\r\n]+/g, " ");
-          const pct = parseSteamProgress(cleanLine);
-          if (pct !== null) {
-            onProgress?.({ percent: pct, label: `Downloading ${appName} ${Math.round(pct)}%` });
-          }
-          if (/ERROR!|Failed to install|No subscription|Invalid Password|Disk write failure/i.test(cleanLine)) {
-            steamErrorDetail = cleanLine;
-            onLog(`[SteamCMD Error] ${cleanLine}`);
-          } else if (cleanLine.includes("progress") || cleanLine.includes("Downloading") || cleanLine.includes("Update state")) {
-            onLog(`[SteamCMD Status] ${cleanLine}`);
-          }
-        }
-      });
+          // Capture SteamCMD's real error so failures report the cause, not just an exit code.
+          let steamErrorDetail = "";
+          child.stdout.on("data", (data) => {
+            const line = data.toString().trim();
+            if (line) {
+              const cleanLine = line.replace(/[\r\n]+/g, " ");
+              const pct = parseSteamProgress(cleanLine);
+              if (pct !== null) {
+                onProgress?.({ percent: pct, label: `Downloading ${appName} ${Math.round(pct)}%` });
+              }
+              if (/ERROR!|Failed to install|No subscription|Invalid Password|Disk write failure/i.test(cleanLine)) {
+                steamErrorDetail = cleanLine;
+                onLog(`[SteamCMD Error] ${cleanLine}`);
+              } else if (cleanLine.includes("progress") || cleanLine.includes("Downloading") || cleanLine.includes("Update state")) {
+                onLog(`[SteamCMD Status] ${cleanLine}`);
+              }
+            }
+          });
 
-      child.stderr.on("data", (data) => {
-        const line = data.toString().trim();
-        if (line) {
-          steamErrorDetail = line.replace(/[\r\n]+/g, " ");
-          onLog(`[SteamCMD warning] ${line}`);
-        }
-      });
+          child.stderr.on("data", (data) => {
+            const line = data.toString().trim();
+            if (line) {
+              steamErrorDetail = line.replace(/[\r\n]+/g, " ");
+              onLog(`[SteamCMD warning] ${line}`);
+            }
+          });
 
-      child.on("close", (code) => {
+          child.on("close", (code) => res({ code, detail: steamErrorDetail }));
+        });
+
+      let lastCode: number | null = null;
+      let lastDetail = "";
+      for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+        const { code, detail } = await runAppUpdate();
         if (code === 0 || fs.existsSync(exePath)) {
           onLog(`${appName} download completed!`);
           resolve();
-        } else {
-          const detail = steamErrorDetail ? ` - ${steamErrorDetail}` : " (see steamcmd/logs/console_log.txt for details)";
-          reject(new Error(`SteamCMD App ${appId} download process exited with code ${code}${detail}`));
+          return;
         }
-      });
+        lastCode = code;
+        lastDetail = detail;
+        if (isMissingConfigError(code, detail) && attempt < MAX_ATTEMPTS) {
+          onProgress?.({ percent: null, label: "Preparing SteamCMD…" });
+          onLog(`[SteamCMD] App metadata cache was cold ("Missing configuration", exit ${code}). Retrying (attempt ${attempt + 1}/${MAX_ATTEMPTS})...`);
+          await new Promise((r) => setTimeout(r, 3000));
+          continue;
+        }
+        break;
+      }
+
+      const detail = lastDetail ? ` - ${lastDetail}` : " (see steamcmd/logs/console_log.txt for details)";
+      reject(new Error(`SteamCMD App ${appId} download process exited with code ${lastCode}${detail}`));
     } catch (err: any) {
       reject(err);
     }
