@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/components/ModalProvider";
@@ -30,7 +30,10 @@ import {
   Terminal,
   X,
   Download,
-  Settings
+  Settings,
+  Pause,
+  Search,
+  Send
 } from "lucide-react";
 
 interface DashboardViewProps {
@@ -111,9 +114,23 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
   const [actionLoading, setActionLoading] = useState<string | null>(null); // "server-id" or "archive-id"
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Console Modal State
-  const [activeConsoleServer, setActiveConsoleServer] = useState<any | null>(null); // Replaced by new console page
-  const [consoleLogs, setConsoleLogs] = useState("");
+  // Console Modal State — live log tail (SSE) + command input
+  const [activeConsoleServer, setActiveConsoleServer] = useState<any | null>(null);
+  const [consoleLines, setConsoleLines] = useState<string[]>([]);
+  const [consolePaused, setConsolePaused] = useState(false);
+  const [consoleSearch, setConsoleSearch] = useState("");
+  const [consoleConn, setConsoleConn] = useState<"connecting" | "live">("connecting");
+  const [pendingCount, setPendingCount] = useState(0);
+  const [consoleCommand, setConsoleCommand] = useState("");
+  const [consoleCommandError, setConsoleCommandError] = useState<string | null>(null);
+  const consolePausedRef = useRef(false);
+  const pendingLinesRef = useRef<string[]>([]);
+  const logContainerRef = useRef<HTMLDivElement | null>(null);
+  const autoScrollRef = useRef(true);
+
+  const MAX_CONSOLE_LINES = 5000;
+  const capLines = (lines: string[]) =>
+    lines.length > MAX_CONSOLE_LINES ? lines.slice(-MAX_CONSOLE_LINES) : lines;
 
   // Import Map Modal State
   const [importMapServer, setImportMapServer] = useState<any | null>(null);
@@ -148,7 +165,104 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
     return () => clearInterval(interval);
   }, []);
 
-  // console logs logic removed, replaced by ConsoleView
+  // Keep the paused flag readable inside the EventSource handler closure
+  useEffect(() => {
+    consolePausedRef.current = consolePaused;
+  }, [consolePaused]);
+
+  // Live log stream for the active console modal (SSE, file-tailing backend)
+  useEffect(() => {
+    if (!activeConsoleServer) {
+      setConsoleLines([]);
+      pendingLinesRef.current = [];
+      setPendingCount(0);
+      setConsolePaused(false);
+      setConsoleSearch("");
+      setConsoleCommand("");
+      setConsoleCommandError(null);
+      return;
+    }
+
+    setConsoleConn("connecting");
+    setConsoleLines([]);
+    pendingLinesRef.current = [];
+    setPendingCount(0);
+    autoScrollRef.current = true;
+
+    const es = new EventSource(`/api/servers/${activeConsoleServer.id}/logs/stream`);
+    es.onopen = () => setConsoleConn("live");
+    es.onerror = () => setConsoleConn("connecting"); // EventSource auto-reconnects
+    es.onmessage = (e) => {
+      const incoming = e.data.split("\n");
+      if (consolePausedRef.current) {
+        pendingLinesRef.current = capLines([...pendingLinesRef.current, ...incoming]);
+        setPendingCount(pendingLinesRef.current.length);
+      } else {
+        setConsoleLines((prev) => capLines([...prev, ...incoming]));
+      }
+    };
+
+    return () => es.close();
+  }, [activeConsoleServer]);
+
+  // Auto-scroll to the bottom on new lines unless the user scrolled up
+  useEffect(() => {
+    if (autoScrollRef.current && logContainerRef.current) {
+      const el = logContainerRef.current;
+      el.scrollTop = el.scrollHeight;
+    }
+  }, [consoleLines]);
+
+  const handleConsoleScroll = () => {
+    const el = logContainerRef.current;
+    if (!el) return;
+    autoScrollRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 24;
+  };
+
+  const toggleConsolePause = () => {
+    if (consolePausedRef.current) {
+      // Resuming: capture the buffered lines BEFORE clearing the ref, then
+      // flush. Reading pendingLinesRef inside the deferred setConsoleLines
+      // updater would see the already-emptied ref, so capture it locally.
+      const pending = pendingLinesRef.current;
+      pendingLinesRef.current = [];
+      setPendingCount(0);
+      setConsolePaused(false);
+      if (pending.length > 0) {
+        setConsoleLines((cur) => capLines([...cur, ...pending]));
+      }
+      autoScrollRef.current = true;
+      requestAnimationFrame(() => {
+        if (logContainerRef.current) {
+          logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
+        }
+      });
+    } else {
+      setConsolePaused(true);
+    }
+  };
+
+  // Send a console command to the running server's stdin
+  const handleSendConsoleCommand = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const cmd = consoleCommand.trim();
+    if (!cmd || !activeConsoleServer) return;
+    setConsoleCommand("");
+    setConsoleCommandError(null);
+    try {
+      const res = await fetch(`/api/servers/${activeConsoleServer.id}/console`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command: cmd }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || "Failed to send command");
+      }
+    } catch (err: any) {
+      setConsoleCommandError(err.message);
+    }
+  };
 
   // Poll stats for running servers
   useEffect(() => {
@@ -460,7 +574,6 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
               { label: "Mod Manager", icon: Wrench, href: "/dashboard/mods" },
               { label: "World Backups", icon: FolderSync, href: "/dashboard/backups" },
               { label: "Server Config", icon: Settings, href: "/dashboard/config" },
-              { label: "Server Console", icon: Terminal, href: "/dashboard/console" },
               { label: "Team Members", icon: Users, href: "/dashboard/team" },
               { label: "Audit Logs", icon: History, href: "/dashboard/logs" }
             ].map((link, i) => (
@@ -813,13 +926,13 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                         )}
 
                         {/* Console logs toggle */}
-                        <Link
-                          href={`/dashboard/console?serverId=${server.id}`}
+                        <button
+                          onClick={() => setActiveConsoleServer(server)}
                           className="p-2 rounded-lg bg-slate-900 border border-white/5 hover:border-accentPurple/40 text-slate-400 hover:text-accentPurple transition-colors"
                           title="View Console Output"
                         >
                           <Terminal className="w-4 h-4" />
-                        </Link>
+                        </button>
 
                         {/* Archive / Vault */}
                         <button
@@ -999,7 +1112,137 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
 
       </main>
 
-      {/* Terminal Console Dialog Overlay - REMOVED for standalone page */}
+      {/* Terminal Console Dialog Overlay */}
+      {activeConsoleServer && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="w-full max-w-3xl glass-panel-purple border border-accentPurple/30 rounded-2xl p-6 shadow-2xl flex flex-col h-[560px] box-glow-purple">
+
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
+              <div className="flex items-center gap-2.5">
+                <div className={`w-3 h-3 rounded-full ${activeConsoleServer.status === "RUNNING" ? "bg-emerald-500 animate-pulse" : "bg-amber-500 animate-pulse"}`}></div>
+                <div>
+                  <h3 className="font-extrabold text-white text-base">Server Console Output</h3>
+                  <p className="text-xs text-mutedText">
+                    {activeConsoleServer.name} ({activeConsoleServer.game}) • {activeConsoleServer.runnerType?.toLowerCase?.() || "local"} runner
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setActiveConsoleServer(null)}
+                className="p-1.5 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Console Toolbar */}
+            <div className="flex items-center gap-2 mb-3">
+              <div className="relative flex-1">
+                <Search className="w-3.5 h-3.5 text-mutedText absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={consoleSearch}
+                  onChange={(e) => setConsoleSearch(e.target.value)}
+                  placeholder="Filter logs…"
+                  className="w-full pl-9 pr-3 py-2 rounded-lg bg-black/40 border border-white/10 focus:border-accentPurple/40 outline-none text-xs text-slate-200 placeholder:text-mutedText"
+                />
+              </div>
+              <button
+                onClick={toggleConsolePause}
+                className="px-3 py-2 rounded-lg bg-slate-900 border border-white/10 hover:border-white/20 text-xs font-bold text-slate-300 transition-colors flex items-center gap-1.5"
+              >
+                {consolePaused ? (
+                  <>
+                    <Play className="w-3.5 h-3.5" />
+                    Resume
+                    {pendingCount > 0 && (
+                      <span className="ml-1 px-1.5 py-0.5 rounded-full bg-accentPurple/30 text-[10px] text-white">
+                        {pendingCount}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Pause className="w-3.5 h-3.5" />
+                    Pause
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Log Terminal Screen */}
+            <div
+              ref={logContainerRef}
+              onScroll={handleConsoleScroll}
+              className="flex-1 bg-black/90 border border-white/5 rounded-xl p-4 font-mono text-[11px] text-emerald-400 overflow-y-auto whitespace-pre-wrap select-text selection:bg-emerald-500/20 scrollbar-thin"
+            >
+              {(() => {
+                const visible = consoleSearch
+                  ? consoleLines.filter((l) =>
+                      l.toLowerCase().includes(consoleSearch.toLowerCase())
+                    )
+                  : consoleLines;
+                if (visible.length === 0) {
+                  return consoleSearch
+                    ? "No lines match the filter."
+                    : "Initializing console stream…";
+                }
+                return visible.join("\n");
+              })()}
+            </div>
+
+            {/* Command Input */}
+            <form onSubmit={handleSendConsoleCommand} className="flex gap-2 mt-3">
+              <div className="relative flex-1">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-slate-500 font-bold text-xs">{">"}</span>
+                <input
+                  type="text"
+                  value={consoleCommand}
+                  onChange={(e) => setConsoleCommand(e.target.value)}
+                  placeholder={activeConsoleServer.status !== "RUNNING" ? "Server must be running to send commands…" : "Enter console command…"}
+                  disabled={activeConsoleServer.status !== "RUNNING"}
+                  autoComplete="off"
+                  spellCheck={false}
+                  className="w-full pl-8 pr-3 py-2 rounded-lg bg-black/40 border border-white/10 focus:border-accentPurple/40 outline-none text-xs font-mono text-slate-200 placeholder:text-mutedText disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={activeConsoleServer.status !== "RUNNING" || !consoleCommand.trim()}
+                className="px-4 py-2 rounded-lg bg-accentPurple/80 hover:bg-accentPurple disabled:bg-slate-800 disabled:text-slate-500 text-white text-xs font-bold transition-colors flex items-center gap-1.5"
+              >
+                <Send className="w-3.5 h-3.5" />
+                Send
+              </button>
+            </form>
+
+            {/* Modal Footer */}
+            <div className="flex justify-between items-center mt-3 pt-3 border-t border-white/5">
+              <span className="text-[10px] text-mutedText flex items-center gap-1.5">
+                <span
+                  className={`w-1.5 h-1.5 rounded-full ${
+                    consoleConn === "live"
+                      ? "bg-emerald-400 animate-ping"
+                      : "bg-amber-400 animate-pulse"
+                  }`}
+                ></span>
+                {consoleConn === "live"
+                  ? consolePaused
+                    ? "Live stream paused"
+                    : "Live stream connected (SSE)"
+                  : "Connecting…"}
+                {consoleCommandError && (
+                  <span className="text-red-400 ml-2">• {consoleCommandError}</span>
+                )}
+              </span>
+              <span className="text-[10px] text-mutedText">{consoleLines.length} lines</span>
+            </div>
+
+          </div>
+        </div>
+      )}
+
       {/* Import Map Dialog Overlay */}
       {importMapServer && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">

@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { 
-  ArrowLeft, 
-  Users, 
-  Sparkles, 
-  LayoutDashboard, 
-  Plus, 
-  LogOut, 
-  History, 
+import {
+  ArrowLeft,
+  Users,
+  Sparkles,
+  LayoutDashboard,
+  Plus,
+  LogOut,
+  History,
   Wrench,
   FolderSync,
   Trash2,
@@ -19,7 +19,6 @@ import {
   Check,
   UserPlus,
   Settings,
-  Terminal,
   Server
 } from "lucide-react";
 import { useModal } from "@/components/ModalProvider";
@@ -176,7 +175,6 @@ export default function TeamView({ servers, user }: TeamViewProps) {
               { label: "Mod Manager", icon: Wrench, href: "/dashboard/mods" },
               { label: "World Backups", icon: FolderSync, href: "/dashboard/backups" },
               { label: "Server Config", icon: Settings, href: "/dashboard/config" },
-              { label: "Server Console", icon: Terminal, href: "/dashboard/console" },
               { label: "Team Members", icon: Users, href: "/dashboard/team", active: true },
               { label: "Audit Logs", icon: History, href: "/dashboard/logs" }
             ].map((link, i) => (
