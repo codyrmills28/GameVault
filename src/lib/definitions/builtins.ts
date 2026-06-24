@@ -20,6 +20,7 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
         fileName: "server.jar", checkFile: "server.jar",
       },
       requiresJava: true,
+      queryType: "minecraft",
       launch: {
         executable: "java",
         executableOnPath: true,
