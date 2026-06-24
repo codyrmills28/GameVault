@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { it, expect, beforeEach, afterEach } from "vitest";
 import fs from "fs";
 import os from "os";
 import path from "path";
@@ -77,4 +77,21 @@ it("stops iterating once the signal is aborted", async () => {
   await gen.next(); // snapshot
   ac.abort();
   expect((await gen.next()).done).toBe(true);
+});
+
+it("bounds the post-truncation re-snapshot to tailLines", async () => {
+  const SMALL = { tailLines: 3, pollIntervalMs: 10 };
+  // Write a large initial file so offset is high
+  const bigLines = Array.from({ length: 20 }, (_, i) => `old${i}`).join("\n") + "\n";
+  fs.writeFileSync(file, bigLines);
+  const ac = new AbortController();
+  const gen = tailFile(file, { signal: ac.signal, ...SMALL });
+  await gen.next(); // initial snapshot (last 3 of 20 lines)
+  // Truncate: write 10 lines — larger than tailLines=3 but smaller than original
+  const newLines = Array.from({ length: 10 }, (_, i) => `new${i}`).join("\n") + "\n";
+  fs.writeFileSync(file, newLines); // new size < old offset → triggers reset
+  const snap = await gen.next();
+  expect(snap.value).toHaveLength(3);
+  expect(snap.value[2]).toBe("new9");
+  ac.abort();
 });

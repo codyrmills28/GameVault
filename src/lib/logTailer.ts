@@ -64,6 +64,7 @@ export async function* tailFile(
 
   let offset = 0;
   let leftover = "";
+  let justReset = false;
 
   // Initial snapshot
   if (fs.existsSync(filePath)) {
@@ -87,6 +88,7 @@ export async function* tailFile(
       // truncated / rotated — start over
       offset = 0;
       leftover = "";
+      justReset = true;
     }
     if (size > offset) {
       const chunk = readRange(filePath, offset, size);
@@ -94,7 +96,10 @@ export async function* tailFile(
       const text = leftover + chunk;
       const parts = text.split("\n");
       leftover = parts.pop() ?? "";
-      if (parts.length > 0) yield parts;
+      if (parts.length > 0) {
+        yield justReset ? parts.slice(-tailLines) : parts;
+      }
+      justReset = false;
     }
   }
 }
