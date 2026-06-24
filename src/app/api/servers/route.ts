@@ -4,6 +4,8 @@ import { getAuthenticatedUser } from "@/lib/auth";
 import { initBackupScheduler } from "@/lib/backupScheduler";
 import { parseSpec, stringifyParamValues } from "@/lib/definitions/serialize";
 import { validateParamValues } from "@/lib/definitions/validate";
+import { isPortAvailable, getFreeDiskSpaceGB, isSteamCmdInstalled } from "@/lib/preflight";
+import { dataRoot } from "@/lib/appPaths";
 
 // GET /api/servers
 // Returns active servers, archived servers, subscription details, and logs
@@ -93,10 +95,50 @@ export async function POST(req: NextRequest) {
     const paramErrors = validateParamValues(spec.params, paramValues ?? {});
     if (paramErrors.length) return NextResponse.json({ error: paramErrors.join(" ") }, { status: 400 });
 
+    const port = spec.defaultPort;
+
+    // --- Pre-flight Validations ---
+
+    // 1. Check Port Availability
+    const portFree = await isPortAvailable(port);
+    if (!portFree) {
+      return NextResponse.json({ error: `Port ${port} is currently in use by another application. Please stop the application or change the port.` }, { status: 400 });
+    }
+
+    // 2. SteamCMD Check & Disk Space Check
+    if ('appId' in spec.install) {
+      // It's a SteamCMD install
+      if (!isSteamCmdInstalled()) {
+        const path = require("path");
+        return NextResponse.json({ 
+          error: `SteamCMD is missing. Please download SteamCMD and extract it to ${path.join(dataRoot(), 'steamcmd')} before deploying a Steam game.` 
+        }, { status: 400 });
+      }
+
+      // 3. Disk Space Check (Requires at least 250MB for SteamCMD + game size)
+      const requiredGB = spec.install.requiredDiskGB || 0;
+      const totalRequiredGB = Math.max(requiredGB, 0.25);
+      const freeSpaceGB = await getFreeDiskSpaceGB(dataRoot());
+
+      if (freeSpaceGB < totalRequiredGB) {
+        return NextResponse.json({ 
+          error: `Insufficient disk space. You have ${freeSpaceGB.toFixed(2)} GB free, but deploying this server requires at least ${totalRequiredGB} GB.` 
+        }, { status: 400 });
+      }
+    } else {
+      // Non-SteamCMD install disk check (fallback to checking at least 1GB if not specified)
+      const freeSpaceGB = await getFreeDiskSpaceGB(dataRoot());
+      if (freeSpaceGB < 1) {
+        return NextResponse.json({ 
+          error: `Insufficient disk space. You have ${freeSpaceGB.toFixed(2)} GB free, but deploying requires at least 1.00 GB.` 
+        }, { status: 400 });
+      }
+    }
+    // --- End Pre-flight Validations ---
+
     const runnerType = "LOCAL";
     const region = "LOCALHOST";
     const ipAddress = "127.0.0.1";
-    const port = spec.defaultPort;
 
     const newServer = await prisma.server.create({
       data: {
