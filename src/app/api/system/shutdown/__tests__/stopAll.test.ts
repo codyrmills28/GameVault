@@ -18,4 +18,14 @@ describe("stopAllRunningServers", () => {
     expect(count).toBe(0);
     expect(stop).not.toHaveBeenCalled();
   });
+
+  it("swallows a throwing stop and still returns the full count", async () => {
+    const find = vi.fn().mockResolvedValue([{ id: "a" }, { id: "b" }]);
+    const stop = vi.fn()
+      .mockRejectedValueOnce(new Error("boom"))
+      .mockResolvedValueOnce(undefined);
+    const count = await stopAllRunningServers(find, stop);
+    expect(count).toBe(2);
+    expect(stop).toHaveBeenCalledTimes(2);
+  });
 });

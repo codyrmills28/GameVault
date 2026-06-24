@@ -63,6 +63,12 @@ function waitForServer(port, timeoutMs) {
       const req = require("http").get(
         { host: "127.0.0.1", port, path: "/", timeout: 1000 },
         (res) => {
+          if (res.statusCode >= 500) {
+            res.destroy();
+            if (Date.now() > deadline) reject(new Error("Server returned " + res.statusCode));
+            else setTimeout(tryOnce, 300);
+            return;
+          }
           res.destroy();
           resolve();
         }
