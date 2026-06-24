@@ -58,6 +58,81 @@ interface PortRow {
 const DEFAULT_COLOR =
   "from-slate-500 to-slate-700 bg-slate-500/10 border-slate-500/30 text-slate-400";
 
+const FIELD_HELP = {
+  // Basic Info
+  displayName: 'Name shown in your server catalog. Free-form, e.g. "My ARK Server".',
+  icon: "A single emoji used as the catalog icon, e.g. 🦖. Up to 4 characters.",
+  description: "Short blurb shown under the name in the catalog. Optional.",
+  recommendedRam:
+    "Suggested RAM for this server, shown as guidance when creating one. Check the game's server docs; e.g. 4.",
+  defaultPort:
+    "Primary network port the server listens on (1–65535). Use the game's documented default, e.g. 27015 for Source games.",
+
+  // SteamCMD
+  steamAppId:
+    "The numeric Steam ID of the dedicated-server app. Find it on SteamDB or the store URL store.steampowered.com/app/<ID>. Dedicated servers often have a different ID than the game — search SteamDB for the '… Dedicated Server' entry, e.g. 376030.",
+  scInstallSubDir:
+    "Folder (created under the install root) that holds this game's files. Use a short slug, e.g. ark-server, to keep games from colliding on disk.",
+  scCheckFile:
+    "A file that exists only after a successful install, used to verify install completed. Pick the server executable or a known data file, relative to the install dir, e.g. ShooterGame/Binaries/Win64/ShooterGameServer.exe.",
+  requiredDisk:
+    "Approximate disk space the install needs; warns before installing if space is low. Check the game's SteamDB 'Disk' size, e.g. 30.",
+
+  // Download
+  downloadUrl:
+    "Direct URL to the server archive or binary, e.g. https://example.com/server.zip. Must be publicly reachable from this host.",
+  fileName:
+    "Name to save the downloaded file as, e.g. server.zip. Include the correct extension so unzip works.",
+  dlCheckFile:
+    "A file that exists only after a successful install, used to verify install completed, relative to the install dir, e.g. server.exe.",
+  dlInstallSubDir:
+    "Optional folder (under the install root) to place files in, e.g. server-files. Leave blank to use the install root.",
+  unzip:
+    "Tick if the downloaded file is an archive (.zip) that should be extracted after download.",
+
+  // Custom Script
+  installScript:
+    "Shell script that installs the server. Runs with this app's privileges on the host — only use trusted scripts.",
+  launchScript:
+    "Shell script that starts the server. Runs with this app's privileges on the host.",
+  ack:
+    "Required acknowledgement: custom scripts run with full host privileges of this app's account.",
+
+  // Launch Configuration
+  executable:
+    "The program launched to start the server, relative to the working dir, e.g. server.exe. If it's a global command like java, enter the command and tick 'Executable is on PATH'.",
+  cwdSubDir:
+    "Folder (relative to install dir) to run the server from. Set it when the executable expects to launch from its own folder, e.g. ShooterGame/Binaries/Win64.",
+  executableOnPath:
+    "Tick when the executable is a global command (java, python, node) resolved via PATH rather than a file inside the install directory.",
+  launchArgs:
+    "Command-line arguments passed to the executable, one per row, e.g. -batchmode. Reference params with {{paramKey}} if needed.",
+
+  // Params builder
+  paramKey:
+    "Variable name referenced in config templates and args as {{key}}. No spaces, e.g. maxPlayers.",
+  paramLabel:
+    'Human-friendly name shown to users when they create a server, e.g. "Max Players".',
+  paramType:
+    "Field type users get: text, number (enforces Min/Max), boolean (checkbox), or enum (dropdown — fill Options).",
+  paramDefault: "Pre-filled value when a user creates a server. Optional.",
+  paramRequired: "Tick to force users to provide a value for this parameter.",
+  paramOptions: "Comma-separated choices for the dropdown, e.g. easy,normal,hard.",
+  paramMin: "Lowest allowed numeric value users can enter.",
+  paramMax: "Highest allowed numeric value users can enter.",
+
+  // Config Files builder
+  configPath:
+    "Path (relative to install dir) of a config file written before each launch, e.g. config/server.cfg.",
+  configTemplate:
+    "File contents written at launch. {{paramKey}} is replaced with the param's value, so users' settings flow into the config, e.g. MaxPlayers={{maxPlayers}}.",
+
+  // Ports builder
+  portProtocol: "TCP or UDP — match what the game server uses for this port.",
+  portNumber:
+    "An extra port (beyond Default Port) the server uses, e.g. 27016. Check the game's server docs.",
+} as const;
+
 function emptyParam(): ParamRow {
   return { key: "", label: "", type: "text", default: "", options: "", min: "", max: "", required: false };
 }
