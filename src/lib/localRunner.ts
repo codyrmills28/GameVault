@@ -441,6 +441,7 @@ export async function startLocalServer(serverId: string, game: string, ramAlloca
           (p) => setProgress(serverId, { phase: "steam", percent: p.percent, label: p.label })
         );
       } catch (err: any) {
+        clearProgress(serverId);
         logWriter(`Installation failed: ${err.message}`);
         throw new Error(`Server install failed: ${err.message}`);
       }
@@ -475,13 +476,19 @@ export async function startLocalServer(serverId: string, game: string, ramAlloca
           logWriter("Extraction complete.");
         }
       } catch (err: any) {
+        clearProgress(serverId);
         logWriter(`Download failed: ${err.message}`);
         throw new Error(`Failed to download game server binaries: ${err.message}`);
       }
     }
   } else if (installPlan.method === "CUSTOM_SCRIPT") {
     setProgress(serverId, { phase: "script", percent: null, label: "Running install script…" });
-    await runShellScript(installPlan.installScript!, installDir, logWriter);
+    try {
+      await runShellScript(installPlan.installScript!, installDir, logWriter);
+    } catch (err) {
+      clearProgress(serverId);
+      throw err;
+    }
   }
 
   // 4. Write config files
