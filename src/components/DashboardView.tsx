@@ -703,8 +703,8 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                     </div>
 
                     {/* Metadata & Controls */}
-                    <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
-                      <div className="flex gap-4 text-xs text-mutedText">
+                    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 mt-6 pt-4 border-t border-white/5">
+                      <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-mutedText">
                         <span className="flex items-center gap-1">
                           <MapPin className="w-3.5 h-3.5 text-accentPurple" />
                           <span>{isLocal ? "LOCALHOST" : server.region}</span>
@@ -724,7 +724,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                       </div>
 
                       {/* Action buttons */}
-                      <div className="flex gap-2">
+                      <div className="flex flex-wrap justify-end gap-2">
                         {/* Start */}
                         <button
                           onClick={() => handlePowerAction(server.id, "start")}

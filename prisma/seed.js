@@ -42,7 +42,7 @@ async function main() {
   // Create demo user
   const demoUser = await prisma.user.create({
     data: {
-      email: "demo@gamevault.gg",
+      email: "demo@realmswap.gg",
       name: "Cody Gamer",
       passwordHash: passwordHash,
     },
