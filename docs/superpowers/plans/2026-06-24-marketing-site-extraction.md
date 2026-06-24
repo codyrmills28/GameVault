@@ -4,20 +4,20 @@
 
 **Goal:** Extract the RealmSwap landing page into a standalone Next.js static-export site at `/site`, deployed to GitHub Pages, and remove the landing page from the shipped desktop app.
 
-**Architecture:** A new self-contained Next.js app in `/site` with its own `package.json`/`node_modules`, building to a static `site/out/` via `output: "export"`. It reuses the existing Tailwind theme and `globals.css`. The desktop app (root project) drops its unused `/` route. A GitHub Actions workflow builds and deploys `/site` to GitHub Pages at the `/GameVault` project subpath.
+**Architecture:** A new self-contained Next.js app in `/site` with its own `package.json`/`node_modules`, building to a static `site/out/` via `output: "export"`. It reuses the existing Tailwind theme and `globals.css`. The desktop app (root project) drops its unused `/` route. A GitHub Actions workflow builds and deploys `/site` to GitHub Pages at the `/RealmSwap` project subpath.
 
 **Tech Stack:** Next.js 14 (App Router, static export), React 18, Tailwind CSS 3, lucide-react, GitHub Actions, GitHub Pages.
 
 ## Global Constraints
 
 - Site lives in top-level `/site` as a separate npm project; `node_modules`, `.next`, `out` gitignored. Must not affect root desktop build, root CI (`npm test`), or `electron-builder`.
-- GitHub Pages project subpath: site `next.config.mjs` MUST set `basePath: "/GameVault"` and `assetPrefix: "/GameVault"`.
-- Root-absolute asset references (e.g. `logo.png`) are NOT auto-prefixed by Next for raw `<img>` tags — prefix them with the `/GameVault` base manually.
-- Download URL constant (verbatim): `https://github.com/codyrmills28/GameVault/releases/latest/download/RealmSwap-Setup.exe`
-- Releases page URL (verbatim): `https://github.com/codyrmills28/GameVault/releases`
+- GitHub Pages project subpath: site `next.config.mjs` MUST set `basePath: "/RealmSwap"` and `assetPrefix: "/RealmSwap"`.
+- Root-absolute asset references (e.g. `logo.png`) are NOT auto-prefixed by Next for raw `<img>` tags — prefix them with the `/RealmSwap` base manually.
+- Download URL constant (verbatim): `https://github.com/RealmSwap/RealmSwap/releases/latest/download/RealmSwap-Setup.exe`
+- Releases page URL (verbatim): `https://github.com/RealmSwap/RealmSwap/releases`
 - Installer artifact filename MUST be version-less (`RealmSwap-Setup.exe`) so the download URL resolves.
 - No web auth on the site: remove "Sign In"; CTAs point at the download URL.
-- Repo: `codyrmills28/GameVault`. Default branch: `main`.
+- Repo: `RealmSwap/RealmSwap`. Default branch: `main`.
 
 ---
 
@@ -76,8 +76,8 @@
 const nextConfig = {
   reactStrictMode: true,
   output: "export",
-  basePath: "/GameVault",
-  assetPrefix: "/GameVault",
+  basePath: "/RealmSwap",
+  assetPrefix: "/RealmSwap",
   images: { unoptimized: true },
 };
 
@@ -362,7 +362,7 @@ git commit -m "feat(site): scaffold static-export marketing site project"
 - Modify: `site/app/page.tsx` (replace placeholder with the ported landing page)
 
 **Interfaces:**
-- Consumes: the Tailwind theme, `globals.css`, and `/GameVault`-prefixed `logo.png` from Task 1.
+- Consumes: the Tailwind theme, `globals.css`, and `/RealmSwap`-prefixed `logo.png` from Task 1.
 - Produces: the final static landing page. The built `site/out/index.html` contains the download URL and contains no in-app auth links.
 
 Port `src/app/page.tsx` into `site/app/page.tsx`, then apply the edits below. Start by copying the file verbatim:
@@ -379,11 +379,11 @@ Immediately after the `import { ... } from "lucide-react";` block (before `const
 // Static-site config. The desktop installer is published as a version-less
 // asset on GitHub Releases so this "latest" URL is always valid.
 const DOWNLOAD_URL =
-  "https://github.com/codyrmills28/GameVault/releases/latest/download/RealmSwap-Setup.exe";
-const RELEASES_URL = "https://github.com/codyrmills28/GameVault/releases";
-// GitHub Pages serves this project at the /GameVault subpath. Raw <img> tags are
+  "https://github.com/RealmSwap/RealmSwap/releases/latest/download/RealmSwap-Setup.exe";
+const RELEASES_URL = "https://github.com/RealmSwap/RealmSwap/releases";
+// GitHub Pages serves this project at the /RealmSwap subpath. Raw <img> tags are
 // not auto-prefixed by Next's basePath, so prefix root-absolute assets manually.
-const ASSET_PREFIX = "/GameVault";
+const ASSET_PREFIX = "/RealmSwap";
 ```
 
 - [ ] **Step 2: Convert the header logo `<Link href="/">` to a non-link image**
@@ -739,7 +739,7 @@ git commit -m "ci: deploy marketing site to GitHub Pages"
 
 - [ ] **Step 4: Post-merge manual step (document, do not automate)**
 
-After this lands on `main`, a human must enable Pages once in the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**. The first deploy publishes to `https://codyrmills28.github.io/GameVault/`. The download button 404s until a GitHub Release containing `RealmSwap-Setup.exe` is published (launch prerequisite from the spec).
+After this lands on `main`, a human must enable Pages once in the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**. The first deploy publishes to `https://realmswap.github.io/RealmSwap/`. The download button 404s until a GitHub Release containing `RealmSwap-Setup.exe` is published (launch prerequisite from the spec).
 
 ---
 

@@ -34,8 +34,8 @@ A new self-contained Next.js app at **`/site`** (top-level folder, same repo):
 - Its own `package.json` with `node_modules` (gitignored) — fully independent of
   the root desktop project's dependencies and build.
 - `site/next.config.mjs` with `output: "export"`, `images.unoptimized: true`,
-  and (for the GitHub Pages project subpath) `basePath: "/GameVault"` and
-  `assetPrefix: "/GameVault"`.
+  and (for the GitHub Pages project subpath) `basePath: "/RealmSwap"` and
+  `assetPrefix: "/RealmSwap"`.
 - Copies of `tailwind.config.js`, `postcss.config.js`, and `globals.css` from
   the root project (the page depends on custom theme tokens/classes such as
   `accentPurple`, `glass-panel`, `text-glow-purple`, `animate-float`,
@@ -70,9 +70,9 @@ auth:
 - **Hero "Download Free"** and **CTA "Download Free Now"** → installer download
   URL.
 - **Download URL**: defined once as a single constant and reused —
-  `https://github.com/codyrmills28/GameVault/releases/latest/download/RealmSwap-Setup.exe`.
+  `https://github.com/RealmSwap/RealmSwap/releases/latest/download/RealmSwap-Setup.exe`.
 - **"All versions" link** beside the primary CTA → the releases page
-  (`https://github.com/codyrmills28/GameVault/releases`).
+  (`https://github.com/RealmSwap/RealmSwap/releases`).
 - **Anchor links** (`#features`, `#demo`, `#faq`) and the interactive "Vault"
   demo widget: unchanged.
 - **Footer** Terms/Privacy/Discord: left as-is (placeholder `#`) for now.
@@ -97,12 +97,12 @@ filename becomes stable.
 ## Hosting & deploy
 
 - **GitHub Pages**, served from the default project URL
-  `https://codyrmills28.github.io/GameVault/` (no custom domain yet).
+  `https://realmswap.github.io/RealmSwap/` (no custom domain yet).
 - **New workflow** `.github/workflows/site.yml`: on push to `main` touching
   `site/**`, run `npm ci && npm run build` inside `/site`, then deploy
   `site/out/` via `actions/upload-pages-artifact` + `actions/deploy-pages`.
   Independent of the existing `ci.yml`.
-- **No `CNAME`** file for now; `basePath`/`assetPrefix` of `/GameVault` handle
+- **No `CNAME`** file for now; `basePath`/`assetPrefix` of `/RealmSwap` handle
   the subpath.
 
 ### Adding realmswap.gg later
@@ -113,7 +113,7 @@ When the domain is purchased:
    the basePath prefixing of asset references / revert to root-absolute).
 2. Add `site/public/CNAME` containing `realmswap.gg`.
 3. Configure DNS at the registrar: apex `A`/`AAAA` records to GitHub Pages IPs
-   (and/or a `CNAME` for `www` → `codyrmills28.github.io`).
+   (and/or a `CNAME` for `www` → `realmswap.github.io`).
 4. Set the custom domain in the repo's Pages settings.
 
 ## Launch prerequisite (caveat)

@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   output: "export",
-  basePath: "/GameVault",
-  assetPrefix: "/GameVault",
+  basePath: "/RealmSwap",
+  assetPrefix: "/RealmSwap",
   images: { unoptimized: true },
 };
 

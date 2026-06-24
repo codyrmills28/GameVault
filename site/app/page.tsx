@@ -23,11 +23,11 @@ import {
 // Static-site config. The desktop installer is published as a version-less
 // asset on GitHub Releases so this "latest" URL is always valid.
 const DOWNLOAD_URL =
-  "https://github.com/codyrmills28/GameVault/releases/latest/download/RealmSwap-Setup.exe";
-const RELEASES_URL = "https://github.com/codyrmills28/GameVault/releases";
-// GitHub Pages serves this project at the /GameVault subpath. Raw <img> tags are
+  "https://github.com/RealmSwap/RealmSwap/releases/latest/download/RealmSwap-Setup.exe";
+const RELEASES_URL = "https://github.com/RealmSwap/RealmSwap/releases";
+// GitHub Pages serves this project at the /RealmSwap subpath. Raw <img> tags are
 // not auto-prefixed by Next's basePath, so prefix root-absolute assets manually.
-const ASSET_PREFIX = "/GameVault";
+const ASSET_PREFIX = "/RealmSwap";
 
 // Mock games data for the interactive widget
 const GAMES_LIST = [
