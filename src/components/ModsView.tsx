@@ -3,22 +3,21 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { 
-  ArrowLeft, 
-  Wrench, 
-  Sparkles, 
-  LayoutDashboard, 
-  Plus, 
-  LogOut, 
-  Users, 
-  FolderSync, 
-  History, 
+import {
+  ArrowLeft,
+  Wrench,
+  Sparkles,
+  LayoutDashboard,
+  Plus,
+  LogOut,
+  Users,
+  FolderSync,
+  History,
   Download,
   Info,
   Check,
   AlertTriangle,
-  Settings,
-  Terminal
+  Settings
 } from "lucide-react";
 
 interface ModsViewProps {
@@ -187,7 +186,6 @@ export default function ModsView({ servers, user }: ModsViewProps) {
               { label: "Mod Manager", icon: Wrench, href: "/dashboard/mods", active: true },
               { label: "World Backups", icon: FolderSync, href: "/dashboard/backups" },
               { label: "Server Config", icon: Settings, href: "/dashboard/config" },
-              { label: "Server Console", icon: Terminal, href: "/dashboard/console" },
               { label: "Team Members", icon: Users, href: "/dashboard/team" },
               { label: "Audit Logs", icon: History, href: "/dashboard/logs" }
             ].map((link, i) => (

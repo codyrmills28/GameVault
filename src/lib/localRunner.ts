@@ -14,7 +14,29 @@ import type { GameDefinitionSpec } from "./definitions/types";
 import { setProgress, clearProgress, parseSteamProgress, computePercent, isMissingConfigError } from "./downloadProgress";
 import { dataRoot } from "./appPaths";
 import { isCrashExit, evaluateCrash, CRASH_MAX_RETRIES, type CrashCounter } from "./crashPolicy";
-import { appendLog, clearLogs } from "./logStreamer";
+// Local file-based log persistence. Output is appended to
+// <dataRoot>/local-servers/<serverId>/server.log and streamed to the UI by the
+// log-tailing SSE route (see logTailer.ts and api/servers/[id]/logs/stream).
+// Persisting to disk means console history survives app restarts.
+function serverLogFile(serverId: string): string {
+  return path.join(dataRoot(), "local-servers", serverId, "server.log");
+}
+function appendLog(serverId: string, message: string) {
+  try {
+    const file = serverLogFile(serverId);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.appendFileSync(file, message.replace(/\r?\n$/, "") + "\n");
+  } catch {
+    // best-effort logging; never let a log write crash the runner
+  }
+}
+function clearLogs(serverId: string) {
+  try {
+    fs.rmSync(serverLogFile(serverId), { force: true });
+  } catch {
+    // ignore
+  }
+}
 
 // Global process map to persist running processes across Next.js dev server hot-reloads
 const globalForRunner = globalThis as unknown as {
@@ -688,7 +710,7 @@ async function handleProcessExit(serverId: string, code: number | null, signal: 
       });
 
       if (shouldRestart) {
-        appendLog(baseDir, `[Crash Detection] Auto-restarting in 5 seconds...`);
+        appendLog(serverId, `[Crash Detection] Auto-restarting in 5 seconds...`);
         await prisma.server.update({
           where: { id: serverId },
           data: { status: "STARTING", pid: null, cpuUsage: 0, memoryUsage: 0 },
@@ -824,8 +846,11 @@ export async function stopLocalServer(serverId: string): Promise<void> {
 
 // Reads tail logs of local server
 export function getLocalServerLogs(serverId: string): string {
-  // Logic now handled by logStreamer
-  return "";
+  const file = serverLogFile(serverId);
+  if (!fs.existsSync(file)) {
+    return "No logs available. Start the server to generate logs.";
+  }
+  return fs.readFileSync(file, "utf-8").split("\n").slice(-150).join("\n");
 }
 
 // Update a game server via SteamCMD (re-runs app_update)
