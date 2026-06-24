@@ -14,6 +14,7 @@ import type { GameDefinitionSpec } from "./definitions/types";
 import { setProgress, clearProgress, parseSteamProgress, computePercent, isMissingConfigError } from "./downloadProgress";
 import { dataRoot } from "./appPaths";
 import { isCrashExit, evaluateCrash, CRASH_MAX_RETRIES, type CrashCounter } from "./crashPolicy";
+import { appendLog, clearLogs } from "./logStreamer";
 
 // Global process map to persist running processes across Next.js dev server hot-reloads
 const globalForRunner = globalThis as unknown as {
