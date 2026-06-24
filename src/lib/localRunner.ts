@@ -341,13 +341,6 @@ function installSteamCmdApp(
   });
 }
 
-// Log writer helper
-function appendLog(serverDir: string, message: string) {
-  const logFile = path.join(serverDir, "server.log");
-  const timestamp = new Date().toISOString();
-  fs.appendFileSync(logFile, `[RealmSwap Local Runner ${timestamp}] ${message}\n`);
-}
-
 // Run a custom install shell script
 function runShellScript(script: string, cwd: string, onLog: (m: string) => void): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -435,19 +428,14 @@ function waitForReadiness(
 // Main: Start a local game server
 export async function startLocalServer(serverId: string, game: string, ramAllocation: number): Promise<any> {
   const baseDir = getLocalServerDir(serverId);
-  const logFile = path.join(baseDir, "server.log");
+  clearLogs(serverId);
 
   // If server is already running, do nothing
   if (localProcesses.has(serverId)) {
     return;
   }
 
-  // Clear previous log file
-  if (fs.existsSync(logFile)) {
-    fs.unlinkSync(logFile);
-  }
-
-  const logWriter = (msg: string) => appendLog(baseDir, msg);
+  const logWriter = (msg: string) => appendLog(serverId, msg);
 
   // Fetch full server record from database to read custom passwords and UPnP configs
   const server = await prisma.server.findUnique({
@@ -624,10 +612,12 @@ export async function startLocalServer(serverId: string, game: string, ramAlloca
   localProcesses.set(serverId, child);
   clearProgress(serverId);
 
-  // 6. stdout patterns (e.g. Valheim join code)
-  if (launch.stdoutPatterns?.length) {
-    child.stdout.on("data", (chunk) => {
-      const s = chunk.toString();
+  // 6. Capture all stdout and check for patterns
+  child.stdout.on("data", (chunk) => {
+    const s = chunk.toString();
+    appendLog(serverId, s);
+
+    if (launch.stdoutPatterns?.length) {
       for (const pat of launch.stdoutPatterns!) {
         const m = s.match(new RegExp(pat.regex, "i"));
         if (m && m[1] && pat.updateField === "ipAddress") {
@@ -639,8 +629,12 @@ export async function startLocalServer(serverId: string, game: string, ramAlloca
           }).catch((err) => console.error("Error updating join code in DB:", err));
         }
       }
-    });
-  }
+    }
+  });
+
+  child.stderr.on("data", (chunk) => {
+    appendLog(serverId, chunk.toString());
+  });
 
   await prisma.server.update({
     where: { id: serverId },
@@ -654,11 +648,6 @@ export async function startLocalServer(serverId: string, game: string, ramAlloca
   });
 
   startMonitoring(serverId, child.pid);
-
-  // Pipe outputs to file
-  const logStream = fs.createWriteStream(logFile, { flags: "a" });
-  child.stdout.pipe(logStream);
-  child.stderr.pipe(logStream);
 
   // Wait for readiness
   const tcpPorts = planPorts(spec, ctx).filter(p => p.protocol === "TCP").map(p => p.port);
@@ -687,7 +676,7 @@ async function handleProcessExit(serverId: string, code: number | null, signal: 
       const { counter, shouldRestart } = evaluateCrash(crashCounters.get(serverId), Date.now());
       crashCounters.set(serverId, counter);
 
-      appendLog(baseDir, `[Crash Detection] Server crashed with exit code ${code} (Attempt ${counter.count}/${CRASH_MAX_RETRIES})`);
+      appendLog(serverId, `[Crash Detection] Server crashed with exit code ${code} (Attempt ${counter.count}/${CRASH_MAX_RETRIES})`);
 
       await prisma.activityLog.create({
         data: {
@@ -709,7 +698,7 @@ async function handleProcessExit(serverId: string, code: number | null, signal: 
             clearStatsHistory(serverId);
             await startLocalServer(serverId, serverRec.game, serverRec.ramAllocation);
           } catch (restartErr: any) {
-            appendLog(baseDir, `[Crash Detection] Auto-restart failed: ${restartErr.message}`);
+            appendLog(serverId, `[Crash Detection] Auto-restart failed: ${restartErr.message}`);
             await prisma.server.update({
               where: { id: serverId },
               data: { status: "CRASHED", pid: null, cpuUsage: 0, memoryUsage: 0 },
@@ -718,7 +707,7 @@ async function handleProcessExit(serverId: string, code: number | null, signal: 
         }, 5000);
         return;
       } else {
-        appendLog(baseDir, `[Crash Detection] Max retries (${CRASH_MAX_RETRIES}) exhausted. Marking server as CRASHED.`);
+        appendLog(serverId, `[Crash Detection] Max retries (${CRASH_MAX_RETRIES}) exhausted. Marking server as CRASHED.`);
         await prisma.server.update({
           where: { id: serverId },
           data: { status: "CRASHED", pid: null, ipAddress: "127.0.0.1", cpuUsage: 0, memoryUsage: 0 },
@@ -749,13 +738,12 @@ async function handleProcessExit(serverId: string, code: number | null, signal: 
   } catch (e) {
     console.error("Error updating DB on local process exit:", e);
   }
-  appendLog(baseDir, `Process exited with code ${code} and signal ${signal}`);
+  appendLog(serverId, `Process exited with code ${code} and signal ${signal}`);
 }
 
 // Main: Stop local game server gracefully
 export async function stopLocalServer(serverId: string): Promise<void> {
   const child = localProcesses.get(serverId);
-  const serverDir = path.join(dataRoot(), "local-servers", serverId);
   const server = await prisma.server.findUnique({ where: { id: serverId } });
 
   // Mark as intentional stop so crash detection doesn't trigger
@@ -767,7 +755,7 @@ export async function stopLocalServer(serverId: string): Promise<void> {
   const resolvedDef = server ? await resolveDefinition(server).catch(() => null) : null;
 
   if (server && (server.enableUpnp || server.runnerType === "LOCAL")) {
-    appendLog(serverDir, "[UPnP] Releasing router port mappings...");
+    appendLog(serverId, "[UPnP] Releasing router port mappings...");
     try {
       if (!resolvedDef) throw new Error("No game definition found");
       const { spec } = resolvedDef;
@@ -783,12 +771,12 @@ export async function stopLocalServer(serverId: string): Promise<void> {
         await unmapPort(pm.port, pm.protocol);
       }
     } catch (e: any) {
-      appendLog(serverDir, `[UPnP Error] Failed to release port forwarding: ${e.message}`);
+      appendLog(serverId, `[UPnP Error] Failed to release port forwarding: ${e.message}`);
     }
   }
 
   if (child) {
-    appendLog(serverDir, "Termination request received. Terminating process tree...");
+    appendLog(serverId, "Termination request received. Terminating process tree...");
 
     // Use the spec's stdinStopCommand for graceful shutdown (e.g. Minecraft sends "stop\n")
     const { spec } = resolvedDef ?? { spec: null as any };
@@ -806,7 +794,7 @@ export async function stopLocalServer(serverId: string): Promise<void> {
 
     const timeout = setTimeout(() => {
       if (localProcesses.has(serverId)) {
-        appendLog(serverDir, "Shutdown timed out. Force killing process...");
+        appendLog(serverId, "Shutdown timed out. Force killing process...");
         child.kill("SIGKILL");
         // Force kill sub-processes on Windows
         exec(`taskkill /F /T /PID ${child.pid}`, () => {});
@@ -835,14 +823,8 @@ export async function stopLocalServer(serverId: string): Promise<void> {
 
 // Reads tail logs of local server
 export function getLocalServerLogs(serverId: string): string {
-  const logFile = path.join(dataRoot(), "local-servers", serverId, "server.log");
-  if (!fs.existsSync(logFile)) {
-    return "No logs available. Start the server to generate logs.";
-  }
-
-  const content = fs.readFileSync(logFile, "utf-8");
-  const lines = content.split("\n");
-  return lines.slice(-150).join("\n");
+  // Logic now handled by logStreamer
+  return "";
 }
 
 // Update a game server via SteamCMD (re-runs app_update)
@@ -856,7 +838,7 @@ export async function updateGameServer(serverId: string): Promise<void> {
   const installPlan = planInstall(spec, "STEAMCMD");
   const baseDir = path.join(dataRoot(), "local-servers", serverId);
   const installDir = path.join(baseDir, installPlan.installSubDir!);
-  const logWriter = (msg: string) => appendLog(baseDir, msg);
+  const logWriter = (msg: string) => appendLog(serverId, msg);
 
   try {
     await prisma.server.update({
