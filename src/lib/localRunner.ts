@@ -296,7 +296,7 @@ function installSteamCmdApp(
 function appendLog(serverDir: string, message: string) {
   const logFile = path.join(serverDir, "server.log");
   const timestamp = new Date().toISOString();
-  fs.appendFileSync(logFile, `[GameVault Local Runner ${timestamp}] ${message}\n`);
+  fs.appendFileSync(logFile, `[RealmSwap Local Runner ${timestamp}] ${message}\n`);
 }
 
 // Run a custom install shell script

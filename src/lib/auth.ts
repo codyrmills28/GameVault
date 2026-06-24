@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 
-const JWT_SECRET = process.env.JWT_SECRET || "gamevault_secret_fallback_key_123";
+const JWT_SECRET = process.env.JWT_SECRET || "realmswap_secret_fallback_key_123";
 export const AUTH_COOKIE_NAME = "gv_session";
 
 export function hashPassword(password: string): string {

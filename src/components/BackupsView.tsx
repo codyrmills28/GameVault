@@ -192,7 +192,7 @@ export default function BackupsView({ servers, user }: BackupsViewProps) {
           <div className="p-6 border-b border-borderDark flex items-center gap-2">
             <ServerIcon className="w-6 h-6 text-accentPurple" />
             <span className="font-extrabold text-xl tracking-wider">
-              GAME<span className="text-accentPurple text-glow-purple">VAULT</span>
+              REALM<span className="text-accentPurple text-glow-purple">SWAP</span>
             </span>
           </div>
 
@@ -453,7 +453,7 @@ export default function BackupsView({ servers, user }: BackupsViewProps) {
                   <Settings className="w-4.5 h-4.5 text-accentPurple" />
                   <h3 className="font-extrabold text-base text-white">Snapshot Schedule</h3>
                 </div>
-                <p className="text-xs text-mutedText leading-normal">Configure the GameVault runner to automatically package and zip local files on a recurring timer.</p>
+                <p className="text-xs text-mutedText leading-normal">Configure the RealmSwap runner to automatically package and zip local files on a recurring timer.</p>
 
                 <form onSubmit={handleUpdateSchedule} className="space-y-4 pt-2">
                   <div>
@@ -521,7 +521,7 @@ export default function BackupsView({ servers, user }: BackupsViewProps) {
                 <span className="text-[10px] font-bold text-mutedText uppercase tracking-wider block">Local Storage Info</span>
                 
                 <div className="text-xs text-slate-400 leading-normal space-y-3">
-                  <p>📁 **Local path:** Backups are compressed into `.zip` files and stored inside `local-backups/[serverId]` in your GameVault folder.</p>
+                  <p>📁 **Local path:** Backups are compressed into `.zip` files and stored inside `local-backups/[serverId]` in your RealmSwap folder.</p>
                   <p>⏱️ **Scheduler requirements:** Automated snapshots only execute while the local runner app is running and the target server is active.</p>
                   <p>💾 **Space efficiency:** Backups are compressed to save disk space. Old backups can be deleted at any time to clear up storage.</p>
                 </div>

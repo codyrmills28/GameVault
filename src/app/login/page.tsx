@@ -57,7 +57,7 @@ export default function LoginPage() {
               <ServerIcon className="w-7 h-7 text-accentPurple" />
             </div>
             <span className="font-extrabold text-2xl tracking-wider">
-              GAME<span className="text-accentPurple text-glow-purple">VAULT</span>
+              REALM<span className="text-accentPurple text-glow-purple">SWAP</span>
             </span>
           </Link>
           <p className="text-sm text-mutedText">Log in to manage your active server slots</p>
@@ -133,7 +133,7 @@ export default function LoginPage() {
           <div className="mt-6 pt-5 border-t border-white/5 text-center">
             <span className="text-xs text-mutedText block mb-1">Testing Demo Credentials:</span>
             <code className="text-[10px] bg-slate-950 px-2 py-1 rounded border border-white/5 text-accentBlue">
-              demo@gamevault.gg / password123
+              demo@realmswap.gg / password123
             </code>
           </div>
         </div>

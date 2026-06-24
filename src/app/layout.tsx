@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "GameVault | One Subscription, Many Game Worlds",
-  description: "Ditch paying for multiple game servers. With GameVault, swap between Minecraft, Valheim, Project Zomboid, and ARK instantly with one subscription.",
+  title: "RealmSwap | One Subscription, Many Game Worlds",
+  description: "Ditch paying for multiple game servers. With RealmSwap, swap between Minecraft, Valheim, Project Zomboid, and ARK instantly with one subscription.",
   keywords: ["game server hosting", "minecraft hosting", "valheim server", "project zomboid server", "game server backups"],
 };
 
