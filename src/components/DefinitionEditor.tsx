@@ -777,7 +777,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
               <SectionLabel>Basic Info</SectionLabel>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <FieldLabel>Display Name *</FieldLabel>
+                  <FieldLabel help={FIELD_HELP.displayName}>Display Name *</FieldLabel>
                   <InputBase
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
@@ -786,7 +786,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                   />
                 </div>
                 <div>
-                  <FieldLabel>Icon (emoji)</FieldLabel>
+                  <FieldLabel help={FIELD_HELP.icon}>Icon (emoji)</FieldLabel>
                   <InputBase
                     value={icon}
                     onChange={(e) => setIcon(e.target.value)}
@@ -796,7 +796,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                 </div>
               </div>
               <div>
-                <FieldLabel>Description</FieldLabel>
+                <FieldLabel help={FIELD_HELP.description}>Description</FieldLabel>
                 <TextareaBase
                   rows={2}
                   value={description}
@@ -806,7 +806,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <FieldLabel>Recommended RAM (GB)</FieldLabel>
+                  <FieldLabel help={FIELD_HELP.recommendedRam}>Recommended RAM (GB)</FieldLabel>
                   <InputBase
                     type="number"
                     min="1"
@@ -816,7 +816,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                   />
                 </div>
                 <div>
-                  <FieldLabel>Default Port</FieldLabel>
+                  <FieldLabel help={FIELD_HELP.defaultPort}>Default Port</FieldLabel>
                   <InputBase
                     type="number"
                     min="1"
@@ -856,7 +856,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                 <div className="p-4 rounded-xl bg-slate-950/40 border border-white/5 space-y-4">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <FieldLabel>Steam App ID *</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.steamAppId}>Steam App ID *</FieldLabel>
                       <InputBase
                         value={sc_appId}
                         onChange={(e) => setSc_appId(e.target.value)}
@@ -865,7 +865,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                       />
                     </div>
                     <div>
-                      <FieldLabel>Install Sub-Directory *</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.scInstallSubDir}>Install Sub-Directory *</FieldLabel>
                       <InputBase
                         value={sc_installSubDir}
                         onChange={(e) => setSc_installSubDir(e.target.value)}
@@ -876,7 +876,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <FieldLabel>Check File (path confirming install) *</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.scCheckFile}>Check File (path confirming install) *</FieldLabel>
                       <InputBase
                         value={sc_checkFile}
                         onChange={(e) => setSc_checkFile(e.target.value)}
@@ -885,7 +885,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                       />
                     </div>
                     <div>
-                      <FieldLabel>Required Disk (GB)</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.requiredDisk}>Required Disk (GB)</FieldLabel>
                       <InputBase
                         type="number"
                         min="0"
@@ -902,7 +902,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
               {tab === "DOWNLOAD" && (
                 <div className="p-4 rounded-xl bg-slate-950/40 border border-white/5 space-y-4">
                   <div>
-                    <FieldLabel>Download URL *</FieldLabel>
+                    <FieldLabel help={FIELD_HELP.downloadUrl}>Download URL *</FieldLabel>
                     <InputBase
                       value={dl_url}
                       onChange={(e) => setDl_url(e.target.value)}
@@ -912,7 +912,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <FieldLabel>File Name *</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.fileName}>File Name *</FieldLabel>
                       <InputBase
                         value={dl_fileName}
                         onChange={(e) => setDl_fileName(e.target.value)}
@@ -921,7 +921,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                       />
                     </div>
                     <div>
-                      <FieldLabel>Check File (path confirming install) *</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.dlCheckFile}>Check File (path confirming install) *</FieldLabel>
                       <InputBase
                         value={dl_checkFile}
                         onChange={(e) => setDl_checkFile(e.target.value)}
@@ -932,7 +932,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <FieldLabel>Install Sub-Directory (optional)</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.dlInstallSubDir}>Install Sub-Directory (optional)</FieldLabel>
                       <InputBase
                         value={dl_installSubDir}
                         onChange={(e) => setDl_installSubDir(e.target.value)}
@@ -948,6 +948,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                           className="accent-accentPurple"
                         />
                         Extract / Unzip after download
+                        <FieldHelp text={FIELD_HELP.unzip} label="Extract / Unzip" />
                       </label>
                     </div>
                   </div>
@@ -969,12 +970,13 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                         className="accent-accentPurple"
                       />
                       I understand and accept the risk.
+                      <FieldHelp text={FIELD_HELP.ack} label="Accept risk" />
                     </label>
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-950/40 border border-white/5 space-y-4">
                     <div>
-                      <FieldLabel>Install Script *</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.installScript}>Install Script *</FieldLabel>
                       <TextareaBase
                         rows={8}
                         value={cs_installScript}
@@ -984,7 +986,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                       />
                     </div>
                     <div>
-                      <FieldLabel>Launch Script *</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.launchScript}>Launch Script *</FieldLabel>
                       <TextareaBase
                         rows={8}
                         value={cs_launchScript}
@@ -1005,7 +1007,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                 <div className="p-4 rounded-xl bg-slate-950/40 border border-white/5 space-y-4">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <FieldLabel>Executable *</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.executable}>Executable *</FieldLabel>
                       <InputBase
                         value={executable}
                         onChange={(e) => setExecutable(e.target.value)}
@@ -1014,7 +1016,7 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                       />
                     </div>
                     <div>
-                      <FieldLabel>Working Directory Sub-path (optional)</FieldLabel>
+                      <FieldLabel help={FIELD_HELP.cwdSubDir}>Working Directory Sub-path (optional)</FieldLabel>
                       <InputBase
                         value={cwdSubDir}
                         onChange={(e) => setCwdSubDir(e.target.value)}
@@ -1032,11 +1034,12 @@ export default function DefinitionEditor({ isAdmin }: DefinitionEditorProps) {
                         className="accent-accentPurple"
                       />
                       Executable is on PATH (e.g. <code className="text-xs bg-slate-800 px-1 rounded">java</code>, interpreter commands)
+                      <FieldHelp text={FIELD_HELP.executableOnPath} label="Executable on PATH" />
                     </label>
                   </div>
 
                   <div>
-                    <FieldLabel>Launch Arguments</FieldLabel>
+                    <FieldLabel help={FIELD_HELP.launchArgs}>Launch Arguments</FieldLabel>
                     <ArgsBuilder args={args} onChange={setArgs} />
                   </div>
                 </div>
