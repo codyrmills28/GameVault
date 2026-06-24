@@ -3,7 +3,7 @@ import ConsoleView from "@/components/ConsoleView";
 import { Suspense } from "react";
 
 export default async function ConsolePage() {
-  const user = { name: "Demo User", email: "demo@gamevault.gg" };
+  const user = { name: "Demo User", email: "demo@realmswap.gg" };
   const servers = await prisma.server.findMany({
     orderBy: { createdAt: 'desc' }
   });
