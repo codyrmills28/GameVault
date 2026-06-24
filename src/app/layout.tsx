@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ModalProvider } from "@/components/ModalProvider";
+import { ToastProvider } from "@/components/ToastProvider";
 
 export const metadata: Metadata = {
   title: "RealmSwap | Host Locally. Play Globally",
@@ -16,9 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-background text-white antialiased cyber-grid-bg">
-        <ModalProvider>
-          {children}
-        </ModalProvider>
+        <ToastProvider>
+          <ModalProvider>
+            {children}
+          </ModalProvider>
+        </ToastProvider>
       </body>
     </html>
   );
