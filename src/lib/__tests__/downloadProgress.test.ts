@@ -13,17 +13,38 @@ describe("parseSteamProgress", () => {
       parseSteamProgress("Update state (0x61) downloading, progress: 42.66 (123 / 456)")
     ).toBeCloseTo(42.66);
   });
-  it("parses an integer-valued progress", () => {
-    expect(parseSteamProgress("progress: 100.00 (456 / 456)")).toBe(100);
+  it("parses an integer-valued download progress", () => {
+    expect(
+      parseSteamProgress("Update state (0x61) downloading, progress: 100.00 (456 / 456)")
+    ).toBe(100);
   });
-  it("returns null when there is no progress token", () => {
+  it("returns null when there is no download progress token", () => {
     expect(parseSteamProgress("Logging in user ... OK")).toBeNull();
   });
-  it("returns null for a malformed progress value", () => {
-    expect(parseSteamProgress("progress: abc")).toBeNull();
+  it("returns null for a malformed download progress value", () => {
+    expect(parseSteamProgress("downloading, progress: abc")).toBeNull();
   });
-  it("clamps values above 100", () => {
-    expect(parseSteamProgress("progress: 150.0")).toBe(100);
+  it("clamps download values above 100", () => {
+    expect(parseSteamProgress("downloading, progress: 150.0")).toBe(100);
+  });
+  it("returns the LAST download value when a buffered chunk holds many", () => {
+    // SteamCMD buffers stdout: one data chunk can carry the whole download history.
+    const chunk =
+      "Update state (0x11) preallocating, progress: 48.86 (799745692 / 1636649733) " +
+      "Update state (0x61) downloading, progress: 0.70 (11534336 / 1636649733) " +
+      "Update state (0x61) downloading, progress: 25.60 (419000816 / 1636649733) " +
+      "Update state (0x61) downloading, progress: 72.40 (1185014383 / 1636649733)";
+    expect(parseSteamProgress(chunk)).toBeCloseTo(72.4);
+  });
+  it("ignores preallocating progress (not a download)", () => {
+    expect(
+      parseSteamProgress("Update state (0x11) preallocating, progress: 48.86 (799745692 / 1636649733)")
+    ).toBeNull();
+  });
+  it("ignores verifying progress so the bar is not relabeled during validate", () => {
+    expect(
+      parseSteamProgress("Update state (0x81) verifying update, progress: 95.00 (1 / 1)")
+    ).toBeNull();
   });
 });
 

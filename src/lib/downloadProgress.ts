@@ -36,14 +36,26 @@ export function clearProgress(serverId: string): void {
   store.delete(serverId);
 }
 
-// Extracts the numeric progress from a SteamCMD status line, e.g.
+// Extracts the latest *download* percentage from SteamCMD stdout, e.g.
 // "Update state (0x61) downloading, progress: 42.66 (123 / 456)" -> 42.66
+//
+// SteamCMD buffers stdout heavily on Windows, so a single chunk can carry the
+// entire download history at once. We scan for every "downloading, progress: N"
+// entry and return the LAST one, so the bar reflects current progress rather
+// than the oldest value in the batch. Non-download phases (preallocating,
+// verifying/validate) are deliberately ignored — returning null leaves the bar
+// on its prior value instead of resetting or mislabeling them as "Downloading".
 export function parseSteamProgress(line: string): number | null {
-  const m = line.match(/progress:\s*(\d+(?:\.\d+)?)/i);
-  if (!m) return null;
-  const val = parseFloat(m[1]);
-  if (!Number.isFinite(val)) return null;
-  return Math.max(0, Math.min(100, val));
+  const re = /downloading[,\s]*progress:\s*(\d+(?:\.\d+)?)/gi;
+  let last: number | null = null;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(line)) !== null) {
+    const val = parseFloat(m[1]);
+    if (Number.isFinite(val)) {
+      last = Math.max(0, Math.min(100, val));
+    }
+  }
+  return last;
 }
 
 // Returns received/total as a 0..100 percent, or null when total is unknown/invalid.
