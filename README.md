@@ -1,9 +1,9 @@
-# GameVault 🎮
+# RealmSwap 🎮
 
-GameVault is a powerful, locally-hosted game server manager that allows you to easily deploy, monitor, and manage dedicated servers for your favorite multiplayer games—100% free and without cloud subscription fees.
+RealmSwap is a powerful, locally-hosted game server manager that allows you to easily deploy, monitor, and manage dedicated servers for your favorite multiplayer games—100% free and without cloud subscription fees.
 
 ## Supported Games
-GameVault currently supports single-click deployment for the following dedicated servers:
+RealmSwap currently supports single-click deployment for the following dedicated servers:
 - **Minecraft** (Vanilla 1.20+)
 - **Valheim**
 - **Enshrouded**
@@ -47,4 +47,4 @@ GameVault currently supports single-click deployment for the following dedicated
    ```
 5. Open `http://localhost:3000` in your browser and register your first admin account.
 
-*Note: GameVault is currently designed to run on Windows environments due to its heavy reliance on Windows-specific `child_process` commands and directory structures for SteamCMD.*
+*Note: RealmSwap is currently designed to run on Windows environments due to its heavy reliance on Windows-specific `child_process` commands and directory structures for SteamCMD.*

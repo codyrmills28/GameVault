@@ -370,7 +370,7 @@ function writeMinecraftConfigs(serverDir: string, port: number, serverName: stri
     "query.port=25565",
     "online-mode=false", // set to false for local debugging ease
     "max-players=10",
-    `motd=GameVault Local Runner Minecraft Server - ${serverName}`
+    `motd=RealmSwap Local Runner Minecraft Server - ${serverName}`
   ].join("\n");
   
   fs.writeFileSync(path.join(serverDir, "server.properties"), properties);
@@ -380,7 +380,7 @@ function writeMinecraftConfigs(serverDir: string, port: number, serverName: stri
 function appendLog(serverDir: string, message: string) {
   const logFile = path.join(serverDir, "server.log");
   const timestamp = new Date().toISOString();
-  fs.appendFileSync(logFile, `[GameVault Local Runner ${timestamp}] ${message}\n`);
+  fs.appendFileSync(logFile, `[RealmSwap Local Runner ${timestamp}] ${message}\n`);
 }
 
 // Main: Start a local game server (Minecraft or Valheim)
@@ -428,33 +428,33 @@ export async function startLocalServer(serverId: string, game: string, ramAlloca
     logWriter("[UPnP] Requesting router port forwarding rules...");
     try {
       if (game.toUpperCase() === "MINECRAFT") {
-        await mapPort(25565, "TCP", `GameVault MC - ${server.name}`);
-        await mapPort(25565, "UDP", `GameVault MC - ${server.name}`);
+        await mapPort(25565, "TCP", `RealmSwap MC - ${server.name}`);
+        await mapPort(25565, "UDP", `RealmSwap MC - ${server.name}`);
       } else if (game.toUpperCase() === "VALHEIM") {
-        await mapPort(2456, "UDP", `GameVault VH - ${server.name}`);
-        await mapPort(2457, "UDP", `GameVault VH - ${server.name}`);
-        await mapPort(2458, "UDP", `GameVault VH - ${server.name}`);
+        await mapPort(2456, "UDP", `RealmSwap VH - ${server.name}`);
+        await mapPort(2457, "UDP", `RealmSwap VH - ${server.name}`);
+        await mapPort(2458, "UDP", `RealmSwap VH - ${server.name}`);
       } else if (game.toUpperCase() === "ENSHROUDED") {
-        await mapPort(15636, "TCP", `GameVault EN - ${server.name}`);
-        await mapPort(15636, "UDP", `GameVault EN - ${server.name}`);
-        await mapPort(15637, "TCP", `GameVault EN - ${server.name}`);
-        await mapPort(15637, "UDP", `GameVault EN - ${server.name}`);
+        await mapPort(15636, "TCP", `RealmSwap EN - ${server.name}`);
+        await mapPort(15636, "UDP", `RealmSwap EN - ${server.name}`);
+        await mapPort(15637, "TCP", `RealmSwap EN - ${server.name}`);
+        await mapPort(15637, "UDP", `RealmSwap EN - ${server.name}`);
       } else if (game.toUpperCase() === "ZOMBOID") {
-        await mapPort(16261, "UDP", `GameVault PZ - ${server.name}`);
-        await mapPort(16262, "UDP", `GameVault PZ - ${server.name}`);
-        await mapPort(8766, "UDP", `GameVault PZ - ${server.name}`);
+        await mapPort(16261, "UDP", `RealmSwap PZ - ${server.name}`);
+        await mapPort(16262, "UDP", `RealmSwap PZ - ${server.name}`);
+        await mapPort(8766, "UDP", `RealmSwap PZ - ${server.name}`);
       } else if (game.toUpperCase() === "ARK") {
-        await mapPort(7777, "UDP", `GameVault ARK - ${server.name}`);
-        await mapPort(7778, "UDP", `GameVault ARK - ${server.name}`);
-        await mapPort(27015, "UDP", `GameVault ARK - ${server.name}`);
+        await mapPort(7777, "UDP", `RealmSwap ARK - ${server.name}`);
+        await mapPort(7778, "UDP", `RealmSwap ARK - ${server.name}`);
+        await mapPort(27015, "UDP", `RealmSwap ARK - ${server.name}`);
       } else if (game.toUpperCase() === "TERRARIA") {
-        await mapPort(7777, "TCP", `GameVault TR - ${server.name}`);
-        await mapPort(7777, "UDP", `GameVault TR - ${server.name}`);
+        await mapPort(7777, "TCP", `RealmSwap TR - ${server.name}`);
+        await mapPort(7777, "UDP", `RealmSwap TR - ${server.name}`);
       } else if (game.toUpperCase() === "PALWORLD") {
-        await mapPort(8211, "UDP", `GameVault PW - ${server.name}`);
+        await mapPort(8211, "UDP", `RealmSwap PW - ${server.name}`);
       } else if (game.toUpperCase() === "RUST") {
-        await mapPort(28015, "UDP", `GameVault RS - ${server.name}`);
-        await mapPort(28016, "TCP", `GameVault RS RCON - ${server.name}`);
+        await mapPort(28015, "UDP", `RealmSwap RS - ${server.name}`);
+        await mapPort(28016, "TCP", `RealmSwap RS RCON - ${server.name}`);
       }
       logWriter("[UPnP] Success! Router port forward mapping completed successfully.");
     } catch (e: any) {

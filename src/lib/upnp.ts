@@ -14,7 +14,7 @@ function getNatClient() {
 }
 
 // Maps a port on the router pointing to this computer
-export function mapPort(port: number, protocol: "TCP" | "UDP" = "UDP", description = "GameVault"): Promise<boolean> {
+export function mapPort(port: number, protocol: "TCP" | "UDP" = "UDP", description = "RealmSwap"): Promise<boolean> {
   return new Promise((resolve) => {
     try {
       getNatClient().map({

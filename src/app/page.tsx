@@ -278,7 +278,7 @@ export default function LandingPage() {
             Built for Gamers. Fully Local.
           </h2>
           <p className="text-mutedText max-w-2xl mx-auto">
-            Take full advantage of the gaming PC you already own. GameVault handles the complicated networking, storage, and orchestration automatically.
+            Take full advantage of the gaming PC you already own. RealmSwap handles the complicated networking, storage, and orchestration automatically.
           </p>
         </div>
 
@@ -287,7 +287,7 @@ export default function LandingPage() {
             {
               icon: Cpu,
               title: "Harness Your Hardware",
-              desc: "Don't rent a 2GB RAM cloud server when you have a 32GB beast at home. GameVault runs locally on your Windows PC utilizing your own CPU cores for zero lag."
+              desc: "Don't rent a 2GB RAM cloud server when you have a 32GB beast at home. RealmSwap runs locally on your Windows PC utilizing your own CPU cores for zero lag."
             },
             {
               icon: Layers,
@@ -302,12 +302,12 @@ export default function LandingPage() {
             {
               icon: Globe,
               title: "Auto UPnP Port Forwarding",
-              desc: "Forget logging into your router. GameVault uses UPnP to automatically forward and map ports so your friends can connect immediately via your public IP."
+              desc: "Forget logging into your router. RealmSwap uses UPnP to automatically forward and map ports so your friends can connect immediately via your public IP."
             },
             {
               icon: ShieldCheck,
               title: "Crash Recovery",
-              desc: "Background monitors watch your server processes. If a crash is detected, GameVault will automatically try to restart your server to keep your players online."
+              desc: "Background monitors watch your server processes. If a crash is detected, RealmSwap will automatically try to restart your server to keep your players online."
             },
             {
               icon: Users,
@@ -336,7 +336,7 @@ export default function LandingPage() {
           {[
             {
               q: "Is it really 100% free?",
-              a: "Yes! GameVault is a local application that runs on your own hardware. Because we do not provide cloud servers or off-site data storage, there are absolutely zero subscription fees."
+              a: "Yes! RealmSwap is a local application that runs on your own hardware. Because we do not provide cloud servers or off-site data storage, there are absolutely zero subscription fees."
             },
             {
               q: "How does the Game History Vault actually work?",
@@ -344,14 +344,14 @@ export default function LandingPage() {
             },
             {
               q: "Do I need to know how to port forward?",
-              a: "No! GameVault has a built-in UPnP networking layer. When you start a game, it automatically talks to your home router to securely open the necessary ports, and closes them when you shut the server down."
+              a: "No! RealmSwap has a built-in UPnP networking layer. When you start a game, it automatically talks to your home router to securely open the necessary ports, and closes them when you shut the server down."
             },
             {
-              q: "Do my friends need to install GameVault?",
-              a: "No, only the person hosting the server needs to run GameVault. Your friends will connect via the game's built-in multiplayer menu using your public IP address, exactly like a normal dedicated server."
+              q: "Do my friends need to install RealmSwap?",
+              a: "No, only the person hosting the server needs to run RealmSwap. Your friends will connect via the game's built-in multiplayer menu using your public IP address, exactly like a normal dedicated server."
             },
             {
-              q: "Can I use GameVault while playing the game on the same PC?",
+              q: "Can I use RealmSwap while playing the game on the same PC?",
               a: "Yes! Modern gaming PCs have more than enough RAM and CPU cores to host a dedicated server for a small group of friends while simultaneously running the game client."
             }
           ].map((item, index) => (
@@ -386,7 +386,7 @@ export default function LandingPage() {
           Take Back Your Game Servers.
         </h2>
         <p className="text-mutedText max-w-2xl mx-auto mb-8">
-          Join thousands of gamer friend groups hosting smarter. Install GameVault on your PC today and run your own local game network for free.
+          Join thousands of gamer friend groups hosting smarter. Install RealmSwap on your PC today and run your own local game network for free.
         </p>
         <Link 
           href="/register" 
@@ -409,7 +409,7 @@ export default function LandingPage() {
           </div>
 
           <p className="text-xs text-mutedText">
-            © 2026 GameVault. All rights reserved. Developed for gamers, by gamers.
+            © 2026 RealmSwap. All rights reserved. Developed for gamers, by gamers.
           </p>
 
           <div className="flex items-center gap-6 text-sm text-mutedText">

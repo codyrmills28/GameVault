@@ -393,7 +393,7 @@ export default function TeamView({ servers, user }: TeamViewProps) {
                 <span className="text-[10px] font-bold text-mutedText uppercase tracking-wider block">Invite Process Guidelines</span>
                 
                 <div className="text-xs text-slate-400 leading-normal space-y-3">
-                  <p>👥 **SQLite Registry Requirement:** GameVault runs completely locally. In order to invite a friend, they must first connect to your GameVault instance (using your public/local IP) and create an account via the Register page.</p>
+                  <p>👥 **SQLite Registry Requirement:** RealmSwap runs completely locally. In order to invite a friend, they must first connect to your RealmSwap instance (using your public/local IP) and create an account via the Register page.</p>
                   <p>🔐 **Role Privileges:**
                     <br/>• **Co-Host:** Can start, stop, restart, and view live console logs.
                     <br/>• **Admin:** Can also install mods, take manual snapshots, and restore world back-ups.
