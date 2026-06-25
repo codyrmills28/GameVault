@@ -176,6 +176,27 @@ export async function POST(
       return NextResponse.json({ error: `Mods are not supported for game: ${server.game}` }, { status: 400 });
     }
 
+    // Log to ModInstallation
+    await prisma.modInstallation.upsert({
+      where: {
+        serverId_provider_packageId: {
+          serverId,
+          provider: game === "ZOMBOID" ? "workshop" : "thunderstore",
+          packageId: modId || workshopId || "unknown"
+        }
+      },
+      update: {
+        version: "latest",
+      },
+      create: {
+        serverId,
+        provider: game === "ZOMBOID" ? "workshop" : "thunderstore",
+        packageId: modId || workshopId || "unknown",
+        version: "latest",
+        name: modName || modId || workshopId || "Unknown Mod"
+      }
+    });
+
     // Log action
     await prisma.activityLog.create({
       data: {

@@ -91,6 +91,20 @@ export default function ModsView({ servers, user }: ModsViewProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [installedMods, setInstalledMods] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    if (selectedServer) {
+      fetch(`/api/servers/${selectedServer.id}/mods`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.mods) setInstalledMods(data.mods);
+        })
+        .catch(err => console.error(err));
+    } else {
+      setInstalledMods([]);
+    }
+  }, [selectedServer]);
 
   const handleLogout = async () => {
     try {
@@ -124,6 +138,10 @@ export default function ModsView({ servers, user }: ModsViewProps) {
       if (!res.ok) throw new Error(data.error || "Failed to install mod");
 
       setSuccess(`Successfully installed '${mod.name}' to server '${selectedServer.name}'!`);
+      // Refresh installed mods
+      const modsRes = await fetch(`/api/servers/${selectedServer.id}/mods`);
+      const modsData = await modsRes.json();
+      if (modsData.mods) setInstalledMods(modsData.mods);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -425,6 +443,41 @@ export default function ModsView({ servers, user }: ModsViewProps) {
                 </div>
               </div>
 
+            </div>
+
+            {/* Installed Mods Section */}
+            <div className="lg:col-span-3 space-y-4 animate-slide-down mt-6">
+              <h3 className="font-extrabold text-base text-white">Installed Mods</h3>
+              {installedMods.length === 0 ? (
+                <div className="p-4 rounded-xl border border-dashed border-white/5 bg-slate-950/20 text-center text-xs text-mutedText">
+                  No mods currently installed.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {installedMods.map((mod: any) => (
+                    <div key={mod.id} className="p-4 rounded-xl border border-white/5 bg-slate-950/40 hover:border-white/10 transition-colors flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-[9px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-extrabold uppercase tracking-wide">
+                            {mod.provider}
+                          </span>
+                          <span className="text-[9px] text-mutedText font-mono">{mod.version}</span>
+                        </div>
+                        <h4 className="font-extrabold text-sm text-slate-100 mt-2 truncate" title={mod.name}>{mod.name}</h4>
+                        <p className="text-[11px] text-mutedText mt-1 font-mono truncate">{mod.packageId}</p>
+                      </div>
+                      <div className="pt-3 border-t border-white/5 mt-3 flex justify-end gap-2">
+                        <button
+                          onClick={() => alert("Config UI coming soon!")}
+                          className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-colors"
+                        >
+                          Configure
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
           </div>
