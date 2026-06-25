@@ -23,11 +23,7 @@ export async function GET(
     if (!access) return NextResponse.json({ error: "Server not found" }, { status: 404 });
 
     const searchParams = req.nextUrl.searchParams;
-    const query = searchParams.get("q");
-
-    if (!query || query.length < 2) {
-      return NextResponse.json({ results: [] });
-    }
+    const query = searchParams.get("q") || "";
 
     const game = access.server.game.toUpperCase();
     let results: any[] = [];

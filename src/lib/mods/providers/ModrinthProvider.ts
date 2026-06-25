@@ -9,8 +9,12 @@ export class ModrinthProvider implements ModProvider {
     if (game.toUpperCase() !== "MINECRAFT") return [];
     
     try {
-      // Modrinth API allows us to search directly without a massive dump
-      const response = await fetch(`https://api.modrinth.com/v2/search?query=${encodeURIComponent(query)}&limit=20`);
+      // Modrinth API allows us to search directly
+      const url = query.trim() === "" 
+        ? "https://api.modrinth.com/v2/search?limit=20&index=downloads" 
+        : `https://api.modrinth.com/v2/search?query=${encodeURIComponent(query)}&limit=20`;
+        
+      const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to search Modrinth");
       
       const data = await response.json();

@@ -28,13 +28,21 @@ export class ThunderstoreProvider implements ModProvider {
 
     const q = query.toLowerCase();
     
-    // Filter and map
-    const results = this.cachedPackages
-      .filter((pkg: any) => 
+    // If no query, return top 20 by rating score
+    let filtered = this.cachedPackages;
+    if (q.length > 0) {
+      filtered = this.cachedPackages.filter((pkg: any) => 
         pkg.name.toLowerCase().includes(q) || 
         pkg.owner.toLowerCase().includes(q) ||
         pkg.full_name.toLowerCase().includes(q)
-      )
+      );
+    } else {
+      // Sort by rating_score desc
+      filtered.sort((a, b) => (b.rating_score || 0) - (a.rating_score || 0));
+    }
+
+    // Map and return
+    const results = filtered
       .slice(0, 20) // top 20
       .map((pkg: any) => {
         // The latest version is the first in the versions array
