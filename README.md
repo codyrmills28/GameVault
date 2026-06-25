@@ -32,6 +32,9 @@ RealmSwap currently supports single-click deployment for the following dedicated
 
 ## Getting Started
 
+**Prerequisites:**
+You must have [Node.js](https://nodejs.org/) (which includes `npm`) and [Git](https://git-scm.com/) installed on your computer.
+
 1. Clone the repository to your Windows machine.
 2. Install dependencies:
    ```bash
@@ -39,7 +42,7 @@ RealmSwap currently supports single-click deployment for the following dedicated
    ```
 3. Initialize the database:
    ```bash
-   npx prisma db push
+   npm run db:push
    ```
 4. Run the development server:
    ```bash
