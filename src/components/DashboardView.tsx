@@ -36,7 +36,8 @@ import {
   Search,
   Send,
   Activity,
-  Store
+  Store,
+  Package
 } from "lucide-react";
 
 interface DashboardViewProps {
@@ -936,6 +937,17 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                           <Archive className="w-3.5 h-3.5" />
                           <span>Vault</span>
                         </button>
+
+                        {/* Export Realm */}
+                        <a
+                          href={`/api/servers/${server.id}/export`}
+                          download
+                          className={`px-3.5 py-2 rounded-lg bg-blue-500/10 border border-blue-500/20 hover:bg-blue-500/20 text-blue-400 font-bold text-xs flex items-center gap-1.5 transition-all ${isServerLoading || server.status === "STARTING" ? "opacity-50 pointer-events-none" : ""}`}
+                          title="Export Portable .realm Package"
+                        >
+                          <Package className="w-3.5 h-3.5" />
+                          <span>Export</span>
+                        </a>
 
                         {/* Import Map */}
                         {!isRunning && (
