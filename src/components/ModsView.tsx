@@ -17,7 +17,9 @@ import {
   Info,
   Check,
   AlertTriangle,
-  Settings
+  Settings,
+  Upload,
+  DownloadCloud
 } from "lucide-react";
 
 interface ModsViewProps {
@@ -152,6 +154,45 @@ export default function ModsView({ servers, user }: ModsViewProps) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleExportCollection = () => {
+    if (!selectedServer) return;
+    window.open(`/api/servers/${selectedServer.id}/mods/export`, '_blank');
+  };
+
+  const handleImportCollection = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!selectedServer || !e.target.files || e.target.files.length === 0) return;
+    const file = e.target.files[0];
+    
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    const formData = new FormData();
+    formData.append("collection", file);
+
+    try {
+      const res = await fetch(`/api/servers/${selectedServer.id}/mods/import`, {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to import collection");
+
+      setSuccess(data.message || "Collection imported successfully!");
+      // Refresh installed mods
+      const modsRes = await fetch(`/api/servers/${selectedServer.id}/mods`);
+      const modsData = await modsRes.json();
+      if (modsData.mods) setInstalledMods(modsData.mods);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+    
+    // Reset input
+    e.target.value = '';
   };
 
   const handleZomboidSubmit = (e: React.FormEvent) => {
@@ -506,7 +547,33 @@ export default function ModsView({ servers, user }: ModsViewProps) {
 
             {/* Installed Mods Section */}
             <div className="lg:col-span-3 space-y-4 animate-slide-down mt-6">
-              <h3 className="font-extrabold text-base text-white">Installed Mods</h3>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h3 className="font-extrabold text-base text-white">Installed Mods</h3>
+                
+                <div className="flex items-center gap-2">
+                  <label className="px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/5 text-xs font-bold text-slate-300 transition-colors cursor-pointer flex items-center gap-1.5">
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>Import Collection</span>
+                    <input 
+                      type="file" 
+                      accept=".json" 
+                      className="hidden" 
+                      onChange={handleImportCollection} 
+                      disabled={loading || selectedServer.status === "RUNNING"}
+                    />
+                  </label>
+                  
+                  <button
+                    onClick={handleExportCollection}
+                    disabled={installedMods.length === 0}
+                    className="px-3 py-1.5 rounded-lg border border-accentPurple/30 bg-accentPurple/10 hover:bg-accentPurple/20 text-accentPurple text-xs font-bold transition-colors flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <DownloadCloud className="w-3.5 h-3.5" />
+                    <span>Export Collection</span>
+                  </button>
+                </div>
+              </div>
+
               {installedMods.length === 0 ? (
                 <div className="p-4 rounded-xl border border-dashed border-white/5 bg-slate-950/20 text-center text-xs text-mutedText">
                   No mods currently installed.
