@@ -21,7 +21,13 @@ import {
   Info,
   Settings,
   Terminal,
-  Store} from "lucide-react";
+  Store,
+  UploadCloud,
+  Package,
+  X,
+  AlertTriangle,
+  RefreshCw
+} from "lucide-react";
 import DefinitionParamFields from "./DefinitionParamFields";
 
 interface CreateServerViewProps {
@@ -48,6 +54,16 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [paramValues, setParamValues] = useState<Record<string, any>>({});
+
+  // Migration Wizard State
+  const [isDragging, setIsDragging] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const [importManifest, setImportManifest] = useState<any | null>(null);
+  const [importTempFile, setImportTempFile] = useState<string | null>(null);
+  const [importMode, setImportMode] = useState<"NEW" | "REPLACE">("NEW");
+  const [replaceServerId, setReplaceServerId] = useState<string>("");
+  const [myServers, setMyServers] = useState<any[]>([]);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetch("/api/definitions")
@@ -132,6 +148,72 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
     } catch (err: any) {
       setError(err.message || "An error occurred. Try again.");
       setLoading(false);
+    }
+  };
+
+  const handleFileDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileSelect(file);
+  };
+
+  const handleFileSelect = async (file: File) => {
+    if (!file.name.endsWith(".realm")) {
+      setError("Please select a .realm package file.");
+      return;
+    }
+    setIsImporting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/realms/validate", {
+        method: "POST",
+        body: file,
+        headers: { "Content-Type": "application/octet-stream" }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data || "Validation failed");
+      
+      setImportManifest(data.manifest);
+      setImportTempFile(data.tempFile);
+
+      const srvRes = await fetch("/api/servers");
+      if (srvRes.ok) {
+        const srvData = await srvRes.json();
+        setMyServers(srvData.servers || []);
+      }
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
+  const handleImportSubmit = async () => {
+    if (importMode === "REPLACE" && !replaceServerId) {
+      setError("Please select a server to replace.");
+      return;
+    }
+    setIsImporting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/realms/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tempFile: importTempFile,
+          mode: importMode,
+          serverId: importMode === "REPLACE" ? replaceServerId : undefined,
+          manifest: importManifest
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data || "Import failed");
+      router.push("/dashboard");
+      router.refresh();
+    } catch(e: any) {
+      setError(e.message);
+      setIsImporting(false);
     }
   };
 
@@ -272,12 +354,42 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
         </div>
 
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center gap-2">
-            <Sparkles className="w-6 h-6 text-accentPurple animate-float" />
-            <span>Deploy Active Server Slot</span>
-          </h1>
-          <p className="text-sm text-mutedText mt-1">Select a game, allocate compute memory, and launch your multiplayer world.</p>
+        <div className="mb-8 flex flex-col md:flex-row md:items-start justify-between gap-6">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center gap-2">
+              <Sparkles className="w-6 h-6 text-accentPurple animate-float" />
+              <span>Deploy Active Server Slot</span>
+            </h1>
+            <p className="text-sm text-mutedText mt-1">Select a game, allocate compute memory, and launch your multiplayer world.</p>
+          </div>
+          
+          {/* Drag & Drop Import Zone */}
+          <div 
+            className={`w-full md:w-72 p-4 rounded-2xl border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center text-center gap-2 ${
+              isDragging ? "border-accentPurple bg-accentPurple/10" : "border-white/10 hover:border-white/20 hover:bg-white/5"
+            } ${isImporting ? "opacity-50 pointer-events-none" : ""}`}
+            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+            onDragLeave={(e) => { e.preventDefault(); setIsDragging(false); }}
+            onDrop={handleFileDrop}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              className="hidden" 
+              accept=".realm" 
+              onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])} 
+            />
+            {isImporting && !importManifest ? (
+              <RefreshCw className="w-6 h-6 text-slate-400 animate-spin" />
+            ) : (
+              <UploadCloud className={`w-6 h-6 ${isDragging ? "text-accentPurple" : "text-slate-400"}`} />
+            )}
+            <div>
+              <span className="text-sm font-bold text-slate-200 block">Import .realm Package</span>
+              <span className="text-xs text-mutedText">Drag & drop or click to upload</span>
+            </div>
+          </div>
         </div>
 
         {/* Form Card */}
@@ -502,6 +614,133 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
         </div>
 
       </main>
+      {/* Migration Wizard Modal */}
+      {importManifest && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="w-full max-w-xl glass-panel border border-accentPurple/30 rounded-2xl p-6 shadow-2xl flex flex-col box-glow-purple max-h-[90vh] overflow-y-auto">
+            
+            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-accentPurple/20 rounded-lg">
+                  <Package className="w-6 h-6 text-accentPurple" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-white text-lg">Import Realm Package</h3>
+                  <p className="text-xs text-mutedText">Review package details and select import destination.</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => { setImportManifest(null); setImportTempFile(null); }}
+                className="p-1.5 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="p-3 rounded-lg bg-slate-900 border border-white/5">
+                <span className="text-[10px] uppercase tracking-wider text-mutedText font-bold block mb-1">Server Name</span>
+                <span className="text-sm font-bold text-slate-200">{importManifest.server.name}</span>
+              </div>
+              <div className="p-3 rounded-lg bg-slate-900 border border-white/5">
+                <span className="text-[10px] uppercase tracking-wider text-mutedText font-bold block mb-1">Game Engine</span>
+                <span className="text-sm font-bold text-slate-200">{importManifest.server.game}</span>
+              </div>
+              <div className="p-3 rounded-lg bg-slate-900 border border-white/5">
+                <span className="text-[10px] uppercase tracking-wider text-mutedText font-bold block mb-1">Installed Mods</span>
+                <span className="text-sm font-bold text-slate-200">{importManifest.mods?.length || 0}</span>
+              </div>
+              <div className="p-3 rounded-lg bg-slate-900 border border-white/5">
+                <span className="text-[10px] uppercase tracking-wider text-mutedText font-bold block mb-1">Scheduled Tasks</span>
+                <span className="text-sm font-bold text-slate-200">{importManifest.tasks?.length || 0}</span>
+              </div>
+            </div>
+
+            <div className="mb-6 space-y-4">
+              <h4 className="font-bold text-sm text-white">Import Options</h4>
+              
+              <label className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${importMode === "NEW" ? "bg-accentPurple/10 border-accentPurple/40" : "bg-slate-900/50 border-white/5 hover:border-white/10"}`}>
+                <input 
+                  type="radio" 
+                  name="importMode" 
+                  checked={importMode === "NEW"} 
+                  onChange={() => setImportMode("NEW")} 
+                  className="mt-1"
+                />
+                <div>
+                  <span className="font-bold text-slate-200 block text-sm">Import as New Server</span>
+                  <span className="text-xs text-mutedText">Creates a new server slot and restores all data.</span>
+                </div>
+              </label>
+
+              <label className={`flex flex-col gap-3 p-4 rounded-xl border cursor-pointer transition-all ${importMode === "REPLACE" ? "bg-accentPurple/10 border-accentPurple/40" : "bg-slate-900/50 border-white/5 hover:border-white/10"}`}>
+                <div className="flex items-start gap-3">
+                  <input 
+                    type="radio" 
+                    name="importMode" 
+                    checked={importMode === "REPLACE"} 
+                    onChange={() => setImportMode("REPLACE")} 
+                    className="mt-1"
+                  />
+                  <div>
+                    <span className="font-bold text-slate-200 block text-sm">Replace Existing Server</span>
+                    <span className="text-xs text-mutedText">Overwrites all files and data of an existing server.</span>
+                  </div>
+                </div>
+                
+                {importMode === "REPLACE" && (
+                  <div className="ml-7">
+                    <select 
+                      value={replaceServerId} 
+                      onChange={(e) => setReplaceServerId(e.target.value)}
+                      className="w-full bg-slate-950 border border-white/10 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-accentPurple"
+                    >
+                      <option value="">Select a server...</option>
+                      {myServers.filter(s => s.game === importManifest.server.game).map(s => (
+                        <option key={s.id} value={s.id}>{s.name} ({s.status})</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </label>
+            </div>
+
+            {error && (
+              <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <div className="flex justify-end gap-3 mt-auto pt-4 border-t border-white/10">
+              <button
+                onClick={() => { setImportManifest(null); setImportTempFile(null); }}
+                className="px-4 py-2 rounded-lg font-bold text-sm text-slate-300 hover:text-white transition-colors"
+                disabled={isImporting}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleImportSubmit}
+                disabled={isImporting}
+                className="px-5 py-2 rounded-lg font-extrabold text-sm bg-accentPurple hover:bg-purple-500 text-white shadow-lg hover:shadow-purple-500/25 transition-all flex items-center gap-2 disabled:opacity-50"
+              >
+                {isImporting ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Extracting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Package className="w-4 h-4" />
+                    <span>Import Realm</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
