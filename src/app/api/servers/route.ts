@@ -108,13 +108,6 @@ export async function POST(req: NextRequest) {
     // 2. SteamCMD Check & Disk Space Check
     if ('appId' in spec.install) {
       // It's a SteamCMD install
-      if (!isSteamCmdInstalled()) {
-        const path = require("path");
-        return NextResponse.json({ 
-          error: `SteamCMD is missing. Please download SteamCMD and extract it to ${path.join(dataRoot(), 'steamcmd')} before deploying a Steam game.` 
-        }, { status: 400 });
-      }
-
       // 3. Disk Space Check (Requires at least 250MB for SteamCMD + game size)
       const requiredGB = spec.install.requiredDiskGB || 0;
       const totalRequiredGB = Math.max(requiredGB, 0.25);
