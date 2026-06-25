@@ -402,8 +402,17 @@ export default function ModsView({ servers, user }: ModsViewProps) {
                             disabled={loading || selectedServer.status === "RUNNING"}
                             className="px-4 py-1.5 rounded-lg bg-accentPurple hover:bg-accentPurpleHover disabled:bg-accentPurple/50 disabled:cursor-not-allowed text-xs font-bold text-white transition-colors flex items-center gap-1.5"
                           >
-                            <Download className="w-3.5 h-3.5" />
-                            <span>Install Pack</span>
+                            {loading ? (
+                              <>
+                                <Wrench className="w-3.5 h-3.5 animate-spin" />
+                                <span>Sandboxing...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Download className="w-3.5 h-3.5" />
+                                <span>Safe Install</span>
+                              </>
+                            )}
                           </button>
                         </div>
                       </div>
