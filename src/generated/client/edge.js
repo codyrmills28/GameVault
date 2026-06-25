@@ -219,7 +219,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\jimmy\\Documents\\GitHub\\GameVault\\.claude\\worktrees\\nostalgic-gould-58a328\\src\\generated\\client",
+      "value": "C:\\Users\\Cody\\GameVault\\src\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -233,11 +233,12 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\jimmy\\Documents\\GitHub\\GameVault\\.claude\\worktrees\\nostalgic-gould-58a328\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\Cody\\GameVault\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null
+    "rootEnvPath": null,
+    "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
   "clientVersion": "5.22.0",
@@ -246,7 +247,7 @@ const config = {
     "db"
   ],
   "activeProvider": "sqlite",
-  "postinstall": true,
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
