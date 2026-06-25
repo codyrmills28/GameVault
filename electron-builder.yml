@@ -5,6 +5,7 @@ directories:
   buildResources: build
 files:
   - electron/**/*
+  - "!electron/__tests__/**"
   - package.json
 extraResources:
   - from: .next/standalone
@@ -41,3 +42,7 @@ nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
 asar: true
+publish:
+  provider: github
+  owner: RealmSwap
+  repo: RealmSwap

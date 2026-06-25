@@ -14,12 +14,13 @@
     "db:push": "cross-env DATABASE_URL=\"file:./dev.db\" prisma db push",
     "electron:dev": "cross-env GAMEVAULT_DEV=1 concurrently -k \"next dev\" \"wait-on http://localhost:3000/start && electron .\"",
     "prepackage": "node scripts/make-template-db.js && next build",
-    "electron:build": "npm run prepackage && electron-builder"
+    "electron:build": "npm run prepackage && electron-builder --publish never"
   },
   "dependencies": {
     "@prisma/client": "^5.15.0",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
+    "electron-updater": "^6.8.9",
     "gamedig": "^5.3.3",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.395.0",
