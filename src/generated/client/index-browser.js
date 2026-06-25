@@ -257,6 +257,30 @@ exports.Prisma.ScheduledTaskScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MarketplaceTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  author: 'author',
+  gameSlug: 'gameSlug',
+  tags: 'tags',
+  downloads: 'downloads',
+  likes: 'likes',
+  dislikes: 'dislikes',
+  verifiedLevel: 'verifiedLevel',
+  payload: 'payload',
+  customDefSpec: 'customDefSpec',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.TemplateVoteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  templateId: 'templateId',
+  type: 'type',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -279,7 +303,9 @@ exports.Prisma.ModelName = {
   GameDefinition: 'GameDefinition',
   ModInstallation: 'ModInstallation',
   ServerSnapshot: 'ServerSnapshot',
-  ScheduledTask: 'ScheduledTask'
+  ScheduledTask: 'ScheduledTask',
+  MarketplaceTemplate: 'MarketplaceTemplate',
+  TemplateVote: 'TemplateVote'
 };
 
 /**
