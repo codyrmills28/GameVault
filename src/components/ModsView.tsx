@@ -92,6 +92,11 @@ export default function ModsView({ servers, user }: ModsViewProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [installedMods, setInstalledMods] = useState<any[]>([]);
+  const [configModalOpen, setConfigModalOpen] = useState(false);
+  const [configTargetMod, setConfigTargetMod] = useState<any | null>(null);
+  const [configSections, setConfigSections] = useState<any[]>([]);
+  const [configLoading, setConfigLoading] = useState(false);
+  const [configSaving, setConfigSaving] = useState(false);
 
   React.useEffect(() => {
     if (selectedServer) {
@@ -159,6 +164,51 @@ export default function ModsView({ servers, user }: ModsViewProps) {
     });
     setCustomWorkshopId("");
     setCustomModId("");
+  };
+
+  const handleConfigureClick = async (mod: any) => {
+    if (!selectedServer) return;
+    setConfigTargetMod(mod);
+    setConfigModalOpen(true);
+    setConfigLoading(true);
+    setConfigSections([]);
+    try {
+      const res = await fetch(`/api/servers/${selectedServer.id}/mods/${mod.id}/config`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setConfigSections(data.sections || []);
+    } catch (err: any) {
+      alert(err.message || "Failed to load config");
+      setConfigModalOpen(false);
+    } finally {
+      setConfigLoading(false);
+    }
+  };
+
+  const handleSaveConfig = async () => {
+    if (!selectedServer || !configTargetMod) return;
+    setConfigSaving(true);
+    try {
+      const res = await fetch(`/api/servers/${selectedServer.id}/mods/${configTargetMod.id}/config`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sections: configSections })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      alert("Configuration saved successfully!");
+      setConfigModalOpen(false);
+    } catch (err: any) {
+      alert(err.message || "Failed to save config");
+    } finally {
+      setConfigSaving(false);
+    }
+  };
+
+  const updateConfigValue = (sectionIdx: number, propIdx: number, newValue: string) => {
+    const newSections = [...configSections];
+    newSections[sectionIdx].properties[propIdx].value = newValue;
+    setConfigSections(newSections);
   };
 
   const game = selectedServer?.game?.toUpperCase();
@@ -468,7 +518,7 @@ export default function ModsView({ servers, user }: ModsViewProps) {
                       </div>
                       <div className="pt-3 border-t border-white/5 mt-3 flex justify-end gap-2">
                         <button
-                          onClick={() => alert("Config UI coming soon!")}
+                          onClick={() => handleConfigureClick(mod)}
                           className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-colors"
                         >
                           Configure
@@ -484,6 +534,107 @@ export default function ModsView({ servers, user }: ModsViewProps) {
         )}
 
       </main>
+
+      {/* Config Modal */}
+      {configModalOpen && configTargetMod && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+          <div className="bg-[#0f111a] border border-white/10 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col animate-slide-down">
+            <div className="p-5 border-b border-white/10 flex justify-between items-center">
+              <div>
+                <h3 className="font-extrabold text-lg text-white flex items-center gap-2">
+                  <Settings className="w-5 h-5 text-accentPurple" />
+                  Configure {configTargetMod.name}
+                </h3>
+                <p className="text-xs text-mutedText mt-1 font-mono">{configTargetMod.packageId}</p>
+              </div>
+              <button onClick={() => setConfigModalOpen(false)} className="text-slate-400 hover:text-white transition-colors text-2xl leading-none">&times;</button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto flex-1 space-y-6">
+              {configLoading ? (
+                <div className="text-center py-10">
+                  <Wrench className="w-8 h-8 text-slate-600 animate-spin mx-auto mb-3" />
+                  <p className="text-sm font-bold text-slate-400">Parsing configuration files...</p>
+                </div>
+              ) : configSections.length === 0 ? (
+                <div className="text-center py-10 bg-slate-900/50 rounded-xl border border-white/5">
+                  <p className="text-sm font-bold text-slate-400">No configuration properties found.</p>
+                </div>
+              ) : (
+                configSections.map((section, sIdx) => (
+                  <div key={sIdx} className="space-y-4">
+                    <h4 className="font-bold text-sm text-accentPurple border-b border-white/5 pb-2 uppercase tracking-wide">
+                      [{section.name}]
+                    </h4>
+                    <div className="space-y-5">
+                      {section.properties.map((prop: any, pIdx: number) => (
+                        <div key={pIdx} className="bg-slate-950/40 p-4 rounded-xl border border-white/5">
+                          <div className="flex justify-between items-start gap-4 mb-2">
+                            <div>
+                              <label className="text-sm font-bold text-slate-200 block">{prop.key}</label>
+                              {prop.description && (
+                                <p className="text-[11px] text-slate-400 mt-1 whitespace-pre-line leading-relaxed">
+                                  {prop.description}
+                                </p>
+                              )}
+                            </div>
+                            <span className="text-[9px] font-mono bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded shrink-0">
+                              {prop.type}
+                            </span>
+                          </div>
+                          
+                          <div className="mt-3">
+                            {prop.type === "Boolean" ? (
+                              <select
+                                value={prop.value.toLowerCase()}
+                                onChange={(e) => updateConfigValue(sIdx, pIdx, e.target.value)}
+                                className="w-full sm:w-48 px-3 py-2 text-sm rounded-lg bg-slate-900 border border-white/10 text-slate-200 outline-none focus:border-accentPurple transition-colors"
+                              >
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                              </select>
+                            ) : prop.type === "Int32" ? (
+                              <input
+                                type="number"
+                                value={prop.value}
+                                onChange={(e) => updateConfigValue(sIdx, pIdx, e.target.value)}
+                                className="w-full sm:w-48 px-3 py-2 text-sm rounded-lg bg-slate-900 border border-white/10 text-slate-200 outline-none focus:border-accentPurple transition-colors"
+                              />
+                            ) : (
+                              <input
+                                type="text"
+                                value={prop.value}
+                                onChange={(e) => updateConfigValue(sIdx, pIdx, e.target.value)}
+                                className="w-full px-3 py-2 text-sm rounded-lg bg-slate-900 border border-white/10 text-slate-200 outline-none focus:border-accentPurple transition-colors"
+                              />
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <div className="p-5 border-t border-white/10 bg-slate-900/50 flex justify-end gap-3 rounded-b-2xl">
+              <button
+                onClick={() => setConfigModalOpen(false)}
+                className="px-4 py-2 rounded-lg text-sm font-bold text-slate-300 hover:bg-white/5 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveConfig}
+                disabled={configLoading || configSaving}
+                className="px-6 py-2 rounded-lg bg-accentPurple hover:bg-accentPurpleHover text-sm font-bold text-white transition-colors disabled:opacity-50"
+              >
+                {configSaving ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
