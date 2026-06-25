@@ -9,6 +9,7 @@ import {
   Sparkles,
   LayoutDashboard,
   Plus,
+  Store,
   LogOut,
   Users,
   Wrench,

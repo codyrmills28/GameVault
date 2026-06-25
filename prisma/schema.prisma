@@ -30,6 +30,7 @@ model User {
   archives     Archive[]
   logs               ActivityLog[]
   collaboratorAccess Collaborator[]
+  templateVotes      TemplateVote[]
 }
 
 model Subscription {
@@ -183,4 +184,39 @@ model ScheduledTask {
   lastBroadcastAt DateTime?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+}
+
+model MarketplaceTemplate {
+  id              String   @id @default(cuid())
+  name            String
+  description     String
+  author          String
+  gameSlug        String
+  tags            String   // Comma separated
+  downloads       Int      @default(0)
+  likes           Int      @default(0)
+  dislikes        Int      @default(0)
+  verifiedLevel   String   @default("UNVERIFIED") // "UNVERIFIED", "VERIFIED", "OFFICIAL"
+  votes           TemplateVote[]
+  
+  // The payload contains Mod lists, Config file overrides, and Params
+  payload         String   // JSON TemplatePayload
+  
+  // If the template introduces an UNSUPPORTED game, the full definition goes here
+  customDefSpec   String?  // JSON GameDefinitionSpec
+  
+  createdAt       DateTime @default(now())
+}
+
+model TemplateVote {
+  id          String   @id @default(cuid())
+  userId      String
+  templateId  String
+  type        String   // "LIKE" or "DISLIKE"
+  createdAt   DateTime @default(now())
+
+  template    MarketplaceTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, templateId])
 }

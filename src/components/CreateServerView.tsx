@@ -19,9 +19,9 @@ import {
   ArrowLeft,
   Sparkles,
   Info,
-  Settings
-,
-  Terminal} from "lucide-react";
+  Settings,
+  Terminal,
+  Store} from "lucide-react";
 import DefinitionParamFields from "./DefinitionParamFields";
 
 interface CreateServerViewProps {
@@ -202,6 +202,14 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
                 <Plus className="w-4 h-4 text-accentPurple" />
                 <span>Create Server</span>
               </div>
+            </Link>
+
+            <Link 
+              href="/dashboard/marketplace" 
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:bg-white/5 text-slate-300 hover:text-white transition-all group"
+            >
+              <Store className="w-4 h-4 text-mutedText group-hover:text-white transition-colors" />
+              <span>Marketplace</span>
             </Link>
 
             <div className="pt-4 pb-2 px-3">

@@ -68,6 +68,16 @@ export type ServerSnapshot = $Result.DefaultSelection<Prisma.$ServerSnapshotPayl
  * 
  */
 export type ScheduledTask = $Result.DefaultSelection<Prisma.$ScheduledTaskPayload>
+/**
+ * Model MarketplaceTemplate
+ * 
+ */
+export type MarketplaceTemplate = $Result.DefaultSelection<Prisma.$MarketplaceTemplatePayload>
+/**
+ * Model TemplateVote
+ * 
+ */
+export type TemplateVote = $Result.DefaultSelection<Prisma.$TemplateVotePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -301,6 +311,26 @@ export class PrismaClient<
     * ```
     */
   get scheduledTask(): Prisma.ScheduledTaskDelegate<ExtArgs>;
+
+  /**
+   * `prisma.marketplaceTemplate`: Exposes CRUD operations for the **MarketplaceTemplate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MarketplaceTemplates
+    * const marketplaceTemplates = await prisma.marketplaceTemplate.findMany()
+    * ```
+    */
+  get marketplaceTemplate(): Prisma.MarketplaceTemplateDelegate<ExtArgs>;
+
+  /**
+   * `prisma.templateVote`: Exposes CRUD operations for the **TemplateVote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TemplateVotes
+    * const templateVotes = await prisma.templateVote.findMany()
+    * ```
+    */
+  get templateVote(): Prisma.TemplateVoteDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -752,7 +782,9 @@ export namespace Prisma {
     GameDefinition: 'GameDefinition',
     ModInstallation: 'ModInstallation',
     ServerSnapshot: 'ServerSnapshot',
-    ScheduledTask: 'ScheduledTask'
+    ScheduledTask: 'ScheduledTask',
+    MarketplaceTemplate: 'MarketplaceTemplate',
+    TemplateVote: 'TemplateVote'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -768,7 +800,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "subscription" | "server" | "archive" | "activityLog" | "backup" | "collaborator" | "gameDefinition" | "modInstallation" | "serverSnapshot" | "scheduledTask"
+      modelProps: "user" | "subscription" | "server" | "archive" | "activityLog" | "backup" | "collaborator" | "gameDefinition" | "modInstallation" | "serverSnapshot" | "scheduledTask" | "marketplaceTemplate" | "templateVote"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1542,6 +1574,146 @@ export namespace Prisma {
           }
         }
       }
+      MarketplaceTemplate: {
+        payload: Prisma.$MarketplaceTemplatePayload<ExtArgs>
+        fields: Prisma.MarketplaceTemplateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MarketplaceTemplateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketplaceTemplatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MarketplaceTemplateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketplaceTemplatePayload>
+          }
+          findFirst: {
+            args: Prisma.MarketplaceTemplateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketplaceTemplatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MarketplaceTemplateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketplaceTemplatePayload>
+          }
+          findMany: {
+            args: Prisma.MarketplaceTemplateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketplaceTemplatePayload>[]
+          }
+          create: {
+            args: Prisma.MarketplaceTemplateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketplaceTemplatePayload>
+          }
+          createMany: {
+            args: Prisma.MarketplaceTemplateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MarketplaceTemplateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketplaceTemplatePayload>[]
+          }
+          delete: {
+            args: Prisma.MarketplaceTemplateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketplaceTemplatePayload>
+          }
+          update: {
+            args: Prisma.MarketplaceTemplateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketplaceTemplatePayload>
+          }
+          deleteMany: {
+            args: Prisma.MarketplaceTemplateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MarketplaceTemplateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.MarketplaceTemplateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MarketplaceTemplatePayload>
+          }
+          aggregate: {
+            args: Prisma.MarketplaceTemplateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMarketplaceTemplate>
+          }
+          groupBy: {
+            args: Prisma.MarketplaceTemplateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MarketplaceTemplateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MarketplaceTemplateCountArgs<ExtArgs>
+            result: $Utils.Optional<MarketplaceTemplateCountAggregateOutputType> | number
+          }
+        }
+      }
+      TemplateVote: {
+        payload: Prisma.$TemplateVotePayload<ExtArgs>
+        fields: Prisma.TemplateVoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TemplateVoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemplateVotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TemplateVoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemplateVotePayload>
+          }
+          findFirst: {
+            args: Prisma.TemplateVoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemplateVotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TemplateVoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemplateVotePayload>
+          }
+          findMany: {
+            args: Prisma.TemplateVoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemplateVotePayload>[]
+          }
+          create: {
+            args: Prisma.TemplateVoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemplateVotePayload>
+          }
+          createMany: {
+            args: Prisma.TemplateVoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TemplateVoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemplateVotePayload>[]
+          }
+          delete: {
+            args: Prisma.TemplateVoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemplateVotePayload>
+          }
+          update: {
+            args: Prisma.TemplateVoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemplateVotePayload>
+          }
+          deleteMany: {
+            args: Prisma.TemplateVoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TemplateVoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.TemplateVoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemplateVotePayload>
+          }
+          aggregate: {
+            args: Prisma.TemplateVoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTemplateVote>
+          }
+          groupBy: {
+            args: Prisma.TemplateVoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TemplateVoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TemplateVoteCountArgs<ExtArgs>
+            result: $Utils.Optional<TemplateVoteCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1708,6 +1880,7 @@ export namespace Prisma {
     archives: number
     logs: number
     collaboratorAccess: number
+    templateVotes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1716,6 +1889,7 @@ export namespace Prisma {
     archives?: boolean | UserCountOutputTypeCountArchivesArgs
     logs?: boolean | UserCountOutputTypeCountLogsArgs
     collaboratorAccess?: boolean | UserCountOutputTypeCountCollaboratorAccessArgs
+    templateVotes?: boolean | UserCountOutputTypeCountTemplateVotesArgs
   }
 
   // Custom InputTypes
@@ -1762,6 +1936,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCollaboratorAccessArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CollaboratorWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTemplateVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemplateVoteWhereInput
   }
 
 
@@ -1860,6 +2041,37 @@ export namespace Prisma {
    */
   export type GameDefinitionCountOutputTypeCountServersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ServerWhereInput
+  }
+
+
+  /**
+   * Count Type MarketplaceTemplateCountOutputType
+   */
+
+  export type MarketplaceTemplateCountOutputType = {
+    votes: number
+  }
+
+  export type MarketplaceTemplateCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    votes?: boolean | MarketplaceTemplateCountOutputTypeCountVotesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MarketplaceTemplateCountOutputType without action
+   */
+  export type MarketplaceTemplateCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplateCountOutputType
+     */
+    select?: MarketplaceTemplateCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MarketplaceTemplateCountOutputType without action
+   */
+  export type MarketplaceTemplateCountOutputTypeCountVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemplateVoteWhereInput
   }
 
 
@@ -2053,6 +2265,7 @@ export namespace Prisma {
     archives?: boolean | User$archivesArgs<ExtArgs>
     logs?: boolean | User$logsArgs<ExtArgs>
     collaboratorAccess?: boolean | User$collaboratorAccessArgs<ExtArgs>
+    templateVotes?: boolean | User$templateVotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2083,6 +2296,7 @@ export namespace Prisma {
     archives?: boolean | User$archivesArgs<ExtArgs>
     logs?: boolean | User$logsArgs<ExtArgs>
     collaboratorAccess?: boolean | User$collaboratorAccessArgs<ExtArgs>
+    templateVotes?: boolean | User$templateVotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2096,6 +2310,7 @@ export namespace Prisma {
       archives: Prisma.$ArchivePayload<ExtArgs>[]
       logs: Prisma.$ActivityLogPayload<ExtArgs>[]
       collaboratorAccess: Prisma.$CollaboratorPayload<ExtArgs>[]
+      templateVotes: Prisma.$TemplateVotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2475,6 +2690,7 @@ export namespace Prisma {
     archives<T extends User$archivesArgs<ExtArgs> = {}>(args?: Subset<T, User$archivesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArchivePayload<ExtArgs>, T, "findMany"> | Null>
     logs<T extends User$logsArgs<ExtArgs> = {}>(args?: Subset<T, User$logsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityLogPayload<ExtArgs>, T, "findMany"> | Null>
     collaboratorAccess<T extends User$collaboratorAccessArgs<ExtArgs> = {}>(args?: Subset<T, User$collaboratorAccessArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollaboratorPayload<ExtArgs>, T, "findMany"> | Null>
+    templateVotes<T extends User$templateVotesArgs<ExtArgs> = {}>(args?: Subset<T, User$templateVotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2935,6 +3151,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CollaboratorScalarFieldEnum | CollaboratorScalarFieldEnum[]
+  }
+
+  /**
+   * User.templateVotes
+   */
+  export type User$templateVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    where?: TemplateVoteWhereInput
+    orderBy?: TemplateVoteOrderByWithRelationInput | TemplateVoteOrderByWithRelationInput[]
+    cursor?: TemplateVoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TemplateVoteScalarFieldEnum | TemplateVoteScalarFieldEnum[]
   }
 
   /**
@@ -13291,6 +13527,2027 @@ export namespace Prisma {
 
 
   /**
+   * Model MarketplaceTemplate
+   */
+
+  export type AggregateMarketplaceTemplate = {
+    _count: MarketplaceTemplateCountAggregateOutputType | null
+    _avg: MarketplaceTemplateAvgAggregateOutputType | null
+    _sum: MarketplaceTemplateSumAggregateOutputType | null
+    _min: MarketplaceTemplateMinAggregateOutputType | null
+    _max: MarketplaceTemplateMaxAggregateOutputType | null
+  }
+
+  export type MarketplaceTemplateAvgAggregateOutputType = {
+    downloads: number | null
+    likes: number | null
+    dislikes: number | null
+  }
+
+  export type MarketplaceTemplateSumAggregateOutputType = {
+    downloads: number | null
+    likes: number | null
+    dislikes: number | null
+  }
+
+  export type MarketplaceTemplateMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    author: string | null
+    gameSlug: string | null
+    tags: string | null
+    downloads: number | null
+    likes: number | null
+    dislikes: number | null
+    verifiedLevel: string | null
+    payload: string | null
+    customDefSpec: string | null
+    createdAt: Date | null
+  }
+
+  export type MarketplaceTemplateMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    author: string | null
+    gameSlug: string | null
+    tags: string | null
+    downloads: number | null
+    likes: number | null
+    dislikes: number | null
+    verifiedLevel: string | null
+    payload: string | null
+    customDefSpec: string | null
+    createdAt: Date | null
+  }
+
+  export type MarketplaceTemplateCountAggregateOutputType = {
+    id: number
+    name: number
+    description: number
+    author: number
+    gameSlug: number
+    tags: number
+    downloads: number
+    likes: number
+    dislikes: number
+    verifiedLevel: number
+    payload: number
+    customDefSpec: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type MarketplaceTemplateAvgAggregateInputType = {
+    downloads?: true
+    likes?: true
+    dislikes?: true
+  }
+
+  export type MarketplaceTemplateSumAggregateInputType = {
+    downloads?: true
+    likes?: true
+    dislikes?: true
+  }
+
+  export type MarketplaceTemplateMinAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    author?: true
+    gameSlug?: true
+    tags?: true
+    downloads?: true
+    likes?: true
+    dislikes?: true
+    verifiedLevel?: true
+    payload?: true
+    customDefSpec?: true
+    createdAt?: true
+  }
+
+  export type MarketplaceTemplateMaxAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    author?: true
+    gameSlug?: true
+    tags?: true
+    downloads?: true
+    likes?: true
+    dislikes?: true
+    verifiedLevel?: true
+    payload?: true
+    customDefSpec?: true
+    createdAt?: true
+  }
+
+  export type MarketplaceTemplateCountAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    author?: true
+    gameSlug?: true
+    tags?: true
+    downloads?: true
+    likes?: true
+    dislikes?: true
+    verifiedLevel?: true
+    payload?: true
+    customDefSpec?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type MarketplaceTemplateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MarketplaceTemplate to aggregate.
+     */
+    where?: MarketplaceTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketplaceTemplates to fetch.
+     */
+    orderBy?: MarketplaceTemplateOrderByWithRelationInput | MarketplaceTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MarketplaceTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketplaceTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketplaceTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MarketplaceTemplates
+    **/
+    _count?: true | MarketplaceTemplateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MarketplaceTemplateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MarketplaceTemplateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MarketplaceTemplateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MarketplaceTemplateMaxAggregateInputType
+  }
+
+  export type GetMarketplaceTemplateAggregateType<T extends MarketplaceTemplateAggregateArgs> = {
+        [P in keyof T & keyof AggregateMarketplaceTemplate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMarketplaceTemplate[P]>
+      : GetScalarType<T[P], AggregateMarketplaceTemplate[P]>
+  }
+
+
+
+
+  export type MarketplaceTemplateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MarketplaceTemplateWhereInput
+    orderBy?: MarketplaceTemplateOrderByWithAggregationInput | MarketplaceTemplateOrderByWithAggregationInput[]
+    by: MarketplaceTemplateScalarFieldEnum[] | MarketplaceTemplateScalarFieldEnum
+    having?: MarketplaceTemplateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MarketplaceTemplateCountAggregateInputType | true
+    _avg?: MarketplaceTemplateAvgAggregateInputType
+    _sum?: MarketplaceTemplateSumAggregateInputType
+    _min?: MarketplaceTemplateMinAggregateInputType
+    _max?: MarketplaceTemplateMaxAggregateInputType
+  }
+
+  export type MarketplaceTemplateGroupByOutputType = {
+    id: string
+    name: string
+    description: string
+    author: string
+    gameSlug: string
+    tags: string
+    downloads: number
+    likes: number
+    dislikes: number
+    verifiedLevel: string
+    payload: string
+    customDefSpec: string | null
+    createdAt: Date
+    _count: MarketplaceTemplateCountAggregateOutputType | null
+    _avg: MarketplaceTemplateAvgAggregateOutputType | null
+    _sum: MarketplaceTemplateSumAggregateOutputType | null
+    _min: MarketplaceTemplateMinAggregateOutputType | null
+    _max: MarketplaceTemplateMaxAggregateOutputType | null
+  }
+
+  type GetMarketplaceTemplateGroupByPayload<T extends MarketplaceTemplateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MarketplaceTemplateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MarketplaceTemplateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MarketplaceTemplateGroupByOutputType[P]>
+            : GetScalarType<T[P], MarketplaceTemplateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MarketplaceTemplateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    author?: boolean
+    gameSlug?: boolean
+    tags?: boolean
+    downloads?: boolean
+    likes?: boolean
+    dislikes?: boolean
+    verifiedLevel?: boolean
+    payload?: boolean
+    customDefSpec?: boolean
+    createdAt?: boolean
+    votes?: boolean | MarketplaceTemplate$votesArgs<ExtArgs>
+    _count?: boolean | MarketplaceTemplateCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["marketplaceTemplate"]>
+
+  export type MarketplaceTemplateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    author?: boolean
+    gameSlug?: boolean
+    tags?: boolean
+    downloads?: boolean
+    likes?: boolean
+    dislikes?: boolean
+    verifiedLevel?: boolean
+    payload?: boolean
+    customDefSpec?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["marketplaceTemplate"]>
+
+  export type MarketplaceTemplateSelectScalar = {
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    author?: boolean
+    gameSlug?: boolean
+    tags?: boolean
+    downloads?: boolean
+    likes?: boolean
+    dislikes?: boolean
+    verifiedLevel?: boolean
+    payload?: boolean
+    customDefSpec?: boolean
+    createdAt?: boolean
+  }
+
+  export type MarketplaceTemplateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    votes?: boolean | MarketplaceTemplate$votesArgs<ExtArgs>
+    _count?: boolean | MarketplaceTemplateCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type MarketplaceTemplateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $MarketplaceTemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MarketplaceTemplate"
+    objects: {
+      votes: Prisma.$TemplateVotePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      description: string
+      author: string
+      gameSlug: string
+      tags: string
+      downloads: number
+      likes: number
+      dislikes: number
+      verifiedLevel: string
+      payload: string
+      customDefSpec: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["marketplaceTemplate"]>
+    composites: {}
+  }
+
+  type MarketplaceTemplateGetPayload<S extends boolean | null | undefined | MarketplaceTemplateDefaultArgs> = $Result.GetResult<Prisma.$MarketplaceTemplatePayload, S>
+
+  type MarketplaceTemplateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<MarketplaceTemplateFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: MarketplaceTemplateCountAggregateInputType | true
+    }
+
+  export interface MarketplaceTemplateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MarketplaceTemplate'], meta: { name: 'MarketplaceTemplate' } }
+    /**
+     * Find zero or one MarketplaceTemplate that matches the filter.
+     * @param {MarketplaceTemplateFindUniqueArgs} args - Arguments to find a MarketplaceTemplate
+     * @example
+     * // Get one MarketplaceTemplate
+     * const marketplaceTemplate = await prisma.marketplaceTemplate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MarketplaceTemplateFindUniqueArgs>(args: SelectSubset<T, MarketplaceTemplateFindUniqueArgs<ExtArgs>>): Prisma__MarketplaceTemplateClient<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one MarketplaceTemplate that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {MarketplaceTemplateFindUniqueOrThrowArgs} args - Arguments to find a MarketplaceTemplate
+     * @example
+     * // Get one MarketplaceTemplate
+     * const marketplaceTemplate = await prisma.marketplaceTemplate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MarketplaceTemplateFindUniqueOrThrowArgs>(args: SelectSubset<T, MarketplaceTemplateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MarketplaceTemplateClient<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first MarketplaceTemplate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketplaceTemplateFindFirstArgs} args - Arguments to find a MarketplaceTemplate
+     * @example
+     * // Get one MarketplaceTemplate
+     * const marketplaceTemplate = await prisma.marketplaceTemplate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MarketplaceTemplateFindFirstArgs>(args?: SelectSubset<T, MarketplaceTemplateFindFirstArgs<ExtArgs>>): Prisma__MarketplaceTemplateClient<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first MarketplaceTemplate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketplaceTemplateFindFirstOrThrowArgs} args - Arguments to find a MarketplaceTemplate
+     * @example
+     * // Get one MarketplaceTemplate
+     * const marketplaceTemplate = await prisma.marketplaceTemplate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MarketplaceTemplateFindFirstOrThrowArgs>(args?: SelectSubset<T, MarketplaceTemplateFindFirstOrThrowArgs<ExtArgs>>): Prisma__MarketplaceTemplateClient<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more MarketplaceTemplates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketplaceTemplateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MarketplaceTemplates
+     * const marketplaceTemplates = await prisma.marketplaceTemplate.findMany()
+     * 
+     * // Get first 10 MarketplaceTemplates
+     * const marketplaceTemplates = await prisma.marketplaceTemplate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const marketplaceTemplateWithIdOnly = await prisma.marketplaceTemplate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MarketplaceTemplateFindManyArgs>(args?: SelectSubset<T, MarketplaceTemplateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a MarketplaceTemplate.
+     * @param {MarketplaceTemplateCreateArgs} args - Arguments to create a MarketplaceTemplate.
+     * @example
+     * // Create one MarketplaceTemplate
+     * const MarketplaceTemplate = await prisma.marketplaceTemplate.create({
+     *   data: {
+     *     // ... data to create a MarketplaceTemplate
+     *   }
+     * })
+     * 
+     */
+    create<T extends MarketplaceTemplateCreateArgs>(args: SelectSubset<T, MarketplaceTemplateCreateArgs<ExtArgs>>): Prisma__MarketplaceTemplateClient<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many MarketplaceTemplates.
+     * @param {MarketplaceTemplateCreateManyArgs} args - Arguments to create many MarketplaceTemplates.
+     * @example
+     * // Create many MarketplaceTemplates
+     * const marketplaceTemplate = await prisma.marketplaceTemplate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MarketplaceTemplateCreateManyArgs>(args?: SelectSubset<T, MarketplaceTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MarketplaceTemplates and returns the data saved in the database.
+     * @param {MarketplaceTemplateCreateManyAndReturnArgs} args - Arguments to create many MarketplaceTemplates.
+     * @example
+     * // Create many MarketplaceTemplates
+     * const marketplaceTemplate = await prisma.marketplaceTemplate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MarketplaceTemplates and only return the `id`
+     * const marketplaceTemplateWithIdOnly = await prisma.marketplaceTemplate.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MarketplaceTemplateCreateManyAndReturnArgs>(args?: SelectSubset<T, MarketplaceTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a MarketplaceTemplate.
+     * @param {MarketplaceTemplateDeleteArgs} args - Arguments to delete one MarketplaceTemplate.
+     * @example
+     * // Delete one MarketplaceTemplate
+     * const MarketplaceTemplate = await prisma.marketplaceTemplate.delete({
+     *   where: {
+     *     // ... filter to delete one MarketplaceTemplate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MarketplaceTemplateDeleteArgs>(args: SelectSubset<T, MarketplaceTemplateDeleteArgs<ExtArgs>>): Prisma__MarketplaceTemplateClient<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one MarketplaceTemplate.
+     * @param {MarketplaceTemplateUpdateArgs} args - Arguments to update one MarketplaceTemplate.
+     * @example
+     * // Update one MarketplaceTemplate
+     * const marketplaceTemplate = await prisma.marketplaceTemplate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MarketplaceTemplateUpdateArgs>(args: SelectSubset<T, MarketplaceTemplateUpdateArgs<ExtArgs>>): Prisma__MarketplaceTemplateClient<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more MarketplaceTemplates.
+     * @param {MarketplaceTemplateDeleteManyArgs} args - Arguments to filter MarketplaceTemplates to delete.
+     * @example
+     * // Delete a few MarketplaceTemplates
+     * const { count } = await prisma.marketplaceTemplate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MarketplaceTemplateDeleteManyArgs>(args?: SelectSubset<T, MarketplaceTemplateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MarketplaceTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketplaceTemplateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MarketplaceTemplates
+     * const marketplaceTemplate = await prisma.marketplaceTemplate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MarketplaceTemplateUpdateManyArgs>(args: SelectSubset<T, MarketplaceTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MarketplaceTemplate.
+     * @param {MarketplaceTemplateUpsertArgs} args - Arguments to update or create a MarketplaceTemplate.
+     * @example
+     * // Update or create a MarketplaceTemplate
+     * const marketplaceTemplate = await prisma.marketplaceTemplate.upsert({
+     *   create: {
+     *     // ... data to create a MarketplaceTemplate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MarketplaceTemplate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MarketplaceTemplateUpsertArgs>(args: SelectSubset<T, MarketplaceTemplateUpsertArgs<ExtArgs>>): Prisma__MarketplaceTemplateClient<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of MarketplaceTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketplaceTemplateCountArgs} args - Arguments to filter MarketplaceTemplates to count.
+     * @example
+     * // Count the number of MarketplaceTemplates
+     * const count = await prisma.marketplaceTemplate.count({
+     *   where: {
+     *     // ... the filter for the MarketplaceTemplates we want to count
+     *   }
+     * })
+    **/
+    count<T extends MarketplaceTemplateCountArgs>(
+      args?: Subset<T, MarketplaceTemplateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MarketplaceTemplateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MarketplaceTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketplaceTemplateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MarketplaceTemplateAggregateArgs>(args: Subset<T, MarketplaceTemplateAggregateArgs>): Prisma.PrismaPromise<GetMarketplaceTemplateAggregateType<T>>
+
+    /**
+     * Group by MarketplaceTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MarketplaceTemplateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MarketplaceTemplateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MarketplaceTemplateGroupByArgs['orderBy'] }
+        : { orderBy?: MarketplaceTemplateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MarketplaceTemplateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMarketplaceTemplateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MarketplaceTemplate model
+   */
+  readonly fields: MarketplaceTemplateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MarketplaceTemplate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MarketplaceTemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    votes<T extends MarketplaceTemplate$votesArgs<ExtArgs> = {}>(args?: Subset<T, MarketplaceTemplate$votesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MarketplaceTemplate model
+   */ 
+  interface MarketplaceTemplateFieldRefs {
+    readonly id: FieldRef<"MarketplaceTemplate", 'String'>
+    readonly name: FieldRef<"MarketplaceTemplate", 'String'>
+    readonly description: FieldRef<"MarketplaceTemplate", 'String'>
+    readonly author: FieldRef<"MarketplaceTemplate", 'String'>
+    readonly gameSlug: FieldRef<"MarketplaceTemplate", 'String'>
+    readonly tags: FieldRef<"MarketplaceTemplate", 'String'>
+    readonly downloads: FieldRef<"MarketplaceTemplate", 'Int'>
+    readonly likes: FieldRef<"MarketplaceTemplate", 'Int'>
+    readonly dislikes: FieldRef<"MarketplaceTemplate", 'Int'>
+    readonly verifiedLevel: FieldRef<"MarketplaceTemplate", 'String'>
+    readonly payload: FieldRef<"MarketplaceTemplate", 'String'>
+    readonly customDefSpec: FieldRef<"MarketplaceTemplate", 'String'>
+    readonly createdAt: FieldRef<"MarketplaceTemplate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MarketplaceTemplate findUnique
+   */
+  export type MarketplaceTemplateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketplaceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketplaceTemplate to fetch.
+     */
+    where: MarketplaceTemplateWhereUniqueInput
+  }
+
+  /**
+   * MarketplaceTemplate findUniqueOrThrow
+   */
+  export type MarketplaceTemplateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketplaceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketplaceTemplate to fetch.
+     */
+    where: MarketplaceTemplateWhereUniqueInput
+  }
+
+  /**
+   * MarketplaceTemplate findFirst
+   */
+  export type MarketplaceTemplateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketplaceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketplaceTemplate to fetch.
+     */
+    where?: MarketplaceTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketplaceTemplates to fetch.
+     */
+    orderBy?: MarketplaceTemplateOrderByWithRelationInput | MarketplaceTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MarketplaceTemplates.
+     */
+    cursor?: MarketplaceTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketplaceTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketplaceTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MarketplaceTemplates.
+     */
+    distinct?: MarketplaceTemplateScalarFieldEnum | MarketplaceTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * MarketplaceTemplate findFirstOrThrow
+   */
+  export type MarketplaceTemplateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketplaceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketplaceTemplate to fetch.
+     */
+    where?: MarketplaceTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketplaceTemplates to fetch.
+     */
+    orderBy?: MarketplaceTemplateOrderByWithRelationInput | MarketplaceTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MarketplaceTemplates.
+     */
+    cursor?: MarketplaceTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketplaceTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketplaceTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MarketplaceTemplates.
+     */
+    distinct?: MarketplaceTemplateScalarFieldEnum | MarketplaceTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * MarketplaceTemplate findMany
+   */
+  export type MarketplaceTemplateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketplaceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which MarketplaceTemplates to fetch.
+     */
+    where?: MarketplaceTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MarketplaceTemplates to fetch.
+     */
+    orderBy?: MarketplaceTemplateOrderByWithRelationInput | MarketplaceTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MarketplaceTemplates.
+     */
+    cursor?: MarketplaceTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MarketplaceTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MarketplaceTemplates.
+     */
+    skip?: number
+    distinct?: MarketplaceTemplateScalarFieldEnum | MarketplaceTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * MarketplaceTemplate create
+   */
+  export type MarketplaceTemplateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketplaceTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MarketplaceTemplate.
+     */
+    data: XOR<MarketplaceTemplateCreateInput, MarketplaceTemplateUncheckedCreateInput>
+  }
+
+  /**
+   * MarketplaceTemplate createMany
+   */
+  export type MarketplaceTemplateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MarketplaceTemplates.
+     */
+    data: MarketplaceTemplateCreateManyInput | MarketplaceTemplateCreateManyInput[]
+  }
+
+  /**
+   * MarketplaceTemplate createManyAndReturn
+   */
+  export type MarketplaceTemplateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many MarketplaceTemplates.
+     */
+    data: MarketplaceTemplateCreateManyInput | MarketplaceTemplateCreateManyInput[]
+  }
+
+  /**
+   * MarketplaceTemplate update
+   */
+  export type MarketplaceTemplateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketplaceTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MarketplaceTemplate.
+     */
+    data: XOR<MarketplaceTemplateUpdateInput, MarketplaceTemplateUncheckedUpdateInput>
+    /**
+     * Choose, which MarketplaceTemplate to update.
+     */
+    where: MarketplaceTemplateWhereUniqueInput
+  }
+
+  /**
+   * MarketplaceTemplate updateMany
+   */
+  export type MarketplaceTemplateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MarketplaceTemplates.
+     */
+    data: XOR<MarketplaceTemplateUpdateManyMutationInput, MarketplaceTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which MarketplaceTemplates to update
+     */
+    where?: MarketplaceTemplateWhereInput
+  }
+
+  /**
+   * MarketplaceTemplate upsert
+   */
+  export type MarketplaceTemplateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketplaceTemplateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MarketplaceTemplate to update in case it exists.
+     */
+    where: MarketplaceTemplateWhereUniqueInput
+    /**
+     * In case the MarketplaceTemplate found by the `where` argument doesn't exist, create a new MarketplaceTemplate with this data.
+     */
+    create: XOR<MarketplaceTemplateCreateInput, MarketplaceTemplateUncheckedCreateInput>
+    /**
+     * In case the MarketplaceTemplate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MarketplaceTemplateUpdateInput, MarketplaceTemplateUncheckedUpdateInput>
+  }
+
+  /**
+   * MarketplaceTemplate delete
+   */
+  export type MarketplaceTemplateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketplaceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter which MarketplaceTemplate to delete.
+     */
+    where: MarketplaceTemplateWhereUniqueInput
+  }
+
+  /**
+   * MarketplaceTemplate deleteMany
+   */
+  export type MarketplaceTemplateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MarketplaceTemplates to delete
+     */
+    where?: MarketplaceTemplateWhereInput
+  }
+
+  /**
+   * MarketplaceTemplate.votes
+   */
+  export type MarketplaceTemplate$votesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    where?: TemplateVoteWhereInput
+    orderBy?: TemplateVoteOrderByWithRelationInput | TemplateVoteOrderByWithRelationInput[]
+    cursor?: TemplateVoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TemplateVoteScalarFieldEnum | TemplateVoteScalarFieldEnum[]
+  }
+
+  /**
+   * MarketplaceTemplate without action
+   */
+  export type MarketplaceTemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MarketplaceTemplate
+     */
+    select?: MarketplaceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MarketplaceTemplateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TemplateVote
+   */
+
+  export type AggregateTemplateVote = {
+    _count: TemplateVoteCountAggregateOutputType | null
+    _min: TemplateVoteMinAggregateOutputType | null
+    _max: TemplateVoteMaxAggregateOutputType | null
+  }
+
+  export type TemplateVoteMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    templateId: string | null
+    type: string | null
+    createdAt: Date | null
+  }
+
+  export type TemplateVoteMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    templateId: string | null
+    type: string | null
+    createdAt: Date | null
+  }
+
+  export type TemplateVoteCountAggregateOutputType = {
+    id: number
+    userId: number
+    templateId: number
+    type: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TemplateVoteMinAggregateInputType = {
+    id?: true
+    userId?: true
+    templateId?: true
+    type?: true
+    createdAt?: true
+  }
+
+  export type TemplateVoteMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    templateId?: true
+    type?: true
+    createdAt?: true
+  }
+
+  export type TemplateVoteCountAggregateInputType = {
+    id?: true
+    userId?: true
+    templateId?: true
+    type?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TemplateVoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TemplateVote to aggregate.
+     */
+    where?: TemplateVoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemplateVotes to fetch.
+     */
+    orderBy?: TemplateVoteOrderByWithRelationInput | TemplateVoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TemplateVoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemplateVotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemplateVotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TemplateVotes
+    **/
+    _count?: true | TemplateVoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TemplateVoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TemplateVoteMaxAggregateInputType
+  }
+
+  export type GetTemplateVoteAggregateType<T extends TemplateVoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateTemplateVote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTemplateVote[P]>
+      : GetScalarType<T[P], AggregateTemplateVote[P]>
+  }
+
+
+
+
+  export type TemplateVoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemplateVoteWhereInput
+    orderBy?: TemplateVoteOrderByWithAggregationInput | TemplateVoteOrderByWithAggregationInput[]
+    by: TemplateVoteScalarFieldEnum[] | TemplateVoteScalarFieldEnum
+    having?: TemplateVoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TemplateVoteCountAggregateInputType | true
+    _min?: TemplateVoteMinAggregateInputType
+    _max?: TemplateVoteMaxAggregateInputType
+  }
+
+  export type TemplateVoteGroupByOutputType = {
+    id: string
+    userId: string
+    templateId: string
+    type: string
+    createdAt: Date
+    _count: TemplateVoteCountAggregateOutputType | null
+    _min: TemplateVoteMinAggregateOutputType | null
+    _max: TemplateVoteMaxAggregateOutputType | null
+  }
+
+  type GetTemplateVoteGroupByPayload<T extends TemplateVoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TemplateVoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TemplateVoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TemplateVoteGroupByOutputType[P]>
+            : GetScalarType<T[P], TemplateVoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TemplateVoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    templateId?: boolean
+    type?: boolean
+    createdAt?: boolean
+    template?: boolean | MarketplaceTemplateDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["templateVote"]>
+
+  export type TemplateVoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    templateId?: boolean
+    type?: boolean
+    createdAt?: boolean
+    template?: boolean | MarketplaceTemplateDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["templateVote"]>
+
+  export type TemplateVoteSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    templateId?: boolean
+    type?: boolean
+    createdAt?: boolean
+  }
+
+  export type TemplateVoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    template?: boolean | MarketplaceTemplateDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TemplateVoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    template?: boolean | MarketplaceTemplateDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TemplateVotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TemplateVote"
+    objects: {
+      template: Prisma.$MarketplaceTemplatePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      templateId: string
+      type: string
+      createdAt: Date
+    }, ExtArgs["result"]["templateVote"]>
+    composites: {}
+  }
+
+  type TemplateVoteGetPayload<S extends boolean | null | undefined | TemplateVoteDefaultArgs> = $Result.GetResult<Prisma.$TemplateVotePayload, S>
+
+  type TemplateVoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<TemplateVoteFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: TemplateVoteCountAggregateInputType | true
+    }
+
+  export interface TemplateVoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TemplateVote'], meta: { name: 'TemplateVote' } }
+    /**
+     * Find zero or one TemplateVote that matches the filter.
+     * @param {TemplateVoteFindUniqueArgs} args - Arguments to find a TemplateVote
+     * @example
+     * // Get one TemplateVote
+     * const templateVote = await prisma.templateVote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TemplateVoteFindUniqueArgs>(args: SelectSubset<T, TemplateVoteFindUniqueArgs<ExtArgs>>): Prisma__TemplateVoteClient<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one TemplateVote that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {TemplateVoteFindUniqueOrThrowArgs} args - Arguments to find a TemplateVote
+     * @example
+     * // Get one TemplateVote
+     * const templateVote = await prisma.templateVote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TemplateVoteFindUniqueOrThrowArgs>(args: SelectSubset<T, TemplateVoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TemplateVoteClient<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first TemplateVote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemplateVoteFindFirstArgs} args - Arguments to find a TemplateVote
+     * @example
+     * // Get one TemplateVote
+     * const templateVote = await prisma.templateVote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TemplateVoteFindFirstArgs>(args?: SelectSubset<T, TemplateVoteFindFirstArgs<ExtArgs>>): Prisma__TemplateVoteClient<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first TemplateVote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemplateVoteFindFirstOrThrowArgs} args - Arguments to find a TemplateVote
+     * @example
+     * // Get one TemplateVote
+     * const templateVote = await prisma.templateVote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TemplateVoteFindFirstOrThrowArgs>(args?: SelectSubset<T, TemplateVoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__TemplateVoteClient<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more TemplateVotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemplateVoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TemplateVotes
+     * const templateVotes = await prisma.templateVote.findMany()
+     * 
+     * // Get first 10 TemplateVotes
+     * const templateVotes = await prisma.templateVote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const templateVoteWithIdOnly = await prisma.templateVote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TemplateVoteFindManyArgs>(args?: SelectSubset<T, TemplateVoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a TemplateVote.
+     * @param {TemplateVoteCreateArgs} args - Arguments to create a TemplateVote.
+     * @example
+     * // Create one TemplateVote
+     * const TemplateVote = await prisma.templateVote.create({
+     *   data: {
+     *     // ... data to create a TemplateVote
+     *   }
+     * })
+     * 
+     */
+    create<T extends TemplateVoteCreateArgs>(args: SelectSubset<T, TemplateVoteCreateArgs<ExtArgs>>): Prisma__TemplateVoteClient<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many TemplateVotes.
+     * @param {TemplateVoteCreateManyArgs} args - Arguments to create many TemplateVotes.
+     * @example
+     * // Create many TemplateVotes
+     * const templateVote = await prisma.templateVote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TemplateVoteCreateManyArgs>(args?: SelectSubset<T, TemplateVoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TemplateVotes and returns the data saved in the database.
+     * @param {TemplateVoteCreateManyAndReturnArgs} args - Arguments to create many TemplateVotes.
+     * @example
+     * // Create many TemplateVotes
+     * const templateVote = await prisma.templateVote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TemplateVotes and only return the `id`
+     * const templateVoteWithIdOnly = await prisma.templateVote.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TemplateVoteCreateManyAndReturnArgs>(args?: SelectSubset<T, TemplateVoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a TemplateVote.
+     * @param {TemplateVoteDeleteArgs} args - Arguments to delete one TemplateVote.
+     * @example
+     * // Delete one TemplateVote
+     * const TemplateVote = await prisma.templateVote.delete({
+     *   where: {
+     *     // ... filter to delete one TemplateVote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TemplateVoteDeleteArgs>(args: SelectSubset<T, TemplateVoteDeleteArgs<ExtArgs>>): Prisma__TemplateVoteClient<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one TemplateVote.
+     * @param {TemplateVoteUpdateArgs} args - Arguments to update one TemplateVote.
+     * @example
+     * // Update one TemplateVote
+     * const templateVote = await prisma.templateVote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TemplateVoteUpdateArgs>(args: SelectSubset<T, TemplateVoteUpdateArgs<ExtArgs>>): Prisma__TemplateVoteClient<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more TemplateVotes.
+     * @param {TemplateVoteDeleteManyArgs} args - Arguments to filter TemplateVotes to delete.
+     * @example
+     * // Delete a few TemplateVotes
+     * const { count } = await prisma.templateVote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TemplateVoteDeleteManyArgs>(args?: SelectSubset<T, TemplateVoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TemplateVotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemplateVoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TemplateVotes
+     * const templateVote = await prisma.templateVote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TemplateVoteUpdateManyArgs>(args: SelectSubset<T, TemplateVoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TemplateVote.
+     * @param {TemplateVoteUpsertArgs} args - Arguments to update or create a TemplateVote.
+     * @example
+     * // Update or create a TemplateVote
+     * const templateVote = await prisma.templateVote.upsert({
+     *   create: {
+     *     // ... data to create a TemplateVote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TemplateVote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TemplateVoteUpsertArgs>(args: SelectSubset<T, TemplateVoteUpsertArgs<ExtArgs>>): Prisma__TemplateVoteClient<$Result.GetResult<Prisma.$TemplateVotePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of TemplateVotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemplateVoteCountArgs} args - Arguments to filter TemplateVotes to count.
+     * @example
+     * // Count the number of TemplateVotes
+     * const count = await prisma.templateVote.count({
+     *   where: {
+     *     // ... the filter for the TemplateVotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends TemplateVoteCountArgs>(
+      args?: Subset<T, TemplateVoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TemplateVoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TemplateVote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemplateVoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TemplateVoteAggregateArgs>(args: Subset<T, TemplateVoteAggregateArgs>): Prisma.PrismaPromise<GetTemplateVoteAggregateType<T>>
+
+    /**
+     * Group by TemplateVote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemplateVoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TemplateVoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TemplateVoteGroupByArgs['orderBy'] }
+        : { orderBy?: TemplateVoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TemplateVoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTemplateVoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TemplateVote model
+   */
+  readonly fields: TemplateVoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TemplateVote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TemplateVoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    template<T extends MarketplaceTemplateDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MarketplaceTemplateDefaultArgs<ExtArgs>>): Prisma__MarketplaceTemplateClient<$Result.GetResult<Prisma.$MarketplaceTemplatePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TemplateVote model
+   */ 
+  interface TemplateVoteFieldRefs {
+    readonly id: FieldRef<"TemplateVote", 'String'>
+    readonly userId: FieldRef<"TemplateVote", 'String'>
+    readonly templateId: FieldRef<"TemplateVote", 'String'>
+    readonly type: FieldRef<"TemplateVote", 'String'>
+    readonly createdAt: FieldRef<"TemplateVote", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TemplateVote findUnique
+   */
+  export type TemplateVoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    /**
+     * Filter, which TemplateVote to fetch.
+     */
+    where: TemplateVoteWhereUniqueInput
+  }
+
+  /**
+   * TemplateVote findUniqueOrThrow
+   */
+  export type TemplateVoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    /**
+     * Filter, which TemplateVote to fetch.
+     */
+    where: TemplateVoteWhereUniqueInput
+  }
+
+  /**
+   * TemplateVote findFirst
+   */
+  export type TemplateVoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    /**
+     * Filter, which TemplateVote to fetch.
+     */
+    where?: TemplateVoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemplateVotes to fetch.
+     */
+    orderBy?: TemplateVoteOrderByWithRelationInput | TemplateVoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TemplateVotes.
+     */
+    cursor?: TemplateVoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemplateVotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemplateVotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TemplateVotes.
+     */
+    distinct?: TemplateVoteScalarFieldEnum | TemplateVoteScalarFieldEnum[]
+  }
+
+  /**
+   * TemplateVote findFirstOrThrow
+   */
+  export type TemplateVoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    /**
+     * Filter, which TemplateVote to fetch.
+     */
+    where?: TemplateVoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemplateVotes to fetch.
+     */
+    orderBy?: TemplateVoteOrderByWithRelationInput | TemplateVoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TemplateVotes.
+     */
+    cursor?: TemplateVoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemplateVotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemplateVotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TemplateVotes.
+     */
+    distinct?: TemplateVoteScalarFieldEnum | TemplateVoteScalarFieldEnum[]
+  }
+
+  /**
+   * TemplateVote findMany
+   */
+  export type TemplateVoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    /**
+     * Filter, which TemplateVotes to fetch.
+     */
+    where?: TemplateVoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemplateVotes to fetch.
+     */
+    orderBy?: TemplateVoteOrderByWithRelationInput | TemplateVoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TemplateVotes.
+     */
+    cursor?: TemplateVoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemplateVotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemplateVotes.
+     */
+    skip?: number
+    distinct?: TemplateVoteScalarFieldEnum | TemplateVoteScalarFieldEnum[]
+  }
+
+  /**
+   * TemplateVote create
+   */
+  export type TemplateVoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TemplateVote.
+     */
+    data: XOR<TemplateVoteCreateInput, TemplateVoteUncheckedCreateInput>
+  }
+
+  /**
+   * TemplateVote createMany
+   */
+  export type TemplateVoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TemplateVotes.
+     */
+    data: TemplateVoteCreateManyInput | TemplateVoteCreateManyInput[]
+  }
+
+  /**
+   * TemplateVote createManyAndReturn
+   */
+  export type TemplateVoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many TemplateVotes.
+     */
+    data: TemplateVoteCreateManyInput | TemplateVoteCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TemplateVote update
+   */
+  export type TemplateVoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TemplateVote.
+     */
+    data: XOR<TemplateVoteUpdateInput, TemplateVoteUncheckedUpdateInput>
+    /**
+     * Choose, which TemplateVote to update.
+     */
+    where: TemplateVoteWhereUniqueInput
+  }
+
+  /**
+   * TemplateVote updateMany
+   */
+  export type TemplateVoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TemplateVotes.
+     */
+    data: XOR<TemplateVoteUpdateManyMutationInput, TemplateVoteUncheckedUpdateManyInput>
+    /**
+     * Filter which TemplateVotes to update
+     */
+    where?: TemplateVoteWhereInput
+  }
+
+  /**
+   * TemplateVote upsert
+   */
+  export type TemplateVoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TemplateVote to update in case it exists.
+     */
+    where: TemplateVoteWhereUniqueInput
+    /**
+     * In case the TemplateVote found by the `where` argument doesn't exist, create a new TemplateVote with this data.
+     */
+    create: XOR<TemplateVoteCreateInput, TemplateVoteUncheckedCreateInput>
+    /**
+     * In case the TemplateVote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TemplateVoteUpdateInput, TemplateVoteUncheckedUpdateInput>
+  }
+
+  /**
+   * TemplateVote delete
+   */
+  export type TemplateVoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+    /**
+     * Filter which TemplateVote to delete.
+     */
+    where: TemplateVoteWhereUniqueInput
+  }
+
+  /**
+   * TemplateVote deleteMany
+   */
+  export type TemplateVoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TemplateVotes to delete
+     */
+    where?: TemplateVoteWhereInput
+  }
+
+  /**
+   * TemplateVote without action
+   */
+  export type TemplateVoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemplateVote
+     */
+    select?: TemplateVoteSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemplateVoteInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13472,6 +15729,36 @@ export namespace Prisma {
   export type ScheduledTaskScalarFieldEnum = (typeof ScheduledTaskScalarFieldEnum)[keyof typeof ScheduledTaskScalarFieldEnum]
 
 
+  export const MarketplaceTemplateScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    author: 'author',
+    gameSlug: 'gameSlug',
+    tags: 'tags',
+    downloads: 'downloads',
+    likes: 'likes',
+    dislikes: 'dislikes',
+    verifiedLevel: 'verifiedLevel',
+    payload: 'payload',
+    customDefSpec: 'customDefSpec',
+    createdAt: 'createdAt'
+  };
+
+  export type MarketplaceTemplateScalarFieldEnum = (typeof MarketplaceTemplateScalarFieldEnum)[keyof typeof MarketplaceTemplateScalarFieldEnum]
+
+
+  export const TemplateVoteScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    templateId: 'templateId',
+    type: 'type',
+    createdAt: 'createdAt'
+  };
+
+  export type TemplateVoteScalarFieldEnum = (typeof TemplateVoteScalarFieldEnum)[keyof typeof TemplateVoteScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -13548,6 +15835,7 @@ export namespace Prisma {
     archives?: ArchiveListRelationFilter
     logs?: ActivityLogListRelationFilter
     collaboratorAccess?: CollaboratorListRelationFilter
+    templateVotes?: TemplateVoteListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13564,6 +15852,7 @@ export namespace Prisma {
     archives?: ArchiveOrderByRelationAggregateInput
     logs?: ActivityLogOrderByRelationAggregateInput
     collaboratorAccess?: CollaboratorOrderByRelationAggregateInput
+    templateVotes?: TemplateVoteOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13583,6 +15872,7 @@ export namespace Prisma {
     archives?: ArchiveListRelationFilter
     logs?: ActivityLogListRelationFilter
     collaboratorAccess?: CollaboratorListRelationFilter
+    templateVotes?: TemplateVoteListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -14442,6 +16732,162 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ScheduledTask"> | Date | string
   }
 
+  export type MarketplaceTemplateWhereInput = {
+    AND?: MarketplaceTemplateWhereInput | MarketplaceTemplateWhereInput[]
+    OR?: MarketplaceTemplateWhereInput[]
+    NOT?: MarketplaceTemplateWhereInput | MarketplaceTemplateWhereInput[]
+    id?: StringFilter<"MarketplaceTemplate"> | string
+    name?: StringFilter<"MarketplaceTemplate"> | string
+    description?: StringFilter<"MarketplaceTemplate"> | string
+    author?: StringFilter<"MarketplaceTemplate"> | string
+    gameSlug?: StringFilter<"MarketplaceTemplate"> | string
+    tags?: StringFilter<"MarketplaceTemplate"> | string
+    downloads?: IntFilter<"MarketplaceTemplate"> | number
+    likes?: IntFilter<"MarketplaceTemplate"> | number
+    dislikes?: IntFilter<"MarketplaceTemplate"> | number
+    verifiedLevel?: StringFilter<"MarketplaceTemplate"> | string
+    payload?: StringFilter<"MarketplaceTemplate"> | string
+    customDefSpec?: StringNullableFilter<"MarketplaceTemplate"> | string | null
+    createdAt?: DateTimeFilter<"MarketplaceTemplate"> | Date | string
+    votes?: TemplateVoteListRelationFilter
+  }
+
+  export type MarketplaceTemplateOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    author?: SortOrder
+    gameSlug?: SortOrder
+    tags?: SortOrder
+    downloads?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
+    verifiedLevel?: SortOrder
+    payload?: SortOrder
+    customDefSpec?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    votes?: TemplateVoteOrderByRelationAggregateInput
+  }
+
+  export type MarketplaceTemplateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MarketplaceTemplateWhereInput | MarketplaceTemplateWhereInput[]
+    OR?: MarketplaceTemplateWhereInput[]
+    NOT?: MarketplaceTemplateWhereInput | MarketplaceTemplateWhereInput[]
+    name?: StringFilter<"MarketplaceTemplate"> | string
+    description?: StringFilter<"MarketplaceTemplate"> | string
+    author?: StringFilter<"MarketplaceTemplate"> | string
+    gameSlug?: StringFilter<"MarketplaceTemplate"> | string
+    tags?: StringFilter<"MarketplaceTemplate"> | string
+    downloads?: IntFilter<"MarketplaceTemplate"> | number
+    likes?: IntFilter<"MarketplaceTemplate"> | number
+    dislikes?: IntFilter<"MarketplaceTemplate"> | number
+    verifiedLevel?: StringFilter<"MarketplaceTemplate"> | string
+    payload?: StringFilter<"MarketplaceTemplate"> | string
+    customDefSpec?: StringNullableFilter<"MarketplaceTemplate"> | string | null
+    createdAt?: DateTimeFilter<"MarketplaceTemplate"> | Date | string
+    votes?: TemplateVoteListRelationFilter
+  }, "id">
+
+  export type MarketplaceTemplateOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    author?: SortOrder
+    gameSlug?: SortOrder
+    tags?: SortOrder
+    downloads?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
+    verifiedLevel?: SortOrder
+    payload?: SortOrder
+    customDefSpec?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: MarketplaceTemplateCountOrderByAggregateInput
+    _avg?: MarketplaceTemplateAvgOrderByAggregateInput
+    _max?: MarketplaceTemplateMaxOrderByAggregateInput
+    _min?: MarketplaceTemplateMinOrderByAggregateInput
+    _sum?: MarketplaceTemplateSumOrderByAggregateInput
+  }
+
+  export type MarketplaceTemplateScalarWhereWithAggregatesInput = {
+    AND?: MarketplaceTemplateScalarWhereWithAggregatesInput | MarketplaceTemplateScalarWhereWithAggregatesInput[]
+    OR?: MarketplaceTemplateScalarWhereWithAggregatesInput[]
+    NOT?: MarketplaceTemplateScalarWhereWithAggregatesInput | MarketplaceTemplateScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MarketplaceTemplate"> | string
+    name?: StringWithAggregatesFilter<"MarketplaceTemplate"> | string
+    description?: StringWithAggregatesFilter<"MarketplaceTemplate"> | string
+    author?: StringWithAggregatesFilter<"MarketplaceTemplate"> | string
+    gameSlug?: StringWithAggregatesFilter<"MarketplaceTemplate"> | string
+    tags?: StringWithAggregatesFilter<"MarketplaceTemplate"> | string
+    downloads?: IntWithAggregatesFilter<"MarketplaceTemplate"> | number
+    likes?: IntWithAggregatesFilter<"MarketplaceTemplate"> | number
+    dislikes?: IntWithAggregatesFilter<"MarketplaceTemplate"> | number
+    verifiedLevel?: StringWithAggregatesFilter<"MarketplaceTemplate"> | string
+    payload?: StringWithAggregatesFilter<"MarketplaceTemplate"> | string
+    customDefSpec?: StringNullableWithAggregatesFilter<"MarketplaceTemplate"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"MarketplaceTemplate"> | Date | string
+  }
+
+  export type TemplateVoteWhereInput = {
+    AND?: TemplateVoteWhereInput | TemplateVoteWhereInput[]
+    OR?: TemplateVoteWhereInput[]
+    NOT?: TemplateVoteWhereInput | TemplateVoteWhereInput[]
+    id?: StringFilter<"TemplateVote"> | string
+    userId?: StringFilter<"TemplateVote"> | string
+    templateId?: StringFilter<"TemplateVote"> | string
+    type?: StringFilter<"TemplateVote"> | string
+    createdAt?: DateTimeFilter<"TemplateVote"> | Date | string
+    template?: XOR<MarketplaceTemplateRelationFilter, MarketplaceTemplateWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type TemplateVoteOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    templateId?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    template?: MarketplaceTemplateOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type TemplateVoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_templateId?: TemplateVoteUserIdTemplateIdCompoundUniqueInput
+    AND?: TemplateVoteWhereInput | TemplateVoteWhereInput[]
+    OR?: TemplateVoteWhereInput[]
+    NOT?: TemplateVoteWhereInput | TemplateVoteWhereInput[]
+    userId?: StringFilter<"TemplateVote"> | string
+    templateId?: StringFilter<"TemplateVote"> | string
+    type?: StringFilter<"TemplateVote"> | string
+    createdAt?: DateTimeFilter<"TemplateVote"> | Date | string
+    template?: XOR<MarketplaceTemplateRelationFilter, MarketplaceTemplateWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "userId_templateId">
+
+  export type TemplateVoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    templateId?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    _count?: TemplateVoteCountOrderByAggregateInput
+    _max?: TemplateVoteMaxOrderByAggregateInput
+    _min?: TemplateVoteMinOrderByAggregateInput
+  }
+
+  export type TemplateVoteScalarWhereWithAggregatesInput = {
+    AND?: TemplateVoteScalarWhereWithAggregatesInput | TemplateVoteScalarWhereWithAggregatesInput[]
+    OR?: TemplateVoteScalarWhereWithAggregatesInput[]
+    NOT?: TemplateVoteScalarWhereWithAggregatesInput | TemplateVoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TemplateVote"> | string
+    userId?: StringWithAggregatesFilter<"TemplateVote"> | string
+    templateId?: StringWithAggregatesFilter<"TemplateVote"> | string
+    type?: StringWithAggregatesFilter<"TemplateVote"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"TemplateVote"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -14456,6 +16902,7 @@ export namespace Prisma {
     archives?: ArchiveCreateNestedManyWithoutUserInput
     logs?: ActivityLogCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14472,6 +16919,7 @@ export namespace Prisma {
     archives?: ArchiveUncheckedCreateNestedManyWithoutUserInput
     logs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorUncheckedCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -14488,6 +16936,7 @@ export namespace Prisma {
     archives?: ArchiveUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14504,6 +16953,7 @@ export namespace Prisma {
     archives?: ArchiveUncheckedUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUncheckedUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -15444,6 +17894,176 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MarketplaceTemplateCreateInput = {
+    id?: string
+    name: string
+    description: string
+    author: string
+    gameSlug: string
+    tags: string
+    downloads?: number
+    likes?: number
+    dislikes?: number
+    verifiedLevel?: string
+    payload: string
+    customDefSpec?: string | null
+    createdAt?: Date | string
+    votes?: TemplateVoteCreateNestedManyWithoutTemplateInput
+  }
+
+  export type MarketplaceTemplateUncheckedCreateInput = {
+    id?: string
+    name: string
+    description: string
+    author: string
+    gameSlug: string
+    tags: string
+    downloads?: number
+    likes?: number
+    dislikes?: number
+    verifiedLevel?: string
+    payload: string
+    customDefSpec?: string | null
+    createdAt?: Date | string
+    votes?: TemplateVoteUncheckedCreateNestedManyWithoutTemplateInput
+  }
+
+  export type MarketplaceTemplateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    author?: StringFieldUpdateOperationsInput | string
+    gameSlug?: StringFieldUpdateOperationsInput | string
+    tags?: StringFieldUpdateOperationsInput | string
+    downloads?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    verifiedLevel?: StringFieldUpdateOperationsInput | string
+    payload?: StringFieldUpdateOperationsInput | string
+    customDefSpec?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    votes?: TemplateVoteUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type MarketplaceTemplateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    author?: StringFieldUpdateOperationsInput | string
+    gameSlug?: StringFieldUpdateOperationsInput | string
+    tags?: StringFieldUpdateOperationsInput | string
+    downloads?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    verifiedLevel?: StringFieldUpdateOperationsInput | string
+    payload?: StringFieldUpdateOperationsInput | string
+    customDefSpec?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    votes?: TemplateVoteUncheckedUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type MarketplaceTemplateCreateManyInput = {
+    id?: string
+    name: string
+    description: string
+    author: string
+    gameSlug: string
+    tags: string
+    downloads?: number
+    likes?: number
+    dislikes?: number
+    verifiedLevel?: string
+    payload: string
+    customDefSpec?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MarketplaceTemplateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    author?: StringFieldUpdateOperationsInput | string
+    gameSlug?: StringFieldUpdateOperationsInput | string
+    tags?: StringFieldUpdateOperationsInput | string
+    downloads?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    verifiedLevel?: StringFieldUpdateOperationsInput | string
+    payload?: StringFieldUpdateOperationsInput | string
+    customDefSpec?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MarketplaceTemplateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    author?: StringFieldUpdateOperationsInput | string
+    gameSlug?: StringFieldUpdateOperationsInput | string
+    tags?: StringFieldUpdateOperationsInput | string
+    downloads?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    verifiedLevel?: StringFieldUpdateOperationsInput | string
+    payload?: StringFieldUpdateOperationsInput | string
+    customDefSpec?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemplateVoteCreateInput = {
+    id?: string
+    type: string
+    createdAt?: Date | string
+    template: MarketplaceTemplateCreateNestedOneWithoutVotesInput
+    user: UserCreateNestedOneWithoutTemplateVotesInput
+  }
+
+  export type TemplateVoteUncheckedCreateInput = {
+    id?: string
+    userId: string
+    templateId: string
+    type: string
+    createdAt?: Date | string
+  }
+
+  export type TemplateVoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    template?: MarketplaceTemplateUpdateOneRequiredWithoutVotesNestedInput
+    user?: UserUpdateOneRequiredWithoutTemplateVotesNestedInput
+  }
+
+  export type TemplateVoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemplateVoteCreateManyInput = {
+    id?: string
+    userId: string
+    templateId: string
+    type: string
+    createdAt?: Date | string
+  }
+
+  export type TemplateVoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemplateVoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -15504,6 +18124,12 @@ export namespace Prisma {
     none?: CollaboratorWhereInput
   }
 
+  export type TemplateVoteListRelationFilter = {
+    every?: TemplateVoteWhereInput
+    some?: TemplateVoteWhereInput
+    none?: TemplateVoteWhereInput
+  }
+
   export type GameDefinitionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -15521,6 +18147,10 @@ export namespace Prisma {
   }
 
   export type CollaboratorOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TemplateVoteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16268,6 +18898,100 @@ export namespace Prisma {
     broadcastMin?: SortOrder
   }
 
+  export type MarketplaceTemplateCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    author?: SortOrder
+    gameSlug?: SortOrder
+    tags?: SortOrder
+    downloads?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
+    verifiedLevel?: SortOrder
+    payload?: SortOrder
+    customDefSpec?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MarketplaceTemplateAvgOrderByAggregateInput = {
+    downloads?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
+  }
+
+  export type MarketplaceTemplateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    author?: SortOrder
+    gameSlug?: SortOrder
+    tags?: SortOrder
+    downloads?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
+    verifiedLevel?: SortOrder
+    payload?: SortOrder
+    customDefSpec?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MarketplaceTemplateMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    author?: SortOrder
+    gameSlug?: SortOrder
+    tags?: SortOrder
+    downloads?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
+    verifiedLevel?: SortOrder
+    payload?: SortOrder
+    customDefSpec?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type MarketplaceTemplateSumOrderByAggregateInput = {
+    downloads?: SortOrder
+    likes?: SortOrder
+    dislikes?: SortOrder
+  }
+
+  export type MarketplaceTemplateRelationFilter = {
+    is?: MarketplaceTemplateWhereInput
+    isNot?: MarketplaceTemplateWhereInput
+  }
+
+  export type TemplateVoteUserIdTemplateIdCompoundUniqueInput = {
+    userId: string
+    templateId: string
+  }
+
+  export type TemplateVoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    templateId?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TemplateVoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    templateId?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TemplateVoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    templateId?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type GameDefinitionCreateNestedManyWithoutOwnerInput = {
     create?: XOR<GameDefinitionCreateWithoutOwnerInput, GameDefinitionUncheckedCreateWithoutOwnerInput> | GameDefinitionCreateWithoutOwnerInput[] | GameDefinitionUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: GameDefinitionCreateOrConnectWithoutOwnerInput | GameDefinitionCreateOrConnectWithoutOwnerInput[]
@@ -16309,6 +19033,13 @@ export namespace Prisma {
     connect?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
   }
 
+  export type TemplateVoteCreateNestedManyWithoutUserInput = {
+    create?: XOR<TemplateVoteCreateWithoutUserInput, TemplateVoteUncheckedCreateWithoutUserInput> | TemplateVoteCreateWithoutUserInput[] | TemplateVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TemplateVoteCreateOrConnectWithoutUserInput | TemplateVoteCreateOrConnectWithoutUserInput[]
+    createMany?: TemplateVoteCreateManyUserInputEnvelope
+    connect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+  }
+
   export type GameDefinitionUncheckedCreateNestedManyWithoutOwnerInput = {
     create?: XOR<GameDefinitionCreateWithoutOwnerInput, GameDefinitionUncheckedCreateWithoutOwnerInput> | GameDefinitionCreateWithoutOwnerInput[] | GameDefinitionUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: GameDefinitionCreateOrConnectWithoutOwnerInput | GameDefinitionCreateOrConnectWithoutOwnerInput[]
@@ -16348,6 +19079,13 @@ export namespace Prisma {
     connectOrCreate?: CollaboratorCreateOrConnectWithoutUserInput | CollaboratorCreateOrConnectWithoutUserInput[]
     createMany?: CollaboratorCreateManyUserInputEnvelope
     connect?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+  }
+
+  export type TemplateVoteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<TemplateVoteCreateWithoutUserInput, TemplateVoteUncheckedCreateWithoutUserInput> | TemplateVoteCreateWithoutUserInput[] | TemplateVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TemplateVoteCreateOrConnectWithoutUserInput | TemplateVoteCreateOrConnectWithoutUserInput[]
+    createMany?: TemplateVoteCreateManyUserInputEnvelope
+    connect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -16438,6 +19176,20 @@ export namespace Prisma {
     deleteMany?: CollaboratorScalarWhereInput | CollaboratorScalarWhereInput[]
   }
 
+  export type TemplateVoteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TemplateVoteCreateWithoutUserInput, TemplateVoteUncheckedCreateWithoutUserInput> | TemplateVoteCreateWithoutUserInput[] | TemplateVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TemplateVoteCreateOrConnectWithoutUserInput | TemplateVoteCreateOrConnectWithoutUserInput[]
+    upsert?: TemplateVoteUpsertWithWhereUniqueWithoutUserInput | TemplateVoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TemplateVoteCreateManyUserInputEnvelope
+    set?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    disconnect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    delete?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    connect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    update?: TemplateVoteUpdateWithWhereUniqueWithoutUserInput | TemplateVoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TemplateVoteUpdateManyWithWhereWithoutUserInput | TemplateVoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TemplateVoteScalarWhereInput | TemplateVoteScalarWhereInput[]
+  }
+
   export type GameDefinitionUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<GameDefinitionCreateWithoutOwnerInput, GameDefinitionUncheckedCreateWithoutOwnerInput> | GameDefinitionCreateWithoutOwnerInput[] | GameDefinitionUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: GameDefinitionCreateOrConnectWithoutOwnerInput | GameDefinitionCreateOrConnectWithoutOwnerInput[]
@@ -16516,6 +19268,20 @@ export namespace Prisma {
     update?: CollaboratorUpdateWithWhereUniqueWithoutUserInput | CollaboratorUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CollaboratorUpdateManyWithWhereWithoutUserInput | CollaboratorUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CollaboratorScalarWhereInput | CollaboratorScalarWhereInput[]
+  }
+
+  export type TemplateVoteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<TemplateVoteCreateWithoutUserInput, TemplateVoteUncheckedCreateWithoutUserInput> | TemplateVoteCreateWithoutUserInput[] | TemplateVoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: TemplateVoteCreateOrConnectWithoutUserInput | TemplateVoteCreateOrConnectWithoutUserInput[]
+    upsert?: TemplateVoteUpsertWithWhereUniqueWithoutUserInput | TemplateVoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: TemplateVoteCreateManyUserInputEnvelope
+    set?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    disconnect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    delete?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    connect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    update?: TemplateVoteUpdateWithWhereUniqueWithoutUserInput | TemplateVoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: TemplateVoteUpdateManyWithWhereWithoutUserInput | TemplateVoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: TemplateVoteScalarWhereInput | TemplateVoteScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSubscriptionInput = {
@@ -16978,6 +19744,76 @@ export namespace Prisma {
     update?: XOR<XOR<ServerUpdateToOneWithWhereWithoutScheduledTasksInput, ServerUpdateWithoutScheduledTasksInput>, ServerUncheckedUpdateWithoutScheduledTasksInput>
   }
 
+  export type TemplateVoteCreateNestedManyWithoutTemplateInput = {
+    create?: XOR<TemplateVoteCreateWithoutTemplateInput, TemplateVoteUncheckedCreateWithoutTemplateInput> | TemplateVoteCreateWithoutTemplateInput[] | TemplateVoteUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: TemplateVoteCreateOrConnectWithoutTemplateInput | TemplateVoteCreateOrConnectWithoutTemplateInput[]
+    createMany?: TemplateVoteCreateManyTemplateInputEnvelope
+    connect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+  }
+
+  export type TemplateVoteUncheckedCreateNestedManyWithoutTemplateInput = {
+    create?: XOR<TemplateVoteCreateWithoutTemplateInput, TemplateVoteUncheckedCreateWithoutTemplateInput> | TemplateVoteCreateWithoutTemplateInput[] | TemplateVoteUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: TemplateVoteCreateOrConnectWithoutTemplateInput | TemplateVoteCreateOrConnectWithoutTemplateInput[]
+    createMany?: TemplateVoteCreateManyTemplateInputEnvelope
+    connect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+  }
+
+  export type TemplateVoteUpdateManyWithoutTemplateNestedInput = {
+    create?: XOR<TemplateVoteCreateWithoutTemplateInput, TemplateVoteUncheckedCreateWithoutTemplateInput> | TemplateVoteCreateWithoutTemplateInput[] | TemplateVoteUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: TemplateVoteCreateOrConnectWithoutTemplateInput | TemplateVoteCreateOrConnectWithoutTemplateInput[]
+    upsert?: TemplateVoteUpsertWithWhereUniqueWithoutTemplateInput | TemplateVoteUpsertWithWhereUniqueWithoutTemplateInput[]
+    createMany?: TemplateVoteCreateManyTemplateInputEnvelope
+    set?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    disconnect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    delete?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    connect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    update?: TemplateVoteUpdateWithWhereUniqueWithoutTemplateInput | TemplateVoteUpdateWithWhereUniqueWithoutTemplateInput[]
+    updateMany?: TemplateVoteUpdateManyWithWhereWithoutTemplateInput | TemplateVoteUpdateManyWithWhereWithoutTemplateInput[]
+    deleteMany?: TemplateVoteScalarWhereInput | TemplateVoteScalarWhereInput[]
+  }
+
+  export type TemplateVoteUncheckedUpdateManyWithoutTemplateNestedInput = {
+    create?: XOR<TemplateVoteCreateWithoutTemplateInput, TemplateVoteUncheckedCreateWithoutTemplateInput> | TemplateVoteCreateWithoutTemplateInput[] | TemplateVoteUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: TemplateVoteCreateOrConnectWithoutTemplateInput | TemplateVoteCreateOrConnectWithoutTemplateInput[]
+    upsert?: TemplateVoteUpsertWithWhereUniqueWithoutTemplateInput | TemplateVoteUpsertWithWhereUniqueWithoutTemplateInput[]
+    createMany?: TemplateVoteCreateManyTemplateInputEnvelope
+    set?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    disconnect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    delete?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    connect?: TemplateVoteWhereUniqueInput | TemplateVoteWhereUniqueInput[]
+    update?: TemplateVoteUpdateWithWhereUniqueWithoutTemplateInput | TemplateVoteUpdateWithWhereUniqueWithoutTemplateInput[]
+    updateMany?: TemplateVoteUpdateManyWithWhereWithoutTemplateInput | TemplateVoteUpdateManyWithWhereWithoutTemplateInput[]
+    deleteMany?: TemplateVoteScalarWhereInput | TemplateVoteScalarWhereInput[]
+  }
+
+  export type MarketplaceTemplateCreateNestedOneWithoutVotesInput = {
+    create?: XOR<MarketplaceTemplateCreateWithoutVotesInput, MarketplaceTemplateUncheckedCreateWithoutVotesInput>
+    connectOrCreate?: MarketplaceTemplateCreateOrConnectWithoutVotesInput
+    connect?: MarketplaceTemplateWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTemplateVotesInput = {
+    create?: XOR<UserCreateWithoutTemplateVotesInput, UserUncheckedCreateWithoutTemplateVotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTemplateVotesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type MarketplaceTemplateUpdateOneRequiredWithoutVotesNestedInput = {
+    create?: XOR<MarketplaceTemplateCreateWithoutVotesInput, MarketplaceTemplateUncheckedCreateWithoutVotesInput>
+    connectOrCreate?: MarketplaceTemplateCreateOrConnectWithoutVotesInput
+    upsert?: MarketplaceTemplateUpsertWithoutVotesInput
+    connect?: MarketplaceTemplateWhereUniqueInput
+    update?: XOR<XOR<MarketplaceTemplateUpdateToOneWithWhereWithoutVotesInput, MarketplaceTemplateUpdateWithoutVotesInput>, MarketplaceTemplateUncheckedUpdateWithoutVotesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutTemplateVotesNestedInput = {
+    create?: XOR<UserCreateWithoutTemplateVotesInput, UserUncheckedCreateWithoutTemplateVotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTemplateVotesInput
+    upsert?: UserUpsertWithoutTemplateVotesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTemplateVotesInput, UserUpdateWithoutTemplateVotesInput>, UserUncheckedUpdateWithoutTemplateVotesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -17403,6 +20239,29 @@ export namespace Prisma {
     data: CollaboratorCreateManyUserInput | CollaboratorCreateManyUserInput[]
   }
 
+  export type TemplateVoteCreateWithoutUserInput = {
+    id?: string
+    type: string
+    createdAt?: Date | string
+    template: MarketplaceTemplateCreateNestedOneWithoutVotesInput
+  }
+
+  export type TemplateVoteUncheckedCreateWithoutUserInput = {
+    id?: string
+    templateId: string
+    type: string
+    createdAt?: Date | string
+  }
+
+  export type TemplateVoteCreateOrConnectWithoutUserInput = {
+    where: TemplateVoteWhereUniqueInput
+    create: XOR<TemplateVoteCreateWithoutUserInput, TemplateVoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type TemplateVoteCreateManyUserInputEnvelope = {
+    data: TemplateVoteCreateManyUserInput | TemplateVoteCreateManyUserInput[]
+  }
+
   export type GameDefinitionUpsertWithWhereUniqueWithoutOwnerInput = {
     where: GameDefinitionWhereUniqueInput
     update: XOR<GameDefinitionUpdateWithoutOwnerInput, GameDefinitionUncheckedUpdateWithoutOwnerInput>
@@ -17596,6 +20455,33 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Collaborator"> | Date | string
   }
 
+  export type TemplateVoteUpsertWithWhereUniqueWithoutUserInput = {
+    where: TemplateVoteWhereUniqueInput
+    update: XOR<TemplateVoteUpdateWithoutUserInput, TemplateVoteUncheckedUpdateWithoutUserInput>
+    create: XOR<TemplateVoteCreateWithoutUserInput, TemplateVoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type TemplateVoteUpdateWithWhereUniqueWithoutUserInput = {
+    where: TemplateVoteWhereUniqueInput
+    data: XOR<TemplateVoteUpdateWithoutUserInput, TemplateVoteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TemplateVoteUpdateManyWithWhereWithoutUserInput = {
+    where: TemplateVoteScalarWhereInput
+    data: XOR<TemplateVoteUpdateManyMutationInput, TemplateVoteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type TemplateVoteScalarWhereInput = {
+    AND?: TemplateVoteScalarWhereInput | TemplateVoteScalarWhereInput[]
+    OR?: TemplateVoteScalarWhereInput[]
+    NOT?: TemplateVoteScalarWhereInput | TemplateVoteScalarWhereInput[]
+    id?: StringFilter<"TemplateVote"> | string
+    userId?: StringFilter<"TemplateVote"> | string
+    templateId?: StringFilter<"TemplateVote"> | string
+    type?: StringFilter<"TemplateVote"> | string
+    createdAt?: DateTimeFilter<"TemplateVote"> | Date | string
+  }
+
   export type UserCreateWithoutSubscriptionInput = {
     id?: string
     email: string
@@ -17609,6 +20495,7 @@ export namespace Prisma {
     archives?: ArchiveCreateNestedManyWithoutUserInput
     logs?: ActivityLogCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionInput = {
@@ -17624,6 +20511,7 @@ export namespace Prisma {
     archives?: ArchiveUncheckedCreateNestedManyWithoutUserInput
     logs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorUncheckedCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionInput = {
@@ -17655,6 +20543,7 @@ export namespace Prisma {
     archives?: ArchiveUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionInput = {
@@ -17670,6 +20559,7 @@ export namespace Prisma {
     archives?: ArchiveUncheckedUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUncheckedUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutServersInput = {
@@ -17685,6 +20575,7 @@ export namespace Prisma {
     archives?: ArchiveCreateNestedManyWithoutUserInput
     logs?: ActivityLogCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutServersInput = {
@@ -17700,6 +20591,7 @@ export namespace Prisma {
     archives?: ArchiveUncheckedCreateNestedManyWithoutUserInput
     logs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorUncheckedCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutServersInput = {
@@ -17919,6 +20811,7 @@ export namespace Prisma {
     archives?: ArchiveUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutServersInput = {
@@ -17934,6 +20827,7 @@ export namespace Prisma {
     archives?: ArchiveUncheckedUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUncheckedUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type GameDefinitionUpsertWithoutServersInput = {
@@ -18135,6 +21029,7 @@ export namespace Prisma {
     servers?: ServerCreateNestedManyWithoutUserInput
     logs?: ActivityLogCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutArchivesInput = {
@@ -18150,6 +21045,7 @@ export namespace Prisma {
     servers?: ServerUncheckedCreateNestedManyWithoutUserInput
     logs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorUncheckedCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutArchivesInput = {
@@ -18181,6 +21077,7 @@ export namespace Prisma {
     servers?: ServerUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutArchivesInput = {
@@ -18196,6 +21093,7 @@ export namespace Prisma {
     servers?: ServerUncheckedUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUncheckedUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutLogsInput = {
@@ -18211,6 +21109,7 @@ export namespace Prisma {
     servers?: ServerCreateNestedManyWithoutUserInput
     archives?: ArchiveCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLogsInput = {
@@ -18226,6 +21125,7 @@ export namespace Prisma {
     servers?: ServerUncheckedCreateNestedManyWithoutUserInput
     archives?: ArchiveUncheckedCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorUncheckedCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLogsInput = {
@@ -18257,6 +21157,7 @@ export namespace Prisma {
     servers?: ServerUpdateManyWithoutUserNestedInput
     archives?: ArchiveUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLogsInput = {
@@ -18272,6 +21173,7 @@ export namespace Prisma {
     servers?: ServerUncheckedUpdateManyWithoutUserNestedInput
     archives?: ArchiveUncheckedUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUncheckedUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ServerCreateWithoutBackupsInput = {
@@ -18488,6 +21390,7 @@ export namespace Prisma {
     servers?: ServerCreateNestedManyWithoutUserInput
     archives?: ArchiveCreateNestedManyWithoutUserInput
     logs?: ActivityLogCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCollaboratorAccessInput = {
@@ -18503,6 +21406,7 @@ export namespace Prisma {
     servers?: ServerUncheckedCreateNestedManyWithoutUserInput
     archives?: ArchiveUncheckedCreateNestedManyWithoutUserInput
     logs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCollaboratorAccessInput = {
@@ -18605,6 +21509,7 @@ export namespace Prisma {
     servers?: ServerUpdateManyWithoutUserNestedInput
     archives?: ArchiveUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCollaboratorAccessInput = {
@@ -18620,6 +21525,7 @@ export namespace Prisma {
     servers?: ServerUncheckedUpdateManyWithoutUserNestedInput
     archives?: ArchiveUncheckedUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutDefinitionsInput = {
@@ -18635,6 +21541,7 @@ export namespace Prisma {
     archives?: ArchiveCreateNestedManyWithoutUserInput
     logs?: ActivityLogCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDefinitionsInput = {
@@ -18650,6 +21557,7 @@ export namespace Prisma {
     archives?: ArchiveUncheckedCreateNestedManyWithoutUserInput
     logs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
     collaboratorAccess?: CollaboratorUncheckedCreateNestedManyWithoutUserInput
+    templateVotes?: TemplateVoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDefinitionsInput = {
@@ -18750,6 +21658,7 @@ export namespace Prisma {
     archives?: ArchiveUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDefinitionsInput = {
@@ -18765,6 +21674,7 @@ export namespace Prisma {
     archives?: ArchiveUncheckedUpdateManyWithoutUserNestedInput
     logs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
     collaboratorAccess?: CollaboratorUncheckedUpdateManyWithoutUserNestedInput
+    templateVotes?: TemplateVoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ServerUpsertWithWhereUniqueWithoutDefinitionInput = {
@@ -19191,6 +22101,205 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
   }
 
+  export type TemplateVoteCreateWithoutTemplateInput = {
+    id?: string
+    type: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutTemplateVotesInput
+  }
+
+  export type TemplateVoteUncheckedCreateWithoutTemplateInput = {
+    id?: string
+    userId: string
+    type: string
+    createdAt?: Date | string
+  }
+
+  export type TemplateVoteCreateOrConnectWithoutTemplateInput = {
+    where: TemplateVoteWhereUniqueInput
+    create: XOR<TemplateVoteCreateWithoutTemplateInput, TemplateVoteUncheckedCreateWithoutTemplateInput>
+  }
+
+  export type TemplateVoteCreateManyTemplateInputEnvelope = {
+    data: TemplateVoteCreateManyTemplateInput | TemplateVoteCreateManyTemplateInput[]
+  }
+
+  export type TemplateVoteUpsertWithWhereUniqueWithoutTemplateInput = {
+    where: TemplateVoteWhereUniqueInput
+    update: XOR<TemplateVoteUpdateWithoutTemplateInput, TemplateVoteUncheckedUpdateWithoutTemplateInput>
+    create: XOR<TemplateVoteCreateWithoutTemplateInput, TemplateVoteUncheckedCreateWithoutTemplateInput>
+  }
+
+  export type TemplateVoteUpdateWithWhereUniqueWithoutTemplateInput = {
+    where: TemplateVoteWhereUniqueInput
+    data: XOR<TemplateVoteUpdateWithoutTemplateInput, TemplateVoteUncheckedUpdateWithoutTemplateInput>
+  }
+
+  export type TemplateVoteUpdateManyWithWhereWithoutTemplateInput = {
+    where: TemplateVoteScalarWhereInput
+    data: XOR<TemplateVoteUpdateManyMutationInput, TemplateVoteUncheckedUpdateManyWithoutTemplateInput>
+  }
+
+  export type MarketplaceTemplateCreateWithoutVotesInput = {
+    id?: string
+    name: string
+    description: string
+    author: string
+    gameSlug: string
+    tags: string
+    downloads?: number
+    likes?: number
+    dislikes?: number
+    verifiedLevel?: string
+    payload: string
+    customDefSpec?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MarketplaceTemplateUncheckedCreateWithoutVotesInput = {
+    id?: string
+    name: string
+    description: string
+    author: string
+    gameSlug: string
+    tags: string
+    downloads?: number
+    likes?: number
+    dislikes?: number
+    verifiedLevel?: string
+    payload: string
+    customDefSpec?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MarketplaceTemplateCreateOrConnectWithoutVotesInput = {
+    where: MarketplaceTemplateWhereUniqueInput
+    create: XOR<MarketplaceTemplateCreateWithoutVotesInput, MarketplaceTemplateUncheckedCreateWithoutVotesInput>
+  }
+
+  export type UserCreateWithoutTemplateVotesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: string
+    definitions?: GameDefinitionCreateNestedManyWithoutOwnerInput
+    subscription?: SubscriptionCreateNestedOneWithoutUserInput
+    servers?: ServerCreateNestedManyWithoutUserInput
+    archives?: ArchiveCreateNestedManyWithoutUserInput
+    logs?: ActivityLogCreateNestedManyWithoutUserInput
+    collaboratorAccess?: CollaboratorCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTemplateVotesInput = {
+    id?: string
+    email: string
+    passwordHash: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: string
+    definitions?: GameDefinitionUncheckedCreateNestedManyWithoutOwnerInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutUserInput
+    servers?: ServerUncheckedCreateNestedManyWithoutUserInput
+    archives?: ArchiveUncheckedCreateNestedManyWithoutUserInput
+    logs?: ActivityLogUncheckedCreateNestedManyWithoutUserInput
+    collaboratorAccess?: CollaboratorUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTemplateVotesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTemplateVotesInput, UserUncheckedCreateWithoutTemplateVotesInput>
+  }
+
+  export type MarketplaceTemplateUpsertWithoutVotesInput = {
+    update: XOR<MarketplaceTemplateUpdateWithoutVotesInput, MarketplaceTemplateUncheckedUpdateWithoutVotesInput>
+    create: XOR<MarketplaceTemplateCreateWithoutVotesInput, MarketplaceTemplateUncheckedCreateWithoutVotesInput>
+    where?: MarketplaceTemplateWhereInput
+  }
+
+  export type MarketplaceTemplateUpdateToOneWithWhereWithoutVotesInput = {
+    where?: MarketplaceTemplateWhereInput
+    data: XOR<MarketplaceTemplateUpdateWithoutVotesInput, MarketplaceTemplateUncheckedUpdateWithoutVotesInput>
+  }
+
+  export type MarketplaceTemplateUpdateWithoutVotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    author?: StringFieldUpdateOperationsInput | string
+    gameSlug?: StringFieldUpdateOperationsInput | string
+    tags?: StringFieldUpdateOperationsInput | string
+    downloads?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    verifiedLevel?: StringFieldUpdateOperationsInput | string
+    payload?: StringFieldUpdateOperationsInput | string
+    customDefSpec?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MarketplaceTemplateUncheckedUpdateWithoutVotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    author?: StringFieldUpdateOperationsInput | string
+    gameSlug?: StringFieldUpdateOperationsInput | string
+    tags?: StringFieldUpdateOperationsInput | string
+    downloads?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    dislikes?: IntFieldUpdateOperationsInput | number
+    verifiedLevel?: StringFieldUpdateOperationsInput | string
+    payload?: StringFieldUpdateOperationsInput | string
+    customDefSpec?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutTemplateVotesInput = {
+    update: XOR<UserUpdateWithoutTemplateVotesInput, UserUncheckedUpdateWithoutTemplateVotesInput>
+    create: XOR<UserCreateWithoutTemplateVotesInput, UserUncheckedCreateWithoutTemplateVotesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTemplateVotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTemplateVotesInput, UserUncheckedUpdateWithoutTemplateVotesInput>
+  }
+
+  export type UserUpdateWithoutTemplateVotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: StringFieldUpdateOperationsInput | string
+    definitions?: GameDefinitionUpdateManyWithoutOwnerNestedInput
+    subscription?: SubscriptionUpdateOneWithoutUserNestedInput
+    servers?: ServerUpdateManyWithoutUserNestedInput
+    archives?: ArchiveUpdateManyWithoutUserNestedInput
+    logs?: ActivityLogUpdateManyWithoutUserNestedInput
+    collaboratorAccess?: CollaboratorUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTemplateVotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: StringFieldUpdateOperationsInput | string
+    definitions?: GameDefinitionUncheckedUpdateManyWithoutOwnerNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+    servers?: ServerUncheckedUpdateManyWithoutUserNestedInput
+    archives?: ArchiveUncheckedUpdateManyWithoutUserNestedInput
+    logs?: ActivityLogUncheckedUpdateManyWithoutUserNestedInput
+    collaboratorAccess?: CollaboratorUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type GameDefinitionCreateManyOwnerInput = {
     id?: string
     slug: string
@@ -19252,6 +22361,13 @@ export namespace Prisma {
     id?: string
     serverId: string
     role: string
+    createdAt?: Date | string
+  }
+
+  export type TemplateVoteCreateManyUserInput = {
+    id?: string
+    templateId: string
+    type: string
     createdAt?: Date | string
   }
 
@@ -19456,6 +22572,27 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     serverId?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemplateVoteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    template?: MarketplaceTemplateUpdateOneRequiredWithoutVotesNestedInput
+  }
+
+  export type TemplateVoteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemplateVoteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -19777,6 +22914,34 @@ export namespace Prisma {
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type TemplateVoteCreateManyTemplateInput = {
+    id?: string
+    userId: string
+    type: string
+    createdAt?: Date | string
+  }
+
+  export type TemplateVoteUpdateWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTemplateVotesNestedInput
+  }
+
+  export type TemplateVoteUncheckedUpdateWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemplateVoteUncheckedUpdateManyWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -19794,6 +22959,10 @@ export namespace Prisma {
      * @deprecated Use GameDefinitionCountOutputTypeDefaultArgs instead
      */
     export type GameDefinitionCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = GameDefinitionCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use MarketplaceTemplateCountOutputTypeDefaultArgs instead
+     */
+    export type MarketplaceTemplateCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MarketplaceTemplateCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
@@ -19838,6 +23007,14 @@ export namespace Prisma {
      * @deprecated Use ScheduledTaskDefaultArgs instead
      */
     export type ScheduledTaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ScheduledTaskDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use MarketplaceTemplateDefaultArgs instead
+     */
+    export type MarketplaceTemplateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MarketplaceTemplateDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use TemplateVoteDefaultArgs instead
+     */
+    export type TemplateVoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = TemplateVoteDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

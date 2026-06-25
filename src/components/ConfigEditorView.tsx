@@ -20,7 +20,10 @@ import {
   Info
 ,
   Clock,
-  Terminal} from "lucide-react";
+  Terminal,
+  Store,
+  UploadCloud
+} from "lucide-react";
 
 interface ConfigEditorViewProps {
   user: any;
@@ -137,6 +140,58 @@ export default function ConfigEditorView({ user }: ConfigEditorViewProps) {
     }
   };
 
+  const handlePublish = async () => {
+    if (!selectedServer) return;
+    setSaving(true);
+    try {
+      const templateName = prompt("Enter a name for your Community Template:");
+      if (!templateName) return;
+      const description = prompt("Enter a brief description for this Template:");
+      if (!description) return;
+
+      // Note: Full implementation of gathering mods/configs goes here.
+      // For now we simulate the payload based on current config.
+      const payload = {
+        version: "1.0.0",
+        mods: [],
+        configOverrides: [
+          {
+            path: configFilename,
+            strategy: "template",
+            content: configContent
+          }
+        ],
+        startupParams: {}
+      };
+
+      const res = await fetch("/api/marketplace/publish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: templateName,
+          description,
+          gameSlug: selectedServer.game,
+          tags: "Community",
+          payload
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to publish template");
+      
+      if (data.strippedSecrets) {
+        alert("Successfully published to Marketplace!\n\nSecurity Notice: Sensitive data (passwords, tokens, API keys) was automatically removed from your configuration files before publishing.");
+      } else {
+        alert("Successfully published to Marketplace!");
+      }
+      router.push("/dashboard/marketplace");
+    } catch (e: any) {
+      alert(e.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const getGameIcon = (game: string) => {
     switch (game?.toUpperCase()) {
       case "MINECRAFT": return "⛏️";
@@ -178,6 +233,14 @@ export default function ConfigEditorView({ user }: ConfigEditorViewProps) {
                 <Plus className="w-4 h-4 text-slate-500" />
                 <span>Create Server</span>
               </div>
+            </Link>
+
+            <Link 
+              href="/dashboard/marketplace" 
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold hover:bg-white/5 text-slate-300 hover:text-white transition-all group"
+            >
+              <Store className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+              <span>Marketplace</span>
             </Link>
 
             <div className="pt-4 pb-2 px-3">
@@ -302,29 +365,43 @@ export default function ConfigEditorView({ user }: ConfigEditorViewProps) {
                   )}
                 </div>
                 <div className="flex items-center gap-2">
-                  {selectedServer && isEditable && (
+                  {selectedServer && (
                     <>
+                      {isEditable && (
+                        <button
+                          onClick={() => loadConfig(selectedServer)}
+                          className="px-3 py-1.5 rounded-lg bg-slate-900 border border-white/5 hover:border-white/10 text-xs font-bold text-slate-300 transition-colors flex items-center gap-1.5"
+                          title="Reload from disk"
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          Reload
+                        </button>
+                      )}
+                      
                       <button
-                        onClick={() => loadConfig(selectedServer)}
-                        className="px-3 py-1.5 rounded-lg bg-slate-900 border border-white/5 hover:border-white/10 text-xs font-bold text-slate-300 transition-colors flex items-center gap-1.5"
-                        title="Reload from disk"
+                        onClick={handlePublish}
+                        className="px-3 py-1.5 rounded-lg bg-accentBlue/20 border border-accentBlue/30 hover:bg-accentBlue/30 text-xs font-bold text-accentBlue transition-colors flex items-center gap-1.5"
+                        title="Publish to Community Marketplace"
                       >
-                        <RefreshCw className="w-3.5 h-3.5" />
-                        Reload
+                        <UploadCloud className="w-3.5 h-3.5" />
+                        Publish
                       </button>
-                      <button
-                        onClick={handleSave}
-                        disabled={saving || !hasChanges || selectedServer?.status === "RUNNING"}
-                        className="px-4 py-1.5 rounded-lg bg-accentPurple hover:bg-accentPurpleHover disabled:bg-accentPurple/30 disabled:cursor-not-allowed text-xs font-bold text-white transition-colors flex items-center gap-1.5 border border-accentPurple/30"
-                      >
-                        {saving ? (
-                          <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Saving...</>
-                        ) : success ? (
-                          <><Check className="w-3.5 h-3.5" /> Saved!</>
-                        ) : (
-                          <><Save className="w-3.5 h-3.5" /> Save Changes</>
-                        )}
-                      </button>
+
+                      {isEditable && (
+                        <button
+                          onClick={handleSave}
+                          disabled={saving || !hasChanges || selectedServer?.status === "RUNNING"}
+                          className="px-4 py-1.5 rounded-lg bg-accentPurple hover:bg-accentPurpleHover disabled:bg-accentPurple/30 disabled:cursor-not-allowed text-xs font-bold text-white transition-colors flex items-center gap-1.5 border border-accentPurple/30"
+                        >
+                          {saving ? (
+                            <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Saving...</>
+                          ) : success ? (
+                            <><Check className="w-3.5 h-3.5" /> Saved!</>
+                          ) : (
+                            <><Save className="w-3.5 h-3.5" /> Save Changes</>
+                          )}
+                        </button>
+                      )}
                     </>
                   )}
                 </div>
