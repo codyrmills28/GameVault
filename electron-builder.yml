@@ -42,3 +42,7 @@ nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
 asar: true
+publish:
+  provider: github
+  owner: RealmSwap
+  repo: RealmSwap

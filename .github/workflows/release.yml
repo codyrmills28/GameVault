@@ -74,4 +74,7 @@ jobs:
           name: ${{ steps.ver.outputs.tag }}
           draft: false
           prerelease: false
-          files: 'C:\rsbuild\dist\RealmSwap-Setup.exe'
+          files: |
+            C:\rsbuild\dist\RealmSwap-Setup.exe
+            C:\rsbuild\dist\RealmSwap-Setup.exe.blockmap
+            C:\rsbuild\dist\latest.yml
