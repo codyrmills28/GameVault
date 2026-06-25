@@ -5,30 +5,52 @@ import fs from "fs";
 export class ThunderstoreProvider implements ModProvider {
   id = "thunderstore";
 
+  private cachedPackages: any[] = [];
+  private lastFetchTime: number = 0;
+  private readonly CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
   async search(query: string, game: string): Promise<ModSearchResult[]> {
-    // Mock Thunderstore search
     if (game.toUpperCase() !== "VALHEIM") return [];
     
-    return [
-      {
-        provider: this.id,
-        packageId: "denikson-BepInExPack_Valheim",
-        name: "BepInExPack Valheim",
-        author: "denikson",
-        description: "BepInEx pack for Valheim. Preconfigured and includes unstripped Unity DLLs.",
-        version: "5.4.2202",
-        downloadUrl: "https://thunderstore.io/package/download/denikson/BepInExPack_Valheim/5.4.2202/"
-      },
-      {
-        provider: this.id,
-        packageId: "ValheimPlus-ValheimPlus",
-        name: "ValheimPlus",
-        author: "ValheimPlus",
-        description: "A harmony based mod aimed at improving the gameplay quality of life.",
-        version: "9.9.11",
-        downloadUrl: "https://thunderstore.io/package/download/ValheimPlus/ValheimPlus/9.9.11/"
+    // Fetch and cache the massive package list if needed
+    if (this.cachedPackages.length === 0 || Date.now() - this.lastFetchTime > this.CACHE_TTL) {
+      console.log("[Thunderstore] Fetching package index...");
+      try {
+        const response = await fetch("https://valheim.thunderstore.io/api/v1/package/");
+        if (response.ok) {
+          this.cachedPackages = await response.json();
+          this.lastFetchTime = Date.now();
+        }
+      } catch (err) {
+        console.error("[Thunderstore] Failed to fetch packages", err);
       }
-    ].filter(m => m.name.toLowerCase().includes(query.toLowerCase()) || m.packageId.toLowerCase().includes(query.toLowerCase()));
+    }
+
+    const q = query.toLowerCase();
+    
+    // Filter and map
+    const results = this.cachedPackages
+      .filter((pkg: any) => 
+        pkg.name.toLowerCase().includes(q) || 
+        pkg.owner.toLowerCase().includes(q) ||
+        pkg.full_name.toLowerCase().includes(q)
+      )
+      .slice(0, 20) // top 20
+      .map((pkg: any) => {
+        // The latest version is the first in the versions array
+        const latestVersion = pkg.versions[0];
+        return {
+          provider: this.id,
+          packageId: pkg.full_name,
+          name: pkg.name,
+          author: pkg.owner,
+          description: latestVersion.description,
+          version: latestVersion.version_number,
+          downloadUrl: latestVersion.download_url
+        };
+      });
+
+    return results;
   }
 
   async resolveDependencies(packageId: string, version: string): Promise<string[]> {

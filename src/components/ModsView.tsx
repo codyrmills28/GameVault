@@ -19,7 +19,9 @@ import {
   AlertTriangle,
   Settings,
   Upload,
-  DownloadCloud
+  DownloadCloud,
+  Search,
+  Loader2
 } from "lucide-react";
 
 interface ModsViewProps {
@@ -100,6 +102,11 @@ export default function ModsView({ servers, user }: ModsViewProps) {
   const [configLoading, setConfigLoading] = useState(false);
   const [configSaving, setConfigSaving] = useState(false);
 
+  // Search State
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+
   React.useEffect(() => {
     if (selectedServer) {
       fetch(`/api/servers/${selectedServer.id}/mods`)
@@ -110,8 +117,34 @@ export default function ModsView({ servers, user }: ModsViewProps) {
         .catch(err => console.error(err));
     } else {
       setInstalledMods([]);
+      setSearchResults([]);
+      setSearchQuery("");
     }
   }, [selectedServer]);
+
+  // Debounced Search
+  React.useEffect(() => {
+    if (!selectedServer) return;
+    
+    if (searchQuery.length < 2) {
+      setSearchResults([]);
+      setIsSearching(false);
+      return;
+    }
+
+    setIsSearching(true);
+    const delayDebounceFn = setTimeout(() => {
+      fetch(`/api/servers/${selectedServer.id}/mods/search?q=${encodeURIComponent(searchQuery)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.results) setSearchResults(data.results);
+        })
+        .catch(err => console.error("Search failed:", err))
+        .finally(() => setIsSearching(false));
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery, selectedServer]);
 
   const handleLogout = async () => {
     try {
@@ -415,13 +448,86 @@ export default function ModsView({ servers, user }: ModsViewProps) {
             <div className="lg:col-span-2 space-y-6">
               
               <div className="glass-panel rounded-2xl border border-white/5 p-6 space-y-4">
-                <h3 className="font-extrabold text-base text-white flex items-center gap-2">
-                  <Sparkles className="w-4.5 h-4.5 text-accentPurple" />
-                  <span>Popular Mods & Core Loaders</span>
-                </h3>
-                <p className="text-xs text-mutedText">Recommended performance adjustments and server utilities for {selectedServer.game}.</p>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <h3 className="font-extrabold text-base text-white flex items-center gap-2">
+                    <Sparkles className="w-4.5 h-4.5 text-accentPurple" />
+                    <span>Mod Browser</span>
+                  </h3>
+                  
+                  {/* Search Bar */}
+                  <div className="relative">
+                    <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      placeholder="Search live database..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      disabled={!selectedServer || (game !== "VALHEIM" && game !== "MINECRAFT")}
+                      className="pl-9 pr-4 py-2 text-xs rounded-lg bg-slate-950 border border-white/10 text-slate-200 outline-none focus:border-accentPurple transition-colors w-full sm:w-64 disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                    {isSearching && (
+                      <Loader2 className="w-4 h-4 text-accentPurple absolute right-3 top-1/2 -translate-y-1/2 animate-spin" />
+                    )}
+                  </div>
+                </div>
+
+                <p className="text-xs text-mutedText">
+                  {searchQuery.length >= 2 
+                    ? `Search results for "${searchQuery}"`
+                    : `Recommended performance adjustments and server utilities for ${selectedServer.game}.`
+                  }
+                </p>
                 
-                {recommended.length === 0 ? (
+                {searchQuery.length >= 2 ? (
+                  searchResults.length === 0 && !isSearching ? (
+                    <div className="p-4 rounded-xl border border-dashed border-white/5 bg-slate-950/20 text-center text-xs text-mutedText">
+                      No mods found matching "{searchQuery}".
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                      {searchResults.map((mod, idx) => (
+                        <div key={idx} className="p-4 rounded-xl border border-white/5 bg-slate-950/40 hover:border-white/10 transition-colors flex flex-col justify-between h-44">
+                          <div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-[9px] bg-accentPurple/25 text-accentPurple px-2 py-0.5 rounded font-extrabold uppercase tracking-wide">
+                                {mod.provider}
+                              </span>
+                              <span className="text-[9px] text-mutedText font-mono">v{mod.version}</span>
+                            </div>
+                            <h4 className="font-extrabold text-sm text-slate-100 mt-2 truncate" title={mod.name}>{mod.name}</h4>
+                            <p className="text-[10px] text-mutedText truncate mb-1">by {mod.author}</p>
+                            <p className="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-normal" title={mod.description}>{mod.description}</p>
+                          </div>
+
+                          <div className="pt-3 border-t border-white/5 mt-3 flex justify-end">
+                            <button
+                              onClick={() => handleInstallMod({
+                                name: mod.name,
+                                modId: mod.packageId,
+                                downloadUrl: mod.downloadUrl,
+                                modType: game === "VALHEIM" ? "PLUGIN" : undefined
+                              })}
+                              disabled={loading || selectedServer.status === "RUNNING"}
+                              className="px-4 py-1.5 rounded-lg bg-accentPurple hover:bg-accentPurpleHover disabled:bg-accentPurple/50 disabled:cursor-not-allowed text-xs font-bold text-white transition-colors flex items-center gap-1.5"
+                            >
+                              {loading ? (
+                                <>
+                                  <Wrench className="w-3.5 h-3.5 animate-spin" />
+                                  <span>Sandboxing...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Download className="w-3.5 h-3.5" />
+                                  <span>Safe Install</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )
+                ) : recommended.length === 0 ? (
                   <div className="p-4 rounded-xl border border-dashed border-white/5 bg-slate-950/20 text-center text-xs text-mutedText">
                     No custom mod packages listed for {selectedServer.game}. Check the custom installer panel.
                   </div>
