@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { EventEmitter } from "node:events";
 import { createUpdater } from "../autoUpdate.js";
 
@@ -38,7 +38,7 @@ describe("createUpdater", () => {
 
     expect(u.isStaged()).toBe(true);
     expect(refreshTrayMenu).toHaveBeenCalled();
-    const opts = dialog.showMessageBox.mock.calls[0][1];
+    const opts = dialog.showMessageBox.mock.calls[0][0];
     expect(opts.buttons).toEqual(["Restart now", "Later"]);
   });
 
@@ -72,7 +72,7 @@ describe("createUpdater", () => {
     expect(autoUpdater.checkForUpdates).toHaveBeenCalled();
     autoUpdater.emit("update-not-available", {});
     await vi.waitFor(() => expect(dialog.showMessageBox).toHaveBeenCalled());
-    expect(dialog.showMessageBox.mock.calls[0][1].message).toMatch(/up to date/i);
+    expect(dialog.showMessageBox.mock.calls[0][0].message).toMatch(/up to date/i);
   });
 
   it("manual check reports a downloading update when one is available", async () => {
@@ -82,7 +82,7 @@ describe("createUpdater", () => {
 
     autoUpdater.emit("update-available", { version: "9.9.9" });
     await vi.waitFor(() => expect(dialog.showMessageBox).toHaveBeenCalled());
-    expect(dialog.showMessageBox.mock.calls[0][1].title).toMatch(/available/i);
+    expect(dialog.showMessageBox.mock.calls[0][0].title).toMatch(/available/i);
   });
 
   it("manual check when an update is already staged applies it immediately", async () => {
@@ -115,7 +115,7 @@ describe("createUpdater", () => {
 
     autoUpdater.emit("error", new Error("network"));
     await vi.waitFor(() => expect(dialog.showMessageBox).toHaveBeenCalled());
-    expect(dialog.showMessageBox.mock.calls[0][1].type).toBe("error");
+    expect(dialog.showMessageBox.mock.calls[0][0].type).toBe("error");
   });
 
   it("start() schedules an initial check and a recurring interval", () => {

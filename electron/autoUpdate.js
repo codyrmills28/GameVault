@@ -24,7 +24,8 @@ function createUpdater(deps) {
   const isStaged = () => staged;
 
   function showMessage(opts) {
-    return dialog.showMessageBox(getMainWindow() || undefined, opts);
+    const win = getMainWindow();
+    return win ? dialog.showMessageBox(win, opts) : dialog.showMessageBox(opts);
   }
 
   async function applyUpdate() {
@@ -64,20 +65,24 @@ function createUpdater(deps) {
     });
 
     autoUpdater.on("update-downloaded", async () => {
-      staged = true;
-      manualPending = false;
-      refreshTrayMenu();
-      const { response } = await showMessage({
-        type: "info",
-        buttons: ["Restart now", "Later"],
-        defaultId: 0,
-        cancelId: 1,
-        title: "Update ready",
-        message: "A new version of RealmSwap has been downloaded.",
-        detail:
-          "Restart now to apply it, or keep working — it'll install the next time you quit.",
-      });
-      if (response === 0) await applyUpdate();
+      try {
+        staged = true;
+        manualPending = false;
+        refreshTrayMenu();
+        const { response } = await showMessage({
+          type: "info",
+          buttons: ["Restart now", "Later"],
+          defaultId: 0,
+          cancelId: 1,
+          title: "Update ready",
+          message: "A new version of RealmSwap has been downloaded.",
+          detail:
+            "Restart now to apply it, or keep working — it'll install the next time you quit.",
+        });
+        if (response === 0) await applyUpdate();
+      } catch (err) {
+        log.error("[updater] update-downloaded handling failed:", err);
+      }
     });
 
     autoUpdater.on("error", (err) => {
@@ -97,12 +102,16 @@ function createUpdater(deps) {
   function check() {
     if (checking) return;
     checking = true;
-    autoUpdater
-      .checkForUpdates()
-      .catch((err) => log.error("[updater] check failed:", err))
-      .finally(() => {
-        checking = false;
-      });
+    try {
+      Promise.resolve(autoUpdater.checkForUpdates())
+        .catch((err) => log.error("[updater] check failed:", err))
+        .finally(() => {
+          checking = false;
+        });
+    } catch (err) {
+      log.error("[updater] check failed:", err);
+      checking = false;
+    }
   }
 
   function checkManual() {
