@@ -25,6 +25,8 @@ extraResources:
     to: standalone/public
   - from: build/template.db
     to: template.db
+  - from: prisma/migrations
+    to: migrations
   - from: build/tray.png
     to: tray.png
   - from: src/generated/client/query-engine-windows.exe
