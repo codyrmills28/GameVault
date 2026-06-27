@@ -68,13 +68,14 @@ describe("runMigrations", () => {
     return md;
   }
   function opts(extra = {}) {
+    let uuidN = 0;
     return {
       dbPath: path.join(work, "app.db"),
       migrationsDir: migrationsFixture(),
       makeClient,
       backupDir: path.join(work, "backups"),
       now: () => new Date("2026-06-27T08:09:05Z"),
-      uuid: () => "00000000-0000-0000-0000-000000000000",
+      uuid: () => `00000000-0000-0000-0000-${String(uuidN++).padStart(12, "0")}`,
       log: { info() {} },
       ...extra,
     };
