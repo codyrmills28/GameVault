@@ -15,23 +15,18 @@ import {
   Play,
   Square,
   Trash2,
-  FolderSync,
   Plus,
   Copy,
   Check,
   Clock,
   LogOut,
-  Users,
   BadgeCent,
-  Wrench,
-  History,
   LayoutDashboard,
   MapPin,
   AlertCircle,
   Terminal,
   X,
   Download,
-  Settings,
   Pause,
   Search,
   Send,
@@ -947,7 +942,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                         </button>
 
                         {/* Open Folder */}
-                        {server.runnerType === "LOCAL" && (
+                        {isLocal && (
                           <button
                             onClick={() => handleOpenServerFolder(server.id)}
                             disabled={isServerLoading || server.status === "STARTING"}
