@@ -78,7 +78,7 @@ export type DockerResult = { code: number | null; stdout: string; stderr: string
  *  means DOCKER_HOST / DOCKER_CONTEXT / DOCKER_TLS_VERIFY / DOCKER_CERT_PATH are
  *  honored — this is the single seam for targeting a remote daemon later. */
 function dockerEnv(): NodeJS.ProcessEnv {
-  return process.env;
+  return { ...process.env };
 }
 
 /** Run `docker <args>` and resolve (never reject) with exit code and output. */

@@ -1,5 +1,5 @@
 import path from "path";
-import { Server, GameDefinition } from "@/generated/client";
+import { Server } from "@/generated/client";
 import { ServerRunner, ProcessStats } from "./types";
 import { docker, dockerSpawn, buildRunArgs, buildStartEntrypoint, parseDockerStats } from "./docker/dockerCli";
 import { prisma } from "../db";
@@ -276,8 +276,8 @@ export class DockerRunner implements ServerRunner {
 
   async sendCommand(server: Server, command: string): Promise<void> {
     const res = await docker([
-      "exec", containerName(server.id), "bash", "-lc",
-      `printf '%s\\n' ${JSON.stringify(command)} > /proc/1/fd/0`,
+      "exec", containerName(server.id), "bash", "-c",
+      'printf "%s\\n" "$1" > /proc/1/fd/0', "_", command,
     ]);
     if (res.code !== 0) throw new Error(`Failed to send command to container: ${res.stderr || res.stdout}`);
   }
