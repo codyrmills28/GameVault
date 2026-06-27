@@ -233,8 +233,8 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
 
   // Reset to LOCAL when the selected game no longer supports Docker
   useEffect(() => {
-    if (!dockerSelectable && runtime === "DOCKER") setRuntime("LOCAL");
-  }, [dockerSelectable, runtime]);
+    if (!dockerSelectable) setRuntime("LOCAL");
+  }, [dockerSelectable]);
 
   // Derive install notice text generically from definition fields
   const installNotice = selectedGame ? (() => {
