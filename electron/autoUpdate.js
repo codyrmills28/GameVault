@@ -136,7 +136,7 @@ function createUpdater(deps) {
   // call registerHandlers()/start(), so the normal "Update ready" dialog cannot
   // fire here. Resolves "applied" (user installed the fix), "declined" (user
   // chose Quit), or "unavailable" (no update / error / timeout).
-  function attemptRecovery({ timeoutMs }) {
+  function attemptRecovery({ timeoutMs = 30000 } = {}) {
     return new Promise((resolve) => {
       let settled = false;
       let timer = null;
