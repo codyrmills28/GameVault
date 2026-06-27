@@ -126,3 +126,91 @@ describe("createUpdater", () => {
     expect(deps.timers.setInterval).toHaveBeenCalledWith(expect.any(Function), 21600000);
   });
 });
+
+describe("attemptRecovery", () => {
+  function recoveryDeps(overrides = {}) {
+    const autoUpdater = new EventEmitter();
+    autoUpdater.checkForUpdates = vi.fn().mockResolvedValue(undefined);
+    autoUpdater.quitAndInstall = vi.fn();
+    let timeoutFn = null;
+    const deps = {
+      autoUpdater,
+      dialog: { showMessageBox: vi.fn().mockResolvedValue({ response: 0 }) },
+      getMainWindow: () => null,
+      beginQuit: vi.fn(),
+      refreshTrayMenu: vi.fn(),
+      log: { error() {}, info() {} },
+      timers: {
+        setTimeout: (fn) => { timeoutFn = fn; return 1; },
+        setInterval: () => {},
+        clearTimeout: () => {},
+      },
+      ...overrides,
+    };
+    return { deps, autoUpdater, fireTimeout: () => timeoutFn && timeoutFn() };
+  }
+
+  it("downloaded + Install -> applies and resolves 'applied'", async () => {
+    const { deps, autoUpdater } = recoveryDeps();
+    const u = createUpdater(deps);
+    const p = u.attemptRecovery({ timeoutMs: 30000 });
+    autoUpdater.emit("update-downloaded", {});
+    expect(await p).toBe("applied");
+    expect(deps.beginQuit).toHaveBeenCalled();
+    expect(autoUpdater.quitAndInstall).toHaveBeenCalled();
+    expect(deps.dialog.showMessageBox.mock.calls[0][0].buttons).toEqual([
+      "Install and restart",
+      "Quit",
+    ]);
+  });
+
+  it("downloaded + Quit -> 'declined', does not install", async () => {
+    const { deps, autoUpdater } = recoveryDeps({
+      dialog: { showMessageBox: vi.fn().mockResolvedValue({ response: 1 }) },
+    });
+    const u = createUpdater(deps);
+    const p = u.attemptRecovery({ timeoutMs: 30000 });
+    autoUpdater.emit("update-downloaded", {});
+    expect(await p).toBe("declined");
+    expect(autoUpdater.quitAndInstall).not.toHaveBeenCalled();
+  });
+
+  it("update-not-available -> 'unavailable', no prompt", async () => {
+    const { deps, autoUpdater } = recoveryDeps();
+    const u = createUpdater(deps);
+    const p = u.attemptRecovery({ timeoutMs: 30000 });
+    autoUpdater.emit("update-not-available", {});
+    expect(await p).toBe("unavailable");
+    expect(deps.dialog.showMessageBox).not.toHaveBeenCalled();
+  });
+
+  it("error -> 'unavailable', no prompt", async () => {
+    const { deps, autoUpdater } = recoveryDeps();
+    const u = createUpdater(deps);
+    const p = u.attemptRecovery({ timeoutMs: 30000 });
+    autoUpdater.emit("error", new Error("net down"));
+    expect(await p).toBe("unavailable");
+    expect(deps.dialog.showMessageBox).not.toHaveBeenCalled();
+  });
+
+  it("timeout with no events -> 'unavailable'", async () => {
+    const { deps, fireTimeout } = recoveryDeps();
+    const u = createUpdater(deps);
+    const p = u.attemptRecovery({ timeoutMs: 30000 });
+    fireTimeout();
+    expect(await p).toBe("unavailable");
+  });
+
+  it("does not wire the normal 'Update ready' handler (no staging/tray during recovery)", async () => {
+    const { deps, autoUpdater } = recoveryDeps();
+    const u = createUpdater(deps);
+    const p = u.attemptRecovery({ timeoutMs: 30000 });
+    autoUpdater.emit("update-not-available", {});
+    await p;
+    expect(u.isStaged()).toBe(false);
+    // After recovery settles, a later download must not trigger normal staging.
+    expect(() => autoUpdater.emit("update-downloaded", {})).not.toThrow();
+    expect(u.isStaged()).toBe(false);
+    expect(deps.refreshTrayMenu).not.toHaveBeenCalled();
+  });
+});
