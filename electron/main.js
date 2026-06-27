@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const { stopAllServers } = require("./shutdown");
 const {
   initAutoUpdate,
+  attemptRecoveryUpdate,
   checkForUpdatesManual,
   restartToUpdate,
   isUpdateStaged,
@@ -219,12 +220,26 @@ app.whenReady().then(async () => {
       });
     }
   } catch (err) {
-    const { dialog } = require("electron");
-    const backup = err && err.backupPath;
-    const detail = String((err && err.stack) || err) +
-      (backup ? `\n\nYour data is safe. A backup was saved to:\n${backup}` : "");
-    dialog.showErrorBox("RealmSwap failed to start", detail);
-    app.quit();
+    // Startup failed. In packaged builds, give the app one bounded chance to
+    // pull a fixing update before giving up — otherwise a bad release bricks
+    // the install with no way to self-heal.
+    let recovered = false;
+    if (!isDev) {
+      try {
+        const outcome = await attemptRecoveryUpdate({ beginQuit, timeoutMs: 30000 });
+        recovered = outcome === "applied";
+      } catch (e) {
+        console.error("[updater] recovery attempt failed:", e);
+      }
+    }
+    if (!recovered) {
+      const { dialog } = require("electron");
+      const backup = err && err.backupPath;
+      const detail = String((err && err.stack) || err) +
+        (backup ? `\n\nYour data is safe. A backup was saved to:\n${backup}` : "");
+      dialog.showErrorBox("RealmSwap failed to start", detail);
+      app.quit();
+    }
   }
 });
 
