@@ -11,7 +11,7 @@ function createUpdater(deps) {
     beginQuit,
     refreshTrayMenu,
     log = console,
-    timers = { setTimeout, setInterval },
+    timers = { setTimeout, setInterval, clearTimeout },
     initialDelayMs = 10000,
     intervalMs = 6 * 60 * 60 * 1000,
   } = deps;
@@ -132,7 +132,68 @@ function createUpdater(deps) {
     timers.setInterval(check, intervalMs);
   }
 
-  return { start, checkManual, applyUpdate, isStaged };
+  // One-shot, bounded recovery used only when normal startup failed. Does NOT
+  // call registerHandlers()/start(), so the normal "Update ready" dialog cannot
+  // fire here. Resolves "applied" (user installed the fix), "declined" (user
+  // chose Quit), or "unavailable" (no update / error / timeout).
+  function attemptRecovery({ timeoutMs }) {
+    return new Promise((resolve) => {
+      let settled = false;
+      let timer = null;
+      const onDownloaded = () => finish("downloaded");
+      const onNone = () => finish("none");
+      const onError = () => finish("error");
+
+      function cleanup() {
+        autoUpdater.removeListener("update-downloaded", onDownloaded);
+        autoUpdater.removeListener("update-not-available", onNone);
+        autoUpdater.removeListener("error", onError);
+        if (timer !== null && typeof timers.clearTimeout === "function") {
+          timers.clearTimeout(timer);
+        }
+      }
+      function finish(outcome) {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        resolve(outcome);
+      }
+
+      autoUpdater.once("update-downloaded", onDownloaded);
+      autoUpdater.once("update-not-available", onNone);
+      autoUpdater.once("error", onError);
+      timer = timers.setTimeout(() => finish("timeout"), timeoutMs);
+
+      try {
+        Promise.resolve(autoUpdater.checkForUpdates()).catch(() => {
+          // Failures are delivered via the "error" event listener above.
+        });
+      } catch (err) {
+        log.error("[updater] recovery check threw:", err);
+        finish("error");
+      }
+    }).then(async (outcome) => {
+      if (outcome === "downloaded") {
+        const { response } = await showMessage({
+          type: "warning",
+          buttons: ["Install and restart", "Quit"],
+          defaultId: 0,
+          cancelId: 1,
+          title: "Update available",
+          message: "RealmSwap had a problem starting up.",
+          detail: "An update is available that may fix it. Install it and restart now?",
+        });
+        if (response === 0) {
+          await applyUpdate();
+          return "applied";
+        }
+        return "declined";
+      }
+      return "unavailable";
+    });
+  }
+
+  return { start, checkManual, applyUpdate, isStaged, attemptRecovery };
 }
 
 module.exports = { createUpdater };
