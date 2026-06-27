@@ -14,6 +14,9 @@ describe("shellQuote", () => {
   it("escapes embedded single quotes", () => {
     expect(shellQuote("a'b")).toBe("'a'\\''b'");
   });
+  it("quotes tokens containing a comma", () => {
+    expect(shellQuote("a,b")).toBe("'a,b'");
+  });
 });
 
 describe("parseMemToMB", () => {
@@ -47,6 +50,11 @@ describe("buildStartEntrypoint", () => {
       " && cd /data/valheim-server && exec ./valheim_server.x86_64 -name 'Viking Realm' -port 2456"
     );
   });
+  it("omits the trailing space when args is empty", () => {
+    const ep = buildStartEntrypoint("480", "cs2", "cs2.sh", []);
+    expect(ep).toContain("exec ./cs2.sh");
+    expect(ep).not.toContain("exec ./cs2.sh "); // no trailing space
+  });
 });
 
 describe("buildRunArgs", () => {
@@ -67,5 +75,12 @@ describe("buildRunArgs", () => {
       "-e", "SteamAppId=892970",
       "cm2network/steamcmd", "bash", "-lc", "echo hi",
     ]);
+  });
+  it("emits no -e flags when env is omitted", () => {
+    const args = buildRunArgs({
+      containerName: "c", image: "img", hostDataDir: "/d", ports: [], entrypoint: "echo hi",
+    });
+    expect(args).toEqual(["run", "-d", "--name", "c", "-v", "/d:/data", "img", "bash", "-lc", "echo hi"]);
+    expect(args).not.toContain("-e");
   });
 });

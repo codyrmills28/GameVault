@@ -4,7 +4,7 @@ import type { ProcessStats } from "../types";
 /** Quote a single shell token for a `bash -lc` command line. Safe tokens
  *  (letters, digits, and a small set of punctuation) are returned as-is. */
 export function shellQuote(s: string): string {
-  if (/^[A-Za-z0-9_./:=+-]+$/.test(s)) return s;
+  if (/^[A-Za-z0-9_./:=+\-]+$/.test(s)) return s;
   return `'${s.replace(/'/g, "'\\''")}'`;
 }
 
