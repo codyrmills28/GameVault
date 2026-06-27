@@ -53,6 +53,12 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
         stdoutPatterns: [{ regex: "registered with join code (\\w+)", updateField: "ipAddress", transform: "joinCode" }],
         readyPattern: "Game server connected",
       },
+      container: {
+        executable: "valheim_server.x86_64",
+        installSubDir: "valheim-server",
+        env: { LD_LIBRARY_PATH: "./linux64", SteamAppId: "892970" },
+        args: ["-nographics", "-batchmode", "-name", "{name}", "-port", "2456", "-world", "Dedicated", "-password", "{password}", "-public", "1", "-crossplay"],
+      },
       defaultPort: 2456, params: [], configFiles: [],
       ports: [{ protocol: "UDP", port: "2456" }, { protocol: "UDP", port: "2457" }, { protocol: "UDP", port: "2458" }],
     },

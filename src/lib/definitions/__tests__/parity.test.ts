@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { BUILTIN_DEFINITIONS } from "../builtins";
 import { buildContext } from "../context";
-import { planLaunch, planPorts, planInstall } from "../plan";
+import { planLaunch, planPorts, planInstall, planContainer } from "../plan";
 
 function def(slug: string) {
   const d = BUILTIN_DEFINITIONS.find((x) => x.slug === slug)!;
@@ -76,5 +76,21 @@ describe("parity: Rust", () => {
 describe("parity: install targets", () => {
   it("valheim steam install", () => {
     expect(planInstall(def("VALHEIM").spec, "STEAMCMD")).toMatchObject({ appId: "896660", checkFile: "valheim_server.exe", requiredDiskGB: 2.5 });
+  });
+});
+
+describe("container: Valheim", () => {
+  it("produces a Linux container plan with rendered args and env", () => {
+    const c = ctxFor("VALHEIM", { name: "Viking Realm", password: "abc", ram: 6 }); // short pw -> viking123
+    const p = planContainer(def("VALHEIM").spec, c)!;
+    expect(p).not.toBeNull();
+    expect(p.image).toBe("cm2network/steamcmd");
+    expect(p.installSubDir).toBe("valheim-server");
+    expect(p.executable).toBe("valheim_server.x86_64");
+    expect(p.env).toEqual({ LD_LIBRARY_PATH: "./linux64", SteamAppId: "892970" });
+    expect(p.args).toEqual([
+      "-nographics", "-batchmode", "-name", "Viking Realm", "-port", "2456",
+      "-world", "Dedicated", "-password", "viking123", "-public", "1", "-crossplay",
+    ]);
   });
 });
