@@ -75,11 +75,14 @@ Opens a folder in the OS file manager. Body is **one of**:
 - `{ "serverId": "<id>" }` — opens that server's local directory.
 
 The path is **always resolved server-side** — from the whitelist map (`resolveStorageTarget`)
-or from the server record (looked up in the DB): use its `localPath` when set, otherwise
-fall back to the computed `local-servers/<serverId>` directory (the existing
-`getLocalServerDir` logic). The client never supplies a raw path. Before spawning, the resolved path is asserted to be inside `dataRoot()`; anything
-outside is rejected (`400`). For the `database` key, the *containing folder* is opened
-(can't "open" a file as a folder). Returns `{ ok: true }` or `{ ok: false, error }`.
+or from the server record (looked up in the DB). For the `serverId` branch the path is the
+**canonical** `<dataRoot>/local-servers/<serverId>` directory — the same location snapshots,
+backups, and logs use — and the server must belong to the authenticated user (ownership is
+checked). The client never supplies a raw path. Before spawning, the resolved path is
+asserted to be inside `dataRoot()`; anything outside is rejected (`400`). For the `database`
+key, the *containing folder* is opened (can't "open" a file as a folder). If the resolved
+folder doesn't exist yet, the route returns `{ ok: false, error }` (e.g. a server created but
+never run) rather than creating it. Returns `{ ok: true }` on success.
 
 ### Pure helpers (unit-tested)
 
@@ -113,8 +116,8 @@ New component `StorageView.tsx`, reached from a new sidebar nav entry **"File Lo
 Add an **"Open folder"** button next to the existing **Export** link on each server card in
 `DashboardView`, and on the single-server `ConsoleView` page. It POSTs `{ serverId }`.
 
-Visibility rule: shown only for **local** servers that have a `localPath`; hidden for cloud
-servers (no local files). On spawn failure, surface an inline error / toast.
+Visibility rule: shown only for servers with `runnerType === "LOCAL"`; hidden for cloud
+servers (no local files). On spawn failure or missing folder, surface an inline error / toast.
 
 ### Shared nav constant (targeted cleanup)
 
