@@ -43,8 +43,12 @@ export function buildStartEntrypoint(
 ): string {
   const quoted = args.map(shellQuote).join(" ");
   const execLine = quoted ? `exec ./${executable} ${quoted}` : `exec ./${executable}`;
+  // Resolve the SteamCMD launcher portably: SteamCMD base images (e.g.
+  // cm2network/steamcmd) ship it at $STEAMCMDDIR/steamcmd.sh and do NOT put a
+  // `steamcmd` command on PATH; fall back to a PATH `steamcmd` for images that do.
+  const steamcmd = `steamcmd_bin="\${STEAMCMDDIR:+\$STEAMCMDDIR/steamcmd.sh}"; "\${steamcmd_bin:-steamcmd}"`;
   return (
-    `steamcmd +force_install_dir /data/${installSubDir} +login anonymous` +
+    `${steamcmd} +force_install_dir /data/${installSubDir} +login anonymous` +
     ` +app_update ${appId} validate +quit` +
     ` && cd /data/${installSubDir} && ${execLine}`
   );

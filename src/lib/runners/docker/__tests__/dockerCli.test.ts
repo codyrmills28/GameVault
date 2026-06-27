@@ -46,7 +46,8 @@ describe("buildStartEntrypoint", () => {
   it("runs steamcmd app_update then execs the server binary with quoted args", () => {
     const ep = buildStartEntrypoint("896660", "valheim-server", "valheim_server.x86_64", ["-name", "Viking Realm", "-port", "2456"]);
     expect(ep).toBe(
-      "steamcmd +force_install_dir /data/valheim-server +login anonymous +app_update 896660 validate +quit" +
+      'steamcmd_bin="${STEAMCMDDIR:+$STEAMCMDDIR/steamcmd.sh}"; "${steamcmd_bin:-steamcmd}"' +
+      " +force_install_dir /data/valheim-server +login anonymous +app_update 896660 validate +quit" +
       " && cd /data/valheim-server && exec ./valheim_server.x86_64 -name 'Viking Realm' -port 2456"
     );
   });
