@@ -5,26 +5,26 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/components/ModalProvider";
 import { useToast } from "@/components/ToastProvider";
-import { 
-  Server as ServerIcon, 
-  Archive, 
-  Cpu, 
-  Database, 
-  Layers, 
-  RefreshCw, 
-  Play, 
-  Square, 
-  Trash2, 
-  FolderSync, 
-  Plus, 
-  Copy, 
-  Check, 
-  Clock, 
-  LogOut, 
-  Users, 
-  BadgeCent, 
-  Wrench, 
-  History, 
+import {
+  Server as ServerIcon,
+  Archive,
+  Cpu,
+  Database,
+  Layers,
+  RefreshCw,
+  Play,
+  Square,
+  Trash2,
+  FolderSync,
+  Plus,
+  Copy,
+  Check,
+  Clock,
+  LogOut,
+  Users,
+  BadgeCent,
+  Wrench,
+  History,
   LayoutDashboard,
   MapPin,
   AlertCircle,
@@ -39,6 +39,7 @@ import {
   Store,
   Package
 } from "lucide-react";
+import { DASHBOARD_NAV_LINKS } from "@/components/dashboardNavLinks";
 
 interface DashboardViewProps {
   initialData: {
@@ -551,18 +552,10 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
               <span className="text-[10px] font-bold text-mutedText uppercase tracking-wider">Features</span>
             </div>
 
-            {[
-              { label: "Mod Manager", icon: Wrench, href: "/dashboard/mods" },
-              { label: "World Backups", icon: FolderSync, href: "/dashboard/backups" },
-              { label: "Server Config", icon: Settings, href: "/dashboard/config" },
-              { label: "Server Console", icon: Terminal, href: "/dashboard/console" },
-              { label: "Schedules", icon: Clock, href: "/dashboard/schedules" },
-              { label: "Team Members", icon: Users, href: "/dashboard/team" },
-              { label: "Audit Logs", icon: History, href: "/dashboard/logs" }
-            ].map((link, i) => (
-              <Link 
-                key={i} 
-                href={link.href} 
+            {DASHBOARD_NAV_LINKS.map((link, i) => (
+              <Link
+                key={i}
+                href={link.href}
                 className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold hover:bg-white/5 text-slate-400 hover:text-white transition-all group"
               >
                 <div className="flex items-center gap-3">

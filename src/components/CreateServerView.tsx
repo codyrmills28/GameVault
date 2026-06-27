@@ -11,8 +11,6 @@ import {
   LogOut,
   Users,
   BadgeCent,
-  Wrench,
-  FolderSync,
   History,
   LayoutDashboard,
   ShieldAlert,
@@ -26,8 +24,9 @@ import {
   Package,
   X,
   AlertTriangle,
-  RefreshCw
+  RefreshCw,
 } from "lucide-react";
+import { DASHBOARD_NAV_LINKS } from "@/components/dashboardNavLinks";
 import DefinitionParamFields from "./DefinitionParamFields";
 
 interface CreateServerViewProps {
@@ -298,15 +297,7 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
               <span className="text-[10px] font-bold text-mutedText uppercase tracking-wider">Features</span>
             </div>
 
-            {[
-              { label: "Mod Manager", icon: Wrench, href: "/dashboard/mods" },
-              { label: "World Backups", icon: FolderSync, href: "/dashboard/backups" },
-              { label: "Server Config", icon: Settings, href: "/dashboard/config" },
-              { label: "Server Console", icon: Terminal, href: "/dashboard/console" },
-              { label: "Schedules", icon: Clock, href: "/dashboard/schedules" },
-              { label: "Team Members", icon: Users, href: "/dashboard/team" },
-              { label: "Audit Logs", icon: History, href: "/dashboard/logs" }
-            ].map((link, i) => (
+            {DASHBOARD_NAV_LINKS.map((link, i) => (
               <Link
                 key={i}
                 href={link.href}
