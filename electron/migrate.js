@@ -15,8 +15,8 @@ function checksum(sql) {
 function splitStatements(sql) {
   return sql
     .split(";")
-    .map((s) => s.trim())
-    .filter((s) => s.replace(/--.*$/gm, "").trim().length > 0);
+    .map((s) => s.replace(/^(?:\s*--[^\n]*\n)+/, "").trim())
+    .filter((s) => s.length > 0 && !s.startsWith("--"));
 }
 
 function listMigrations(migrationsDir, deps = {}) {

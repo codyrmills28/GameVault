@@ -38,6 +38,13 @@ describe("pure helpers", () => {
     expect(splitStatements(sql).length).toBe(2);
   });
 
+  it("strips leading comment lines from emitted statements", () => {
+    const stmts = splitStatements(`-- CreateTable\nCREATE TABLE "A" ("id" TEXT);`);
+    expect(stmts.length).toBe(1);
+    expect(stmts[0].startsWith("--")).toBe(false);
+    expect(stmts[0]).toContain("CREATE TABLE");
+  });
+
   it("checksum is a stable sha256 hex of the content", () => {
     expect(checksum("abc")).toBe(
       "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
@@ -131,6 +138,40 @@ describe("runMigrations", () => {
     const res = await runMigrations(opts({ dbPath: o.dbPath, migrationsDir: o.migrationsDir }));
     expect(res.applied).toEqual([]);
     expect(res.backupPath).toBeNull();
+  });
+
+  it("applies a SQLite table-rebuild migration on a populated table, preserving rows", async () => {
+    const md = path.join(work, "rebuild-migrations");
+    writeMigration(md, "0001_init", `CREATE TABLE "User" ("id" TEXT NOT NULL PRIMARY KEY, "email" TEXT NOT NULL);`);
+    writeMigration(
+      md,
+      "0002_rebuild",
+      `-- RedefineTables
+PRAGMA defer_foreign_keys=ON;
+PRAGMA foreign_keys=OFF;
+CREATE TABLE "new_User" ("id" TEXT NOT NULL PRIMARY KEY, "email" TEXT NOT NULL, "role" TEXT NOT NULL DEFAULT 'USER');
+INSERT INTO "new_User" ("id", "email") SELECT "id", "email" FROM "User";
+DROP TABLE "User";
+ALTER TABLE "new_User" RENAME TO "User";
+PRAGMA foreign_keys=ON;
+PRAGMA defer_foreign_keys=OFF;`
+    );
+    const o = opts({ migrationsDir: md });
+    // Pre-existing populated DB (v0.1.0-shaped: User table, no _prisma_migrations).
+    const pre = makeClient("file:" + o.dbPath.replace(/\\/g, "/"));
+    await pre.$executeRawUnsafe(`CREATE TABLE "User" ("id" TEXT NOT NULL PRIMARY KEY, "email" TEXT NOT NULL)`);
+    await pre.$executeRawUnsafe(`INSERT INTO "User" ("id","email") VALUES ('u1','a@b.c')`);
+    await pre.$disconnect();
+
+    const res = await runMigrations(o);
+    expect(res.applied).toEqual(["0002_rebuild"]); // 0001 baselined, not re-run
+    const db = makeClient("file:" + o.dbPath.replace(/\\/g, "/"));
+    try {
+      const rows = await db.$queryRawUnsafe(`SELECT id, email, role FROM "User"`);
+      expect(rows).toEqual([{ id: "u1", email: "a@b.c", role: "USER" }]);
+    } finally {
+      await db.$disconnect();
+    }
   });
 
   it("on a failing migration: rejects, preserves data, and keeps a backup", async () => {
