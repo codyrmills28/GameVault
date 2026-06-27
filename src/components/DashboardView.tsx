@@ -37,7 +37,8 @@ import {
   Send,
   Activity,
   Store,
-  Package
+  Package,
+  FolderOpen
 } from "lucide-react";
 import { DASHBOARD_NAV_LINKS } from "@/components/dashboardNavLinks";
 
@@ -302,6 +303,20 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
     navigator.clipboard.writeText(ip);
     setCopiedIp(ip);
     setTimeout(() => setCopiedIp(null), 2000);
+  };
+
+  const handleOpenServerFolder = async (serverId: string) => {
+    try {
+      const res = await fetch("/api/system/open-folder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ serverId }),
+      });
+      const data = await res.json();
+      if (!data.ok) addToast("error", data.error || "Could not open server folder");
+    } catch {
+      addToast("error", "Could not open server folder");
+    }
   };
 
   const handleLogout = async () => {
@@ -930,6 +945,19 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                           <Archive className="w-3.5 h-3.5" />
                           <span>Vault</span>
                         </button>
+
+                        {/* Open Folder */}
+                        {server.runnerType === "LOCAL" && (
+                          <button
+                            onClick={() => handleOpenServerFolder(server.id)}
+                            disabled={isServerLoading || server.status === "STARTING"}
+                            className={`px-3.5 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center gap-1.5 transition-all ${isServerLoading || server.status === "STARTING" ? "opacity-50 pointer-events-none" : ""}`}
+                            title="Open this server's files on disk"
+                          >
+                            <FolderOpen className="w-3.5 h-3.5" />
+                            <span>Files</span>
+                          </button>
+                        )}
 
                         {/* Export Realm */}
                         <a
