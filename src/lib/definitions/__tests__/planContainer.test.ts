@@ -52,4 +52,9 @@ describe("planContainer", () => {
     expect(p.args).toEqual(["always"]); // password empty -> omitted
     expect(p.env).toBeUndefined();
   });
+
+  it("renders template variables inside env values", () => {
+    const spec = specWith({ executable: "srv", env: { WORLD_NAME: "{name}" }, args: [] });
+    expect(planContainer(spec, ctx(spec))!.env).toEqual({ WORLD_NAME: "My Realm" });
+  });
 });

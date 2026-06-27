@@ -83,7 +83,8 @@ export interface ContainerPlan {
 export function planContainer(spec: GameDefinitionSpec, ctx: DefinitionContext): ContainerPlan | null {
   const c = spec.container;
   if (!c) return null;
-  const installSubDir = c.installSubDir ?? (spec.install as any).installSubDir ?? "";
+  const specInstallSubDir = "installSubDir" in spec.install ? spec.install.installSubDir ?? "" : "";
+  const installSubDir = c.installSubDir ?? specInstallSubDir;
   const env = c.env
     ? Object.fromEntries(Object.entries(c.env).map(([k, v]) => [k, renderTemplate(v, ctx)]))
     : undefined;
