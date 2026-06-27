@@ -11,6 +11,7 @@ const {
   restartToUpdate,
   isUpdateStaged,
 } = require("./updater");
+const { runMigrations } = require("./migrate");
 
 const isDev = process.env.GAMEVAULT_DEV === "1";
 const internalToken = crypto.randomBytes(16).toString("hex");
@@ -75,6 +76,17 @@ function startNextServer(port, dataDir) {
   );
   // Standalone server.js starts listening on PORT/HOSTNAME when required.
   require(path.join(process.resourcesPath, "standalone", "server.js"));
+}
+
+function makeMigrationClient(dbUrl) {
+  const enginePath = path.join(
+    process.resourcesPath, "standalone", "src", "generated", "client", "query-engine-windows.exe"
+  );
+  process.env.PRISMA_QUERY_ENGINE_BINARY = enginePath;
+  const { PrismaClient } = require(
+    path.join(process.resourcesPath, "standalone", "src", "generated", "client")
+  );
+  return new PrismaClient({ datasources: { db: { url: dbUrl } } });
 }
 
 function waitForServer(port, timeoutMs) {
@@ -190,6 +202,12 @@ app.whenReady().then(async () => {
       await createWindow();
     } else {
       const dataDir = ensureDataDir();
+      await runMigrations({
+        dbPath: path.join(dataDir, "realmswap.db"),
+        migrationsDir: path.join(process.resourcesPath, "migrations"),
+        backupDir: path.join(dataDir, "backups"),
+        makeClient: makeMigrationClient,
+      });
       serverPort = await getFreePort();
       startNextServer(serverPort, dataDir);
       await waitForServer(serverPort, 30000);
@@ -202,7 +220,10 @@ app.whenReady().then(async () => {
     }
   } catch (err) {
     const { dialog } = require("electron");
-    dialog.showErrorBox("RealmSwap failed to start", String(err && err.stack || err));
+    const backup = err && err.backupPath;
+    const detail = String((err && err.stack) || err) +
+      (backup ? `\n\nYour data is safe. A backup was saved to:\n${backup}` : "");
+    dialog.showErrorBox("RealmSwap failed to start", detail);
     app.quit();
   }
 });
