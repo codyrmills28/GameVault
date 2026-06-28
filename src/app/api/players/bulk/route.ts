@@ -20,6 +20,14 @@ export async function POST(req: NextRequest) {
 
   const results: Record<string, any> = {};
 
+  // Hoist owned-server fetch outside the loop (only needed once per user, not per player)
+  const owned = (
+    await prisma.server.findMany({
+      where: { userId: user.id },
+      select: { id: true },
+    })
+  ).map((s) => s.id);
+
   for (const player of players) {
     if (action === "delete") {
       await prisma.player.delete({ where: { id: player.id } });
@@ -53,12 +61,6 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === "whitelist") {
-      const owned = (
-        await prisma.server.findMany({
-          where: { userId: user.id },
-          select: { id: true },
-        })
-      ).map((s) => s.id);
       const targets = resolveTargetServerIds({ serverIds, all }, owned);
       for (const sid of targets) {
         await prisma.playerWhitelist.upsert({

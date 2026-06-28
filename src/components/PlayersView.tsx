@@ -67,8 +67,15 @@ interface EnforcementRow {
   detail: string | null;
 }
 
+interface PlayerEventRow {
+  id?: string;
+  action: string;
+  detail: string;
+  createdAt?: string;
+}
+
 interface DetailData {
-  player: PlayerRow & { events: any[] };
+  player: PlayerRow & { events: PlayerEventRow[] };
   enforcement: EnforcementRow[];
 }
 
@@ -862,7 +869,7 @@ export default function PlayersView({
                       Event History
                     </h3>
                     <div className="space-y-2 max-h-64 overflow-y-auto">
-                      {detail.player.events.map((ev: any, i: number) => (
+                      {detail.player.events.map((ev: PlayerEventRow, i: number) => (
                         <div
                           key={ev.id ?? i}
                           className="flex items-start gap-3 text-xs py-2 border-b border-white/5 last:border-0"
@@ -870,10 +877,10 @@ export default function PlayersView({
                           <Clock className="w-3.5 h-3.5 text-mutedText flex-shrink-0 mt-0.5" />
                           <div className="min-w-0">
                             <span className="font-semibold text-slate-300 capitalize">
-                              {ev.type?.toLowerCase().replace(/_/g, " ")}
+                              {ev.action?.toLowerCase().replace(/_/g, " ")}
                             </span>
-                            {ev.description && (
-                              <p className="text-mutedText truncate">{ev.description}</p>
+                            {ev.detail && (
+                              <p className="text-mutedText truncate">{ev.detail}</p>
                             )}
                             <p className="text-slate-600 text-[10px]">
                               {ev.createdAt ? new Date(ev.createdAt).toLocaleString() : ""}
