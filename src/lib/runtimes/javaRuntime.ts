@@ -19,7 +19,6 @@ export function parseRequiredJavaMajor(text: string): number | null {
   const m = text.match(/class file version (\d+)(?:\.\d+)?/i);
   if (!m) return null;
   const classFileVersion = parseInt(m[1], 10);
-  if (!Number.isFinite(classFileVersion)) return null;
   const major = classFileVersion - 44;
   return major > 0 ? major : null;
 }
