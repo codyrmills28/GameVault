@@ -36,3 +36,54 @@ describe("findArchiveJavaRoot", () => {
     expect(findArchiveJavaRoot(["foo", "foo/bar"], () => false)).toBeNull();
   });
 });
+
+import path from "path";
+import { ensureJava } from "../javaRuntime";
+
+describe("ensureJava", () => {
+  const javaPath = (root: string, major: number) =>
+    path.join(root, "runtimes", `jdk-${major}`, "bin", "java.exe");
+
+  it("returns the cached java.exe without provisioning when already present", async () => {
+    let provisioned = false;
+    const result = await ensureJava(
+      25,
+      { dataRoot: "/data" },
+      {
+        exists: (p) => p === javaPath("/data", 25),
+        provision: async () => {
+          provisioned = true;
+        },
+      }
+    );
+    expect(result).toBe(javaPath("/data", 25));
+    expect(provisioned).toBe(false);
+  });
+
+  it("provisions when missing, then returns the path", async () => {
+    const calls: number[] = [];
+    let present = false;
+    const result = await ensureJava(
+      21,
+      { dataRoot: "/d" },
+      {
+        exists: () => present,
+        provision: async (major) => {
+          calls.push(major);
+          present = true;
+        },
+      }
+    );
+    expect(calls).toEqual([21]);
+    expect(result).toBe(javaPath("/d", 21));
+  });
+
+  it("throws when provisioning leaves no java.exe", async () => {
+    await expect(
+      ensureJava(21, { dataRoot: "/d" }, {
+        exists: () => false,
+        provision: async () => {},
+      })
+    ).rejects.toThrow(/did not contain/i);
+  });
+});
