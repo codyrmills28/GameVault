@@ -70,7 +70,7 @@ export function checkJavaInstalled(): Promise<boolean> {
 }
 
 // Ensure local directories exist
-function getLocalServerDir(serverId: string, sub?: string): string {
+export function getLocalServerDir(serverId: string, sub?: string): string {
   const dir = sub
     ? path.join(dataRoot(), "local-servers", serverId, sub)
     : path.join(dataRoot(), "local-servers", serverId);
@@ -357,7 +357,7 @@ function runShellScript(script: string, cwd: string, onLog: (m: string) => void)
 }
 
 // Resolve a game definition from the database (by definitionId or built-in slug fallback)
-async function resolveDefinition(server: { definitionId: string | null; game: string }): Promise<{ spec: GameDefinitionSpec; installMethod: string; requiresJava: boolean }> {
+export async function resolveDefinition(server: { definitionId: string | null; game: string }): Promise<{ spec: GameDefinitionSpec; installMethod: string; requiresJava: boolean }> {
   let record = server.definitionId
     ? await prisma.gameDefinition.findUnique({ where: { id: server.definitionId } })
     : await prisma.gameDefinition.findFirst({ where: { ownerId: null, slug: server.game.toUpperCase() } });

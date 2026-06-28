@@ -66,12 +66,16 @@ export async function POST(
         },
       });
 
-      // 2. Delete the active server slot
+      // 2. Clean up orphan player enforcement/whitelist rows that reference this server
+      await tx.playerWhitelist.deleteMany({ where: { serverId } });
+      await tx.playerEnforcement.deleteMany({ where: { serverId } });
+
+      // 3. Delete the active server slot
       await tx.server.delete({
         where: { id: serverId },
       });
 
-      // 3. Log activity
+      // 4. Log activity
       await tx.activityLog.create({
         data: {
           userId: user.id,

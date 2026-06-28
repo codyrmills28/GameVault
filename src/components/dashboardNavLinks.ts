@@ -5,6 +5,7 @@ import {
   Terminal,
   Clock,
   Users,
+  UserCog,
   History,
   HardDrive,
   type LucideIcon,
@@ -27,6 +28,7 @@ export const DASHBOARD_NAV_LINKS: DashboardNavLink[] = [
   { label: "Server Console", icon: Terminal, href: "/dashboard/console" },
   { label: "Schedules", icon: Clock, href: "/dashboard/schedules" },
   { label: "Team Members", icon: Users, href: "/dashboard/team" },
+  { label: "Players", icon: UserCog, href: "/dashboard/players" },
   { label: "Audit Logs", icon: History, href: "/dashboard/logs" },
   { label: "File Locations", icon: HardDrive, href: "/dashboard/storage" },
 ];
