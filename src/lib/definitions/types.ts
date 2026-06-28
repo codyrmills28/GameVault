@@ -1,7 +1,7 @@
 export type InstallMethod = "STEAMCMD" | "DOWNLOAD" | "CUSTOM_SCRIPT";
 export type ParamType = "text" | "number" | "boolean" | "enum";
 export type Protocol = "TCP" | "UDP";
-export type ConfigStrategy = "template" | "enshroudedJson" | "zomboidIniMerge";
+export type ConfigStrategy = "template" | "enshroudedJson" | "zomboidIniMerge" | "windroseJson";
 
 export interface ParamSpec {
   key: string;
