@@ -66,8 +66,10 @@ export function writeZomboidConfig(serverDir: string, password?: string) {
   fs.writeFileSync(iniPath, iniContent);
 }
 
-// Builds a deterministic Windrose invite code: >= 6 uppercase alphanumeric chars,
+// Builds a deterministic Windrose invite code: exactly 6 uppercase alphanumeric chars,
 // derived from the server name (padded with "WINDROSE" so short names still qualify).
+// Capped at 6 by design; the file is user-editable, so same-prefix name collisions are
+// acceptable for a default.
 function makeWindroseInviteCode(serverName: string): string {
   const cleaned = serverName.replace(/[^a-zA-Z0-9]/g, "");
   return (cleaned + "WINDROSE").toUpperCase().slice(0, 6);
