@@ -16,6 +16,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const access = await verifyServerAccess(params.id, user.id);
   if (!access) return NextResponse.json({ error: "Server not found" }, { status: 404 });
+  if (!access.isOwner) return NextResponse.json({ error: "Only the server owner can manage host transfers" }, { status: 403 });
 
   const link = await prisma.serverHostLink.findUnique({ where: { serverId: params.id } });
   return NextResponse.json({ link: publicLink(link) });
@@ -26,6 +27,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const access = await verifyServerAccess(params.id, user.id);
   if (!access) return NextResponse.json({ error: "Server not found" }, { status: 404 });
+  if (!access.isOwner) return NextResponse.json({ error: "Only the server owner can manage host transfers" }, { status: 403 });
 
   const body = await req.json();
   const provider = body.provider || "AKLIZ";
@@ -72,6 +74,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const access = await verifyServerAccess(params.id, user.id);
   if (!access) return NextResponse.json({ error: "Server not found" }, { status: 404 });
+  if (!access.isOwner) return NextResponse.json({ error: "Only the server owner can manage host transfers" }, { status: 403 });
 
   await prisma.serverHostLink.deleteMany({ where: { serverId: params.id } });
   return NextResponse.json({ ok: true });

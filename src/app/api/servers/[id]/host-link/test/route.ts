@@ -10,6 +10,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const access = await verifyServerAccess(params.id, user.id);
   if (!access) return NextResponse.json({ error: "Server not found" }, { status: 404 });
+  if (!access.isOwner) return NextResponse.json({ error: "Only the server owner can manage host transfers" }, { status: 403 });
 
   const link = await prisma.serverHostLink.findUnique({ where: { serverId: params.id } });
   if (!link) return NextResponse.json({ ok: false, error: "No host link configured" }, { status: 400 });
