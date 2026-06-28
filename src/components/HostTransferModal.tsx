@@ -29,11 +29,15 @@ export default function HostTransferModal({ serverId, serverName, onClose }: Pro
   const [progress, setProgress] = useState<{ percent: number | null; label: string } | null>(null);
 
   const loadLink = async () => {
-    const res = await fetch(`/api/servers/${serverId}/host-link`);
-    const body = await res.json();
-    if (body.link) {
-      setSaved(body.link);
-      setForm((f) => ({ ...f, host: body.link.host, port: body.link.port, username: body.link.username, remoteBasePath: body.link.remoteBasePath, excludeConfig: body.link.excludeConfig, password: "" }));
+    try {
+      const res = await fetch(`/api/servers/${serverId}/host-link`);
+      const body = await res.json();
+      if (body.link) {
+        setSaved(body.link);
+        setForm((f) => ({ ...f, host: body.link.host, port: body.link.port, username: body.link.username, remoteBasePath: body.link.remoteBasePath, excludeConfig: body.link.excludeConfig, password: "" }));
+      }
+    } catch {
+      setMessage("Failed to load saved connection.");
     }
   };
 
@@ -71,7 +75,10 @@ export default function HostTransferModal({ serverId, serverName, onClose }: Pro
       const res = await fetch(`/api/servers/${serverId}/transfer`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ direction, confirmRemoteStopped: confirmStopped }) });
       const body = await res.json();
       if (!res.ok) setMessage(body.error || "Transfer failed");
-      else setMessage(`${direction === "PUSH" ? "Pushed" : "Pulled"} ${body.summary.filesTransferred} file(s), ${(body.summary.bytesTransferred / 1048576).toFixed(1)} MB.${body.summary.failures.length ? ` ${body.summary.failures.length} failed.` : ""}`);
+      else {
+        const s = body.summary;
+        setMessage(`${direction === "PUSH" ? "Pushed" : "Pulled"} ${s?.filesTransferred ?? 0} file(s), ${((s?.bytesTransferred ?? 0) / 1048576).toFixed(1)} MB.${s?.failures?.length ? ` ${s.failures.length} failed.` : ""}`);
+      }
     } finally {
       clearInterval(interval); setBusy(null); setProgress(null); await loadLink();
     }

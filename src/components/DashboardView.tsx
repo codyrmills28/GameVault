@@ -946,6 +946,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                           onClick={() => setHostModalServer({ id: server.id, name: server.name })}
                           className={`px-3.5 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center gap-1.5 transition-all ${isServerLoading || server.status === "STARTING" ? "opacity-50 pointer-events-none" : ""}`}
                           title="Transfer to hosting provider"
+                          aria-label="Transfer to hosting provider"
                         >
                           <UploadCloud className="w-4 h-4" />
                         </button>
