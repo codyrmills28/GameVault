@@ -102,7 +102,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     await prisma.activityLog.create({
       data: {
         userId: user.id,
-        action: "RESTORE_SERVER",
+        action: direction === "PUSH" ? "PUSH_TO_HOST" : "PULL_FROM_HOST",
         details: `${direction === "PUSH" ? "Pushed" : "Pulled"} server '${server.name}' ${direction === "PUSH" ? "to" : "from"} ${provider.displayName} (${summary.filesTransferred} files, ${(summary.bytesTransferred / 1048576).toFixed(1)} MB).`,
       },
     });

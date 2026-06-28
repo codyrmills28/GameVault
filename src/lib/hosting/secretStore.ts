@@ -27,6 +27,9 @@ function keyPath(): string {
 
 function getOrCreateAesKey(): Buffer {
   const p = keyPath();
+  // dataRoot() normally already exists (Electron userData / dev cwd), but ensure
+  // it does so the keyfile write can't fail with ENOENT on a fresh data dir.
+  fs.mkdirSync(path.dirname(p), { recursive: true });
   const key = crypto.randomBytes(32);
   try {
     // 'wx' = O_CREAT | O_EXCL: fails if the file already exists, so two
