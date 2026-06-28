@@ -32,6 +32,17 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
       ],
       editableConfigPath: "server.properties",
       ports: [{ protocol: "TCP", port: "25565" }, { protocol: "UDP", port: "25565" }],
+      playerList: {
+        identity: "minecraftName",
+        ban: {
+          file: { path: "banned-players.json", format: "jsonArray", field: "name" },
+          console: { add: "ban {id} {reason}", remove: "pardon {id}" },
+        },
+        whitelist: {
+          file: { path: "whitelist.json", format: "jsonArray", field: "name" },
+          console: { add: "whitelist add {id}", remove: "whitelist remove {id}" },
+        },
+      },
     },
   },
   {
@@ -55,6 +66,11 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
       },
       defaultPort: 2456, params: [], configFiles: [],
       ports: [{ protocol: "UDP", port: "2456" }, { protocol: "UDP", port: "2457" }, { protocol: "UDP", port: "2458" }],
+      playerList: {
+        identity: "steamId",
+        ban: { file: { path: "bannedlist.txt", format: "lineList" } },
+        whitelist: { file: { path: "permittedlist.txt", format: "lineList" } },
+      },
     },
   },
   {
@@ -94,6 +110,13 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
       configFiles: [{ path: "zomboid-data/Server/servertest.ini", strategy: "zomboidIniMerge" }],
       editableConfigPath: "zomboid-server/zomboid-data/Server/servertest.ini",
       ports: [{ protocol: "UDP", port: "16261" }, { protocol: "UDP", port: "16262" }, { protocol: "UDP", port: "8766" }],
+      playerList: {
+        identity: "steamId",
+        ban: {
+          console: { add: "banid {id}", remove: "unbanid {id}" },
+        },
+        whitelist: { enforced: false },
+      },
     },
   },
   {
@@ -125,6 +148,13 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
       params: [],
       configFiles: [],
       ports: [{ protocol: "UDP", port: "7777" }, { protocol: "UDP", port: "7778" }, { protocol: "UDP", port: "27015" }],
+      playerList: {
+        identity: "steamId",
+        ban: {
+          console: { add: "cheat BanPlayer {id}", remove: "cheat UnbanPlayer {id}" },
+        },
+        whitelist: { enforced: false },
+      },
     },
   },
   {
@@ -185,6 +215,14 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
       configFiles: [],
       editableConfigPath: "palworld-server/Pal/Saved/Config/WindowsServer/PalWorldSettings.ini",
       ports: [{ protocol: "UDP", port: "8211" }],
+      playerList: {
+        identity: "steamId",
+        ban: {
+          file: { path: "Pal/Saved/SaveGames/banlist.txt", format: "lineList" },
+          console: { add: "BanPlayer {id}", remove: "UnBanPlayer {id}" },
+        },
+        whitelist: { enforced: false },
+      },
     },
   },
   {
@@ -217,6 +255,13 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
       configFiles: [],
       editableConfigPath: "rust-server/server/servertest/cfg/server.cfg",
       ports: [{ protocol: "UDP", port: "28015" }, { protocol: "TCP", port: "28016" }],
+      playerList: {
+        identity: "steamId",
+        ban: {
+          console: { add: 'banid {id} "{reason}"', remove: "unban {id}" },
+        },
+        whitelist: { enforced: false },
+      },
     },
   },
 ];
