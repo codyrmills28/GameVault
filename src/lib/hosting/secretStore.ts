@@ -27,12 +27,23 @@ function keyPath(): string {
 
 function getOrCreateAesKey(): Buffer {
   const p = keyPath();
-  if (fs.existsSync(p)) {
-    return fs.readFileSync(p);
-  }
   const key = crypto.randomBytes(32);
-  fs.writeFileSync(p, key, { mode: 0o600 });
-  return key;
+  try {
+    // 'wx' = O_CREAT | O_EXCL: fails if the file already exists, so two
+    // racing callers can't both create (and clobber) the key.
+    const fd = fs.openSync(p, "wx", 0o600);
+    try {
+      fs.writeSync(fd, key);
+    } finally {
+      fs.closeSync(fd);
+    }
+    return key;
+  } catch (err: any) {
+    if (err && err.code === "EEXIST") {
+      return fs.readFileSync(p);
+    }
+    throw err;
+  }
 }
 
 export function encryptSecret(plain: string): string {
@@ -40,6 +51,9 @@ export function encryptSecret(plain: string): string {
   if (ss) {
     return "v1:safe:" + ss.encryptString(plain).toString("base64");
   }
+  // DEV-ONLY fallback: AES-256-GCM with a locally persisted key.
+  // The keyfile mode 0o600 protects the key on POSIX; it is ignored on Windows.
+  // Packaged builds use Electron safeStorage (DPAPI), which is user-scoped.
   const key = getOrCreateAesKey();
   const iv = crypto.randomBytes(12);
   const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
