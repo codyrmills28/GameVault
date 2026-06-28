@@ -20,6 +20,7 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
       requiresJava: true,
       launch: {
         executable: "java",
+        executableOnPath: true,
         args: ["-Xms512M", "-Xmx{ram}G", "-jar", "server.jar", "nogui"],
         stdinStopCommand: "stop\n",
       },
@@ -76,7 +77,7 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
     spec: {
       install: { appId: "380870", installSubDir: "zomboid-server", checkFile: "StartServer64.bat", requiredDiskGB: 3.0 },
       launch: {
-        executable: "cmd.exe", cwdSubDir: "zomboid-server",
+        executable: "cmd.exe", executableOnPath: true, cwdSubDir: "zomboid-server",
         args: ["/c", "StartServer64.bat", "-cachedir=./zomboid-data", "-servername", "servertest"],
       },
       defaultPort: 16261, params: [],
