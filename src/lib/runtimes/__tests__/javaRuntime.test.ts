@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { adoptiumUrl, parseRequiredJavaMajor, findArchiveJavaRoot } from "../javaRuntime";
+import path from "path";
+import { adoptiumUrl, parseRequiredJavaMajor, findArchiveJavaRoot, ensureJava } from "../javaRuntime";
 
 describe("adoptiumUrl", () => {
   it("builds the Windows x64 GA JRE endpoint for a major version", () => {
@@ -36,9 +37,6 @@ describe("findArchiveJavaRoot", () => {
     expect(findArchiveJavaRoot(["foo", "foo/bar"], () => false)).toBeNull();
   });
 });
-
-import path from "path";
-import { ensureJava } from "../javaRuntime";
 
 describe("ensureJava", () => {
   const javaPath = (root: string, major: number) =>

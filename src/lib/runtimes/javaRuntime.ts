@@ -99,6 +99,7 @@ async function defaultProvision(major: number, cacheDir: string, opts: EnsureJav
   try { fs.rmSync(zipPath, { force: true }); } catch (_) {}
   try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch (_) {}
 
+  let tmpDirConsumed = false;
   try {
     opts.onProgress?.(null, `Downloading Java ${major}…`);
     await downloadFollowingRedirects(adoptiumUrl(major), zipPath, (p) =>
@@ -120,9 +121,12 @@ async function defaultProvision(major: number, cacheDir: string, opts: EnsureJav
     const src = root === "" ? tmpDir : path.join(tmpDir, root);
     fs.rmSync(cacheDir, { recursive: true, force: true });
     fs.renameSync(src, cacheDir);
+    tmpDirConsumed = src === tmpDir;   // rename moved tmpDir itself into place
   } finally {
     try { fs.rmSync(zipPath, { force: true }); } catch (_) {}
-    try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch (_) {}
+    if (!tmpDirConsumed) {
+      try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch (_) {}
+    }
   }
 }
 
@@ -175,9 +179,8 @@ function downloadFollowingRedirects(
       });
       res.pipe(file);
       file.on("finish", () => {
-        file.close();
         onProgress?.(computePercent(received, total));
-        resolve();
+        file.close(() => resolve());
       });
       file.on("error", (e) => {
         fs.unlink(dest, () => {});
