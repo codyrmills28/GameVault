@@ -581,7 +581,7 @@ async function startLocalServer(serverId: string, game: string, ramAllocation: n
       fs.writeFileSync(full, cf.content ?? "");
     } else {
       writeStrategyConfig({
-        strategy: cf.strategy as "enshroudedJson" | "zomboidIniMerge",
+        strategy: cf.strategy as "enshroudedJson" | "zomboidIniMerge" | "windroseJson",
         installDir,
         serverName: server.name,
         password: server.password || undefined,

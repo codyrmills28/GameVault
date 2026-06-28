@@ -66,13 +66,33 @@ export function writeZomboidConfig(serverDir: string, password?: string) {
   fs.writeFileSync(iniPath, iniContent);
 }
 
+// Builds a deterministic Windrose invite code: >= 6 uppercase alphanumeric chars,
+// derived from the server name (padded with "WINDROSE" so short names still qualify).
+function makeWindroseInviteCode(serverName: string): string {
+  const cleaned = serverName.replace(/[^a-zA-Z0-9]/g, "");
+  return (cleaned + "WINDROSE").toUpperCase().slice(0, 6);
+}
+
+// Writes the Windrose ServerDescription.json at the server install root.
+// Windrose joins are driven by InviteCode (always set); Password is an optional gate.
+export function writeWindroseConfig(serverDir: string, serverName: string, password?: string) {
+  const config = {
+    ServerName: serverName,
+    Password: password || "",
+    IsPasswordProtected: !!password,
+    InviteCode: makeWindroseInviteCode(serverName),
+  };
+  fs.writeFileSync(path.join(serverDir, "ServerDescription.json"), JSON.stringify(config, null, 2));
+}
+
 // Dispatch a non-template config strategy to its writer.
 export function writeStrategyConfig(args: {
-  strategy: "enshroudedJson" | "zomboidIniMerge";
+  strategy: "enshroudedJson" | "zomboidIniMerge" | "windroseJson";
   installDir: string;       // the server's install subdir (e.g. .../enshrouded-server)
   serverName: string;
   password?: string;
 }) {
   if (args.strategy === "enshroudedJson") writeEnshroudedConfig(args.installDir, args.serverName, args.password);
   else if (args.strategy === "zomboidIniMerge") writeZomboidConfig(args.installDir, args.password);
+  else if (args.strategy === "windroseJson") writeWindroseConfig(args.installDir, args.serverName, args.password);
 }
