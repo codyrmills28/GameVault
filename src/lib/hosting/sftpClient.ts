@@ -1,4 +1,5 @@
 import SftpClientLib from "ssh2-sftp-client";
+import type sftp from "ssh2-sftp-client";
 import path from "path";
 import { FileEntry, HostCredentials, SftpClient } from "./types";
 
@@ -18,7 +19,7 @@ export function makeSftpClient(creds: HostCredentials): SftpClient {
     },
     async list(remoteDir: string): Promise<FileEntry[]> {
       const items = await sftp.list(remoteDir);
-      return items.map((it: any) => ({
+      return items.map((it: sftp.FileInfo) => ({
         relPath: it.name, // basename; walkRemote composes full relPaths
         size: it.size,
         mtimeMs: it.modifyTime,

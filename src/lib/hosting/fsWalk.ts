@@ -10,7 +10,7 @@ export async function walkLocal(root: string): Promise<FileEntry[]> {
   const walk = (absDir: string, relDir: string) => {
     for (const name of fs.readdirSync(absDir)) {
       const abs = path.join(absDir, name);
-      const rel = relDir ? `${relDir}/${name}` : name;
+      const rel = relDir ? `${relDir}/${name}` : name; // POSIX separator on purpose — do NOT use path.join (would emit Windows backslashes)
       const st = fs.statSync(abs);
       if (st.isDirectory()) {
         out.push({ relPath: rel, size: 0, mtimeMs: st.mtimeMs, isDir: true });
@@ -34,7 +34,7 @@ export async function walkRemote(client: SftpClient, base: string): Promise<File
     for (const it of items) {
       const name = it.relPath;
       if (name === "." || name === "..") continue;
-      const rel = relDir ? `${relDir}/${name}` : name;
+      const rel = relDir ? `${relDir}/${name}` : name; // POSIX separator on purpose — do NOT use path.join (would emit Windows backslashes)
       if (it.isDir) {
         out.push({ relPath: rel, size: 0, mtimeMs: it.mtimeMs, isDir: true });
         await walk(`${remoteDir}/${name}`, rel);
