@@ -110,6 +110,30 @@ describe("parity: Windrose", () => {
   });
 });
 
+describe("parity: Satisfactory", () => {
+  it("steam install target and launch args", () => {
+    expect(planInstall(def("SATISFACTORY").spec, "STEAMCMD")).toMatchObject({
+      appId: "1690800", checkFile: "FactoryServer.exe", requiredDiskGB: 15,
+    });
+    const c = ctxFor("SATISFACTORY", { name: "Factory", password: null, ram: 8 });
+    const p = planLaunch(def("SATISFACTORY").spec, c);
+    expect(p.executable).toBe("FactoryServer.exe");
+    expect(p.args).toEqual(["-log", "-unattended"]);
+  });
+});
+
+describe("parity: V Rising", () => {
+  it("steam install target and renders the server name in launch args", () => {
+    expect(planInstall(def("VRISING").spec, "STEAMCMD")).toMatchObject({
+      appId: "1829350", checkFile: "VRisingServer.exe", requiredDiskGB: 5,
+    });
+    const c = ctxFor("VRISING", { name: "Castle", password: null, ram: 6 });
+    const p = planLaunch(def("VRISING").spec, c);
+    expect(p.executable).toBe("VRisingServer.exe");
+    expect(p.args).toEqual(["-persistentDataPath", "./save-data", "-serverName", "Castle", "-saveName", "world1"]);
+  });
+});
+
 describe("container: Valheim", () => {
   it("produces a Linux container plan with rendered args and env", () => {
     const c = ctxFor("VALHEIM", { name: "Viking Realm", password: "abc", ram: 6 }); // short pw -> viking123
