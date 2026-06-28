@@ -98,6 +98,18 @@ describe("parity: install targets", () => {
   });
 });
 
+describe("parity: Windrose", () => {
+  it("steam install target and launch executable", () => {
+    expect(planInstall(def("WINDROSE").spec, "STEAMCMD")).toMatchObject({
+      appId: "4129620", checkFile: "WindroseServer.exe", requiredDiskGB: 35,
+    });
+    const c = ctxFor("WINDROSE", { name: "Sea Dogs", password: null, ram: 8 });
+    const p = planLaunch(def("WINDROSE").spec, c);
+    expect(p.executable).toBe("WindroseServer.exe");
+    expect(p.args).toEqual([]);
+  });
+});
+
 describe("container: Valheim", () => {
   it("produces a Linux container plan with rendered args and env", () => {
     const c = ctxFor("VALHEIM", { name: "Viking Realm", password: "abc", ram: 6 }); // short pw -> viking123

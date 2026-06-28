@@ -220,4 +220,18 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
       ports: [{ protocol: "UDP", port: "28015" }, { protocol: "TCP", port: "28016" }],
     },
   },
+  {
+    slug: "WINDROSE", displayName: "Windrose", icon: "🧭",
+    color: "from-teal-500 to-cyan-700 bg-teal-500/10 border-teal-500/30 text-teal-400",
+    description: "Co-op seafaring adventure", recommendedRamGB: 8.0,
+    installMethod: "STEAMCMD",
+    spec: {
+      install: { appId: "4129620", installSubDir: "windrose-server", checkFile: "WindroseServer.exe", requiredDiskGB: 35.0 },
+      launch: { executable: "WindroseServer.exe", cwdSubDir: "windrose-server", args: [] },
+      defaultPort: 7777, params: [],
+      configFiles: [{ path: "ServerDescription.json", strategy: "windroseJson" }],
+      editableConfigPath: "windrose-server/ServerDescription.json",
+      ports: [{ protocol: "TCP", port: "7777" }, { protocol: "UDP", port: "7777" }],
+    },
+  },
 ];
