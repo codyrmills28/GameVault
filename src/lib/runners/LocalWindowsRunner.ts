@@ -12,6 +12,7 @@ import { serverEventBus } from "../eventBus";
 import { parseSpec } from "../definitions/serialize";
 import { buildContext } from "../definitions/context";
 import { planInstall, planConfigFiles, planLaunch, planPorts, resolveCommand, resolveExecutablePath } from "../definitions/plan";
+import { ensureJava, parseRequiredJavaMajor } from "../runtimes/javaRuntime";
 import { writeStrategyConfig } from "../definitions/strategies";
 import type { GameDefinitionSpec } from "../definitions/types";
 import { setProgress, clearProgress, parseSteamProgress, computePercent, isMissingConfigError } from "../downloadProgress";
@@ -24,6 +25,7 @@ const globalForRunner = globalThis as unknown as {
   localProcesses: Map<string, any> | undefined;
   intentionalStops: Set<string> | undefined;
   crashCounters: Map<string, CrashCounter> | undefined;
+  javaMajorOverrides: Map<string, number> | undefined;
 };
 
 if (!globalForRunner.localProcesses) {
@@ -35,10 +37,14 @@ if (!globalForRunner.intentionalStops) {
 if (!globalForRunner.crashCounters) {
   globalForRunner.crashCounters = new Map();
 }
+if (!globalForRunner.javaMajorOverrides) {
+  globalForRunner.javaMajorOverrides = new Map();
+}
 
 export const localProcesses = globalForRunner.localProcesses;
 const intentionalStops = globalForRunner.intentionalStops;
 const crashCounters = globalForRunner.crashCounters;
+const javaMajorOverrides = globalForRunner.javaMajorOverrides;
 
 // SteamCMD info mapping for each game (kept for backwards compat; no longer used by the runner)
 export function getGameSteamInfo(game: string): { appId: string; installSubDir: string; checkFile: string } | null {
@@ -492,9 +498,22 @@ async function startLocalServer(serverId: string, game: string, ramAllocation: n
   }
 
   // 3. Install if needed
+  let javaExe: string | undefined;
   if (requiresJava) {
-    if (!(await checkJavaInstalled())) {
-      throw new Error("Java Runtime Environment (JRE) was not found on your system. Please install Java (JDK/JRE 17+) to run Minecraft servers locally.");
+    const major = javaMajorOverrides.get(serverId) ?? spec.javaMajor ?? 25;
+    try {
+      await prisma.server.update({ where: { id: serverId }, data: { status: "STARTING" } });
+      serverEventBus.emit("status_update", { serverId, status: "STARTING" });
+      setProgress(serverId, { phase: "java", percent: null, label: `Preparing Java ${major}…` });
+      javaExe = await ensureJava(major, {
+        dataRoot: dataRoot(),
+        onLog: logWriter,
+        onProgress: (percent, label) => setProgress(serverId, { phase: "java", percent, label }),
+      });
+    } catch (err: any) {
+      clearProgress(serverId);
+      logWriter(`Java runtime setup failed: ${err.message}`);
+      throw new Error(`Failed to prepare the Java runtime needed to run this server: ${err.message}`);
     }
   }
 
@@ -613,14 +632,19 @@ async function startLocalServer(serverId: string, game: string, ramAllocation: n
     // to launch even when java.exe is on PATH — resolve it to the full path here
     // (keeping a direct stdin so the server console / stop command still work).
     const resolvedExe = resolveCommand(installDir, launch.executable, launch.executableOnPath);
-    const finalExe = launch.executableOnPath
-      ? resolveExecutablePath(
-          resolvedExe,
-          process.env.PATH || "",
-          process.env.PATHEXT || ".EXE;.CMD;.BAT;.COM",
-          fs.existsSync
-        )
-      : resolvedExe;
+    let finalExe: string;
+    if (requiresJava && launch.executable === "java" && javaExe) {
+      finalExe = javaExe; // bundled JRE — never trust the user's PATH java
+    } else if (launch.executableOnPath) {
+      finalExe = resolveExecutablePath(
+        resolvedExe,
+        process.env.PATH || "",
+        process.env.PATHEXT || ".EXE;.CMD;.BAT;.COM",
+        fs.existsSync
+      );
+    } else {
+      finalExe = resolvedExe;
+    }
     child = spawn(finalExe, launch.args, {
       cwd,
       stdio: ["pipe", "pipe", "pipe"],
