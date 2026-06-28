@@ -219,7 +219,6 @@ export const BUILTIN_DEFINITIONS: BuiltinDefinition[] = [
         identity: "steamId",
         ban: {
           file: { path: "Pal/Saved/SaveGames/banlist.txt", format: "lineList" },
-          console: { add: "BanPlayer {id}", remove: "UnBanPlayer {id}" },
         },
         whitelist: { enforced: false },
       },

@@ -44,9 +44,9 @@ describe("Rust playerList", () => {
 describe("Palworld playerList", () => {
   const pl = spec("PALWORLD").playerList!;
   it("keys on steamId", () => expect(pl.identity).toBe("steamId"));
-  it("ban uses BanPlayer console command and banlist.txt file", () => {
-    expect(pl.ban?.console).toEqual({ add: "BanPlayer {id}", remove: "UnBanPlayer {id}" });
+  it("ban uses banlist.txt file only (no console: UnBanPlayer is unconfirmed)", () => {
     expect(pl.ban?.file).toEqual({ path: "Pal/Saved/SaveGames/banlist.txt", format: "lineList" });
+    expect(pl.ban?.console).toBeUndefined();
   });
   it("whitelist is not enforced (no native whitelist)", () => {
     expect(pl.whitelist?.enforced).toBe(false);
