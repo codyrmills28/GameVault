@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { planTransfer, isIgnored } from "../syncEngine";
-import { DEFAULT_IGNORE, FileEntry } from "../types";
+import { planTransfer, isIgnored, runTransfer } from "../syncEngine";
+import { DEFAULT_IGNORE, FileEntry, Transferer, TransferPlan } from "../types";
 
 const f = (relPath: string, size: number, mtimeMs: number): FileEntry => ({ relPath, size, mtimeMs, isDir: false });
 const d = (relPath: string): FileEntry => ({ relPath, size: 0, mtimeMs: 0, isDir: true });
@@ -60,5 +60,47 @@ describe("planTransfer", () => {
     const paths = plan.ops.map((o) => o.relPath);
     expect(paths).not.toContain("logs/x.log");
     expect(paths).toContain("world/level.dat");
+  });
+});
+
+function fakeTransferer(failOn: string[] = []) {
+  const calls: string[] = [];
+  const t: Transferer = {
+    async mkdir(rel) { calls.push("mkdir:" + rel); },
+    async copy(rel) {
+      calls.push("copy:" + rel);
+      if (failOn.includes(rel)) throw new Error("boom");
+    },
+  };
+  return { t, calls };
+}
+
+describe("runTransfer", () => {
+  const plan: TransferPlan = {
+    ops: [
+      { type: "mkdir", relPath: "world" },
+      { type: "copy", relPath: "world/level.dat" },
+      { type: "copy", relPath: "server.properties" },
+    ],
+  };
+  const sizes = new Map([["world/level.dat", 100], ["server.properties", 20]]);
+
+  it("executes every op and tallies transferred files and bytes", async () => {
+    const { t, calls } = fakeTransferer();
+    const progress: Array<[number, number]> = [];
+    const summary = await runTransfer(plan, t, sizes, (d, tot) => progress.push([d, tot]));
+    expect(calls).toEqual(["mkdir:world", "copy:world/level.dat", "copy:server.properties"]);
+    expect(summary.filesTransferred).toBe(2);
+    expect(summary.bytesTransferred).toBe(120);
+    expect(summary.failures).toEqual([]);
+    expect(progress[progress.length - 1]).toEqual([3, 3]);
+  });
+
+  it("collects per-file failures without throwing", async () => {
+    const { t } = fakeTransferer(["server.properties"]);
+    const summary = await runTransfer(plan, t, sizes, () => {});
+    expect(summary.filesTransferred).toBe(1);
+    expect(summary.bytesTransferred).toBe(100);
+    expect(summary.failures).toEqual([{ relPath: "server.properties", error: "boom" }]);
   });
 });
