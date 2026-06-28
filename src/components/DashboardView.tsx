@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/components/ModalProvider";
 import { useToast } from "@/components/ToastProvider";
+import HostTransferModal from "@/components/HostTransferModal";
 import { 
   Server as ServerIcon, 
   Archive, 
@@ -37,7 +38,8 @@ import {
   Send,
   Activity,
   Store,
-  Package
+  Package,
+  UploadCloud
 } from "lucide-react";
 
 interface DashboardViewProps {
@@ -158,6 +160,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
   const [progressMap, setProgressMap] = useState<
     Record<string, { phase: string; percent: number | null; label: string } | null>
   >({});
+  const [hostModalServer, setHostModalServer] = useState<{ id: string; name: string } | null>(null);
 
   // Poll database for updates (live stats fluctuation)
   useEffect(() => {
@@ -938,6 +941,15 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                           <span>Vault</span>
                         </button>
 
+                        {/* Transfer to Host */}
+                        <button
+                          onClick={() => setHostModalServer({ id: server.id, name: server.name })}
+                          className={`px-3.5 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center gap-1.5 transition-all ${isServerLoading || server.status === "STARTING" ? "opacity-50 pointer-events-none" : ""}`}
+                          title="Transfer to hosting provider"
+                        >
+                          <UploadCloud className="w-4 h-4" />
+                        </button>
+
                         {/* Export Realm */}
                         <a
                           href={`/api/servers/${server.id}/export`}
@@ -1229,6 +1241,14 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
 
           </div>
         </div>
+      )}
+
+      {hostModalServer && (
+        <HostTransferModal
+          serverId={hostModalServer.id}
+          serverName={hostModalServer.name}
+          onClose={() => setHostModalServer(null)}
+        />
       )}
 
     </div>
