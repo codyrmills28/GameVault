@@ -30,19 +30,6 @@ const globalForRunner = globalThis as unknown as {
   localServersReconciled: boolean | undefined;
 };
 
-// Reconcile stuck servers on boot
-if (!globalForRunner.localServersReconciled) {
-  globalForRunner.localServersReconciled = true;
-  // If the app restarted, we lost track of the processes. Mark them as STOPPED so the user isn't permanently locked out of starting them again.
-  prisma.server.updateMany({
-    where: { 
-      runnerType: "LOCAL", 
-      status: { in: ["STARTING", "RUNNING", "UPDATING"] } 
-    },
-    data: { status: "STOPPED", pid: null, cpuUsage: 0, memoryUsage: 0 }
-  }).catch(e => console.error("[Boot] Error reconciling stuck servers:", e));
-}
-
 if (!globalForRunner.localProcesses) {
   globalForRunner.localProcesses = new Map();
 }

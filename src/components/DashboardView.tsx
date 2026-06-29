@@ -946,7 +946,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                         {/* Stop */}
                         <button
                           onClick={() => handlePowerAction(server.id, "stop")}
-                          disabled={!isRunning || isServerLoading}
+                          disabled={(!isRunning && server.status !== "STARTING") || isServerLoading}
                           className="p-2 rounded-lg bg-slate-900 border border-white/5 hover:border-red-500/40 text-slate-400 hover:text-red-400 disabled:opacity-40 disabled:hover:text-slate-400 transition-colors"
                           title="Stop Server"
                         >
