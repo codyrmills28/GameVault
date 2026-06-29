@@ -448,11 +448,12 @@ function waitForReadiness(
     }, 5000);
   }
 
-  // 3. Fallback timeout (5 minutes)
+  // 3. Fallback timeout
+  const fallbackMs = (!readyPattern && tcpPorts.length === 0) ? 10000 : 5 * 60 * 1000;
   timeoutId = setTimeout(() => {
     if (isReady) return;
-    markReady("5-minute fallback timeout reached");
-  }, 5 * 60 * 1000);
+    markReady(`${fallbackMs / 1000}-second fallback timeout reached`);
+  }, fallbackMs);
 }
 
 // Main: Start a local game server
