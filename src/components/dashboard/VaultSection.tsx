@@ -28,12 +28,12 @@ export function VaultSection({
 
   if (archives.length === 0) {
     return (
-      <section className="mt-8">
-        <div className="flex items-center gap-2 mb-4">
+      <section className="h-full flex flex-col">
+        <div className="flex items-center gap-2 mb-4 shrink-0">
           <Archive className="w-5 h-5 text-accentPurple" />
           <h2 className="text-sm font-extrabold text-white uppercase tracking-wider">Game History Vault</h2>
         </div>
-        <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[18px] shadow-xl p-12 flex flex-col items-center justify-center text-center">
+        <div className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[18px] shadow-xl p-12 flex flex-col items-center justify-center text-center flex-1">
           <div className="w-20 h-20 rounded-full bg-accentPurple/10 flex items-center justify-center mb-6 relative group">
             <div className="absolute inset-0 rounded-full bg-accentPurple/20 animate-ping opacity-20"></div>
             <Box className="w-10 h-10 text-accentPurple group-hover:scale-110 transition-transform duration-300" />
@@ -51,8 +51,8 @@ export function VaultSection({
   }
 
   return (
-    <section className="mt-8">
-      <div className="flex items-center justify-between mb-4">
+    <section className="h-full flex flex-col">
+      <div className="flex items-center justify-between mb-4 shrink-0">
         <div className="flex items-center gap-2">
           <Archive className="w-5 h-5 text-accentPurple" />
           <h2 className="text-sm font-extrabold text-white uppercase tracking-wider">Game History Vault</h2>

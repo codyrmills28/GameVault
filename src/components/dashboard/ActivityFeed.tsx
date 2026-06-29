@@ -23,8 +23,8 @@ export function ActivityFeed({ activityLogs }: { activityLogs: any[] }) {
   });
 
   return (
-    <section className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[18px] shadow-xl overflow-hidden mt-6">
-      <div className="p-4 border-b border-white/5 bg-slate-950/40 flex flex-wrap items-center justify-between gap-4">
+    <section className="bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-[18px] shadow-xl overflow-hidden h-full flex flex-col">
+      <div className="p-4 border-b border-white/5 bg-slate-950/40 flex flex-wrap items-center justify-between gap-4 shrink-0">
         <h2 className="text-sm font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
           <Terminal className="w-4 h-4 text-accentPurple" />
           <span>Activity Feed</span>
@@ -56,7 +56,7 @@ export function ActivityFeed({ activityLogs }: { activityLogs: any[] }) {
         </div>
       </div>
       
-      <div className="p-2 max-h-[400px] overflow-y-auto custom-scrollbar">
+      <div className="p-2 flex-1 min-h-0 overflow-y-auto custom-scrollbar">
         {filteredLogs.length === 0 ? (
           <div className="p-8 text-center text-sm text-slate-500">
             No activity logs match your filters.

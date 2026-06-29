@@ -713,10 +713,11 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                 )}
               </div>
             </section>
-
-            <VaultSection archives={data.archives} actions={{ handleRestoreArchive, handleDeleteArchive }} actionLoading={actionLoading} />
-            
-            <ActivityFeed activityLogs={data.activityLogs} />
+            {/* Vault and Feed Row */}
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-8 h-[420px] items-stretch">
+              <VaultSection archives={data.archives} actions={{ handleRestoreArchive, handleDeleteArchive }} actionLoading={actionLoading} />
+              <ActivityFeed activityLogs={data.activityLogs} />
+            </div>
 
           </div>
 
