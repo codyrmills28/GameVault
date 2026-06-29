@@ -5,8 +5,12 @@ import { EventEmitter } from "events";
 import * as tar from "tar";
 import crypto from "crypto";
 
-// Global in-memory task map
-const tasks = new Map<string, SyncTask>();
+// Global in-memory task map that persists across Next.js reloads/chunks
+const globalForTasks = globalThis as unknown as { tasks: Map<string, SyncTask> };
+if (!globalForTasks.tasks) {
+  globalForTasks.tasks = new Map<string, SyncTask>();
+}
+const tasks = globalForTasks.tasks;
 
 export class SyncTask extends EventEmitter {
   id: string;
@@ -118,8 +122,14 @@ export class SyncTask extends EventEmitter {
   }
 
   async downloadAndExtractConfigs(gameDir: string) {
-    const configUrl = `http://${this.host}/api/sync/${this.inviteCode}/configs`;
+    const configUrl = `http://${this.host}/sync/${this.inviteCode}/configs`;
     const res = await fetch(configUrl);
+    
+    if (res.status === 204) {
+      // Server returned 204 No Content because there are no configs (e.g. Vanilla)
+      return;
+    }
+    
     if (!res.ok) {
       const errTxt = await res.text();
       throw new Error("Failed to fetch configs from host: " + errTxt);

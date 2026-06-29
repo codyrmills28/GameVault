@@ -44,7 +44,7 @@ export default async function SyncPage({ searchParams }: { searchParams: { link?
   let manifest = null;
   let errorMsg = null;
   try {
-    const res = await fetch(`http://${host}/api/sync/${inviteCode}/manifest`, {
+    const res = await fetch(`http://${host}/sync/${inviteCode}/manifest`, {
       // 10 second timeout
       signal: AbortSignal.timeout(10000)
     });
