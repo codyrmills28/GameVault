@@ -4317,6 +4317,7 @@ export namespace Prisma {
     updatedAt: Date | null
     snapshotInterval: number | null
     lastSnapshotAt: Date | null
+    inviteCode: string | null
   }
 
   export type ServerMaxAggregateOutputType = {
@@ -4343,6 +4344,7 @@ export namespace Prisma {
     updatedAt: Date | null
     snapshotInterval: number | null
     lastSnapshotAt: Date | null
+    inviteCode: string | null
   }
 
   export type ServerCountAggregateOutputType = {
@@ -4369,6 +4371,7 @@ export namespace Prisma {
     updatedAt: number
     snapshotInterval: number
     lastSnapshotAt: number
+    inviteCode: number
     _all: number
   }
 
@@ -4415,6 +4418,7 @@ export namespace Prisma {
     updatedAt?: true
     snapshotInterval?: true
     lastSnapshotAt?: true
+    inviteCode?: true
   }
 
   export type ServerMaxAggregateInputType = {
@@ -4441,6 +4445,7 @@ export namespace Prisma {
     updatedAt?: true
     snapshotInterval?: true
     lastSnapshotAt?: true
+    inviteCode?: true
   }
 
   export type ServerCountAggregateInputType = {
@@ -4467,6 +4472,7 @@ export namespace Prisma {
     updatedAt?: true
     snapshotInterval?: true
     lastSnapshotAt?: true
+    inviteCode?: true
     _all?: true
   }
 
@@ -4580,6 +4586,7 @@ export namespace Prisma {
     updatedAt: Date
     snapshotInterval: number
     lastSnapshotAt: Date | null
+    inviteCode: string | null
     _count: ServerCountAggregateOutputType | null
     _avg: ServerAvgAggregateOutputType | null
     _sum: ServerSumAggregateOutputType | null
@@ -4625,6 +4632,7 @@ export namespace Prisma {
     updatedAt?: boolean
     snapshotInterval?: boolean
     lastSnapshotAt?: boolean
+    inviteCode?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     definition?: boolean | Server$definitionArgs<ExtArgs>
     backups?: boolean | Server$backupsArgs<ExtArgs>
@@ -4660,6 +4668,7 @@ export namespace Prisma {
     updatedAt?: boolean
     snapshotInterval?: boolean
     lastSnapshotAt?: boolean
+    inviteCode?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     definition?: boolean | Server$definitionArgs<ExtArgs>
   }, ExtArgs["result"]["server"]>
@@ -4688,6 +4697,7 @@ export namespace Prisma {
     updatedAt?: boolean
     snapshotInterval?: boolean
     lastSnapshotAt?: boolean
+    inviteCode?: boolean
   }
 
   export type ServerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4742,6 +4752,7 @@ export namespace Prisma {
       updatedAt: Date
       snapshotInterval: number
       lastSnapshotAt: Date | null
+      inviteCode: string | null
     }, ExtArgs["result"]["server"]>
     composites: {}
   }
@@ -5166,6 +5177,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Server", 'DateTime'>
     readonly snapshotInterval: FieldRef<"Server", 'Int'>
     readonly lastSnapshotAt: FieldRef<"Server", 'DateTime'>
+    readonly inviteCode: FieldRef<"Server", 'String'>
   }
     
 
@@ -16785,7 +16797,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     snapshotInterval: 'snapshotInterval',
-    lastSnapshotAt: 'lastSnapshotAt'
+    lastSnapshotAt: 'lastSnapshotAt',
+    inviteCode: 'inviteCode'
   };
 
   export type ServerScalarFieldEnum = (typeof ServerScalarFieldEnum)[keyof typeof ServerScalarFieldEnum]
@@ -17193,6 +17206,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Server"> | Date | string
     snapshotInterval?: IntFilter<"Server"> | number
     lastSnapshotAt?: DateTimeNullableFilter<"Server"> | Date | string | null
+    inviteCode?: StringNullableFilter<"Server"> | string | null
     user?: XOR<UserRelationFilter, UserWhereInput>
     definition?: XOR<GameDefinitionNullableRelationFilter, GameDefinitionWhereInput> | null
     backups?: BackupListRelationFilter
@@ -17227,6 +17241,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     snapshotInterval?: SortOrder
     lastSnapshotAt?: SortOrderInput | SortOrder
+    inviteCode?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     definition?: GameDefinitionOrderByWithRelationInput
     backups?: BackupOrderByRelationAggregateInput
@@ -17239,6 +17254,7 @@ export namespace Prisma {
 
   export type ServerWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    inviteCode?: string
     AND?: ServerWhereInput | ServerWhereInput[]
     OR?: ServerWhereInput[]
     NOT?: ServerWhereInput | ServerWhereInput[]
@@ -17272,7 +17288,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotListRelationFilter
     scheduledTasks?: ScheduledTaskListRelationFilter
     hostLink?: XOR<ServerHostLinkNullableRelationFilter, ServerHostLinkWhereInput> | null
-  }, "id">
+  }, "id" | "inviteCode">
 
   export type ServerOrderByWithAggregationInput = {
     id?: SortOrder
@@ -17298,6 +17314,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     snapshotInterval?: SortOrder
     lastSnapshotAt?: SortOrderInput | SortOrder
+    inviteCode?: SortOrderInput | SortOrder
     _count?: ServerCountOrderByAggregateInput
     _avg?: ServerAvgOrderByAggregateInput
     _max?: ServerMaxOrderByAggregateInput
@@ -17332,6 +17349,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Server"> | Date | string
     snapshotInterval?: IntWithAggregatesFilter<"Server"> | number
     lastSnapshotAt?: DateTimeNullableWithAggregatesFilter<"Server"> | Date | string | null
+    inviteCode?: StringNullableWithAggregatesFilter<"Server"> | string | null
   }
 
   export type ServerHostLinkWhereInput = {
@@ -18380,6 +18398,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     user: UserCreateNestedOneWithoutServersInput
     definition?: GameDefinitionCreateNestedOneWithoutServersInput
     backups?: BackupCreateNestedManyWithoutServerInput
@@ -18414,6 +18433,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     backups?: BackupUncheckedCreateNestedManyWithoutServerInput
     collaborators?: CollaboratorUncheckedCreateNestedManyWithoutServerInput
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
@@ -18444,6 +18464,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutServersNestedInput
     definition?: GameDefinitionUpdateOneWithoutServersNestedInput
     backups?: BackupUpdateManyWithoutServerNestedInput
@@ -18478,6 +18499,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     backups?: BackupUncheckedUpdateManyWithoutServerNestedInput
     collaborators?: CollaboratorUncheckedUpdateManyWithoutServerNestedInput
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
@@ -18510,6 +18532,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
   }
 
   export type ServerUpdateManyMutationInput = {
@@ -18534,6 +18557,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServerUncheckedUpdateManyInput = {
@@ -18560,6 +18584,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServerHostLinkCreateInput = {
@@ -19841,6 +19866,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     snapshotInterval?: SortOrder
     lastSnapshotAt?: SortOrder
+    inviteCode?: SortOrder
   }
 
   export type ServerAvgOrderByAggregateInput = {
@@ -19876,6 +19902,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     snapshotInterval?: SortOrder
     lastSnapshotAt?: SortOrder
+    inviteCode?: SortOrder
   }
 
   export type ServerMinOrderByAggregateInput = {
@@ -19902,6 +19929,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     snapshotInterval?: SortOrder
     lastSnapshotAt?: SortOrder
+    inviteCode?: SortOrder
   }
 
   export type ServerSumOrderByAggregateInput = {
@@ -21654,6 +21682,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     definition?: GameDefinitionCreateNestedOneWithoutServersInput
     backups?: BackupCreateNestedManyWithoutServerInput
     collaborators?: CollaboratorCreateNestedManyWithoutServerInput
@@ -21686,6 +21715,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     backups?: BackupUncheckedCreateNestedManyWithoutServerInput
     collaborators?: CollaboratorUncheckedCreateNestedManyWithoutServerInput
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
@@ -21907,6 +21937,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Server"> | Date | string
     snapshotInterval?: IntFilter<"Server"> | number
     lastSnapshotAt?: DateTimeNullableFilter<"Server"> | Date | string | null
+    inviteCode?: StringNullableFilter<"Server"> | string | null
   }
 
   export type ArchiveUpsertWithWhereUniqueWithoutUserInput = {
@@ -22655,6 +22686,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     user: UserCreateNestedOneWithoutServersInput
     definition?: GameDefinitionCreateNestedOneWithoutServersInput
     backups?: BackupCreateNestedManyWithoutServerInput
@@ -22688,6 +22720,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     backups?: BackupUncheckedCreateNestedManyWithoutServerInput
     collaborators?: CollaboratorUncheckedCreateNestedManyWithoutServerInput
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
@@ -22733,6 +22766,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutServersNestedInput
     definition?: GameDefinitionUpdateOneWithoutServersNestedInput
     backups?: BackupUpdateManyWithoutServerNestedInput
@@ -22766,6 +22800,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     backups?: BackupUncheckedUpdateManyWithoutServerNestedInput
     collaborators?: CollaboratorUncheckedUpdateManyWithoutServerNestedInput
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
@@ -22955,6 +22990,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     user: UserCreateNestedOneWithoutServersInput
     definition?: GameDefinitionCreateNestedOneWithoutServersInput
     collaborators?: CollaboratorCreateNestedManyWithoutServerInput
@@ -22988,6 +23024,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     collaborators?: CollaboratorUncheckedCreateNestedManyWithoutServerInput
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
@@ -23033,6 +23070,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutServersNestedInput
     definition?: GameDefinitionUpdateOneWithoutServersNestedInput
     collaborators?: CollaboratorUpdateManyWithoutServerNestedInput
@@ -23066,6 +23104,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     collaborators?: CollaboratorUncheckedUpdateManyWithoutServerNestedInput
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
@@ -23095,6 +23134,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     user: UserCreateNestedOneWithoutServersInput
     definition?: GameDefinitionCreateNestedOneWithoutServersInput
     backups?: BackupCreateNestedManyWithoutServerInput
@@ -23128,6 +23168,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     backups?: BackupUncheckedCreateNestedManyWithoutServerInput
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
@@ -23210,6 +23251,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutServersNestedInput
     definition?: GameDefinitionUpdateOneWithoutServersNestedInput
     backups?: BackupUpdateManyWithoutServerNestedInput
@@ -23243,6 +23285,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     backups?: BackupUncheckedUpdateManyWithoutServerNestedInput
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
@@ -23352,6 +23395,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     user: UserCreateNestedOneWithoutServersInput
     backups?: BackupCreateNestedManyWithoutServerInput
     collaborators?: CollaboratorCreateNestedManyWithoutServerInput
@@ -23384,6 +23428,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     backups?: BackupUncheckedCreateNestedManyWithoutServerInput
     collaborators?: CollaboratorUncheckedCreateNestedManyWithoutServerInput
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
@@ -23482,6 +23527,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     user: UserCreateNestedOneWithoutServersInput
     definition?: GameDefinitionCreateNestedOneWithoutServersInput
     backups?: BackupCreateNestedManyWithoutServerInput
@@ -23515,6 +23561,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     backups?: BackupUncheckedCreateNestedManyWithoutServerInput
     collaborators?: CollaboratorUncheckedCreateNestedManyWithoutServerInput
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
@@ -23560,6 +23607,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutServersNestedInput
     definition?: GameDefinitionUpdateOneWithoutServersNestedInput
     backups?: BackupUpdateManyWithoutServerNestedInput
@@ -23593,6 +23641,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     backups?: BackupUncheckedUpdateManyWithoutServerNestedInput
     collaborators?: CollaboratorUncheckedUpdateManyWithoutServerNestedInput
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
@@ -23622,6 +23671,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     user: UserCreateNestedOneWithoutServersInput
     definition?: GameDefinitionCreateNestedOneWithoutServersInput
     backups?: BackupCreateNestedManyWithoutServerInput
@@ -23655,6 +23705,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     backups?: BackupUncheckedCreateNestedManyWithoutServerInput
     collaborators?: CollaboratorUncheckedCreateNestedManyWithoutServerInput
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
@@ -23700,6 +23751,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutServersNestedInput
     definition?: GameDefinitionUpdateOneWithoutServersNestedInput
     backups?: BackupUpdateManyWithoutServerNestedInput
@@ -23733,6 +23785,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     backups?: BackupUncheckedUpdateManyWithoutServerNestedInput
     collaborators?: CollaboratorUncheckedUpdateManyWithoutServerNestedInput
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
@@ -23762,6 +23815,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     user: UserCreateNestedOneWithoutServersInput
     definition?: GameDefinitionCreateNestedOneWithoutServersInput
     backups?: BackupCreateNestedManyWithoutServerInput
@@ -23795,6 +23849,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
     backups?: BackupUncheckedCreateNestedManyWithoutServerInput
     collaborators?: CollaboratorUncheckedCreateNestedManyWithoutServerInput
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
@@ -23840,6 +23895,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutServersNestedInput
     definition?: GameDefinitionUpdateOneWithoutServersNestedInput
     backups?: BackupUpdateManyWithoutServerNestedInput
@@ -23873,6 +23929,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     backups?: BackupUncheckedUpdateManyWithoutServerNestedInput
     collaborators?: CollaboratorUncheckedUpdateManyWithoutServerNestedInput
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
@@ -24118,6 +24175,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
   }
 
   export type ArchiveCreateManyUserInput = {
@@ -24222,6 +24280,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     definition?: GameDefinitionUpdateOneWithoutServersNestedInput
     backups?: BackupUpdateManyWithoutServerNestedInput
     collaborators?: CollaboratorUpdateManyWithoutServerNestedInput
@@ -24254,6 +24313,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     backups?: BackupUncheckedUpdateManyWithoutServerNestedInput
     collaborators?: CollaboratorUncheckedUpdateManyWithoutServerNestedInput
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
@@ -24285,6 +24345,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ArchiveUpdateWithoutUserInput = {
@@ -24608,6 +24669,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     snapshotInterval?: number
     lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
   }
 
   export type ServerUpdateWithoutDefinitionInput = {
@@ -24632,6 +24694,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutServersNestedInput
     backups?: BackupUpdateManyWithoutServerNestedInput
     collaborators?: CollaboratorUpdateManyWithoutServerNestedInput
@@ -24664,6 +24727,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
     backups?: BackupUncheckedUpdateManyWithoutServerNestedInput
     collaborators?: CollaboratorUncheckedUpdateManyWithoutServerNestedInput
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
@@ -24695,6 +24759,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TemplateVoteCreateManyTemplateInput = {

@@ -475,6 +475,55 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
     }
   };
 
+  // RealmSync Invite
+  const handleGenerateInvite = async (serverId: string) => {
+    setActionLoading(`${serverId}-invite`);
+    setErrorMessage(null);
+    try {
+      const res = await fetch(`/api/servers/${serverId}/invite`, { method: "POST" });
+      const resData = await res.json();
+      if (!res.ok) throw new Error(resData.error || "Failed to generate invite code");
+      
+      setData((prev: any) => ({
+        ...prev,
+        servers: prev.servers.map((s: any) => 
+          s.id === serverId ? { ...s, inviteCode: resData.inviteCode } : s
+        )
+      }));
+      addToast("success", "Invite link generated!");
+    } catch (err: any) {
+      setErrorMessage(err.message);
+      addToast("error", err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleRevokeInvite = async (serverId: string) => {
+    setActionLoading(`${serverId}-invite-revoke`);
+    setErrorMessage(null);
+    try {
+      const res = await fetch(`/api/servers/${serverId}/invite`, { method: "DELETE" });
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "Failed to revoke invite code");
+      }
+      
+      setData((prev: any) => ({
+        ...prev,
+        servers: prev.servers.map((s: any) => 
+          s.id === serverId ? { ...s, inviteCode: null } : s
+        )
+      }));
+      addToast("success", "Invite link revoked.");
+    } catch (err: any) {
+      setErrorMessage(err.message);
+      addToast("error", err.message);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   // Helper for game icons
   const getGameIcon = (game: string) => {
     switch (game.toUpperCase()) {
@@ -997,6 +1046,58 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                           </button>
                         )}
                       </div>
+                    </div>
+
+                    {/* RealmSync Panel */}
+                    <div className="mt-4 pt-4 border-t border-white/5">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <BadgeCent className="w-4 h-4 text-accentPurple" />
+                          <span className="text-xs font-bold text-slate-300">RealmSync Invite</span>
+                        </div>
+                        {server.inviteCode ? (
+                          <button
+                            onClick={() => handleRevokeInvite(server.id)}
+                            disabled={actionLoading === `${server.id}-invite-revoke`}
+                            className="text-[10px] px-2 py-1 rounded bg-red-500/10 text-red-400 hover:bg-red-500/20 font-bold transition-colors"
+                          >
+                            Revoke
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleGenerateInvite(server.id)}
+                            disabled={actionLoading === `${server.id}-invite`}
+                            className="text-[10px] px-2 py-1 rounded bg-accentPurple/10 text-accentPurple hover:bg-accentPurple/20 font-bold transition-colors"
+                          >
+                            Generate Link
+                          </button>
+                        )}
+                      </div>
+                      
+                      {server.inviteCode ? (
+                        <div className="bg-slate-900 rounded-lg p-2.5 border border-white/5 flex items-center justify-between gap-3 group">
+                          <div className="min-w-0 flex-1">
+                            <div className="text-[10px] text-mutedText uppercase font-bold tracking-wider mb-1">Deep Link (Requires RealmSync App)</div>
+                            <div className="font-mono text-xs text-accentPurple truncate select-all">
+                              realmsync://{server.inviteCode}
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(`realmsync://${server.inviteCode}`);
+                              addToast("success", "Invite link copied to clipboard!");
+                            }}
+                            className="p-1.5 rounded bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors flex-shrink-0"
+                            title="Copy Link"
+                          >
+                            <Copy className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="text-[11px] text-mutedText">
+                          Generate a shareable invite link so your friends can instantly synchronize their mods and join your server using the RealmSync companion app.
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
