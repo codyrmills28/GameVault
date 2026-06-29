@@ -162,7 +162,8 @@ exports.Prisma.ServerScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   snapshotInterval: 'snapshotInterval',
-  lastSnapshotAt: 'lastSnapshotAt'
+  lastSnapshotAt: 'lastSnapshotAt',
+  inviteCode: 'inviteCode'
 };
 
 exports.Prisma.ServerHostLinkScalarFieldEnum = {

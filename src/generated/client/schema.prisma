@@ -76,6 +76,7 @@ model Server {
   snapshots        ServerSnapshot[]
   scheduledTasks   ScheduledTask[]
   hostLink         ServerHostLink?
+  inviteCode       String?           @unique // For RealmSync
 }
 
 model ServerHostLink {
