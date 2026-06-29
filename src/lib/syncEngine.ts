@@ -124,6 +124,12 @@ export class SyncTask extends EventEmitter {
   async downloadAndExtractConfigs(gameDir: string) {
     const configUrl = `http://${this.host}/sync/${this.inviteCode}/configs`;
     const res = await fetch(configUrl);
+    
+    if (res.status === 204) {
+      // Server returned 204 No Content because there are no configs (e.g. Vanilla)
+      return;
+    }
+    
     if (!res.ok) {
       const errTxt = await res.text();
       throw new Error("Failed to fetch configs from host: " + errTxt);

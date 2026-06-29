@@ -96,8 +96,9 @@ export async function startRealmSyncServer(): Promise<{ publicIp: string, port: 
           }
 
           if (pathsToSync.length === 0) {
-            res.writeHead(404, { "Content-Type": "text/plain" });
-            res.end("No configurations found to sync");
+            // If there are no configs (e.g. vanilla server), return 204 No Content instead of failing
+            res.writeHead(204);
+            res.end();
             return;
           }
 
