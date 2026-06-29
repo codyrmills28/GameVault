@@ -1079,12 +1079,12 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                           <div className="min-w-0 flex-1">
                             <div className="text-[10px] text-mutedText uppercase font-bold tracking-wider mb-1">Deep Link (Requires RealmSync App)</div>
                             <div className="font-mono text-xs text-accentPurple truncate select-all">
-                              realmsync://{server.inviteCode}
+                              realmsync://{server.ipAddress}:{server.port}/{server.inviteCode}
                             </div>
                           </div>
                           <button
                             onClick={() => {
-                              navigator.clipboard.writeText(`realmsync://${server.inviteCode}`);
+                              navigator.clipboard.writeText(`realmsync://${server.ipAddress}:${server.port}/${server.inviteCode}`);
                               addToast("success", "Invite link copied to clipboard!");
                             }}
                             className="p-1.5 rounded bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors flex-shrink-0"
