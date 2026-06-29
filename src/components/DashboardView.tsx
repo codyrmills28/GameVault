@@ -165,7 +165,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
   useEffect(() => {
     const fetchUpdates = async () => {
       try {
-        const res = await fetch("/api/servers");
+        const res = await fetch("/api/servers", { cache: "no-store" });
         if (res.ok) {
           const updated = await res.json();
           setData(updated);
