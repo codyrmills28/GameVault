@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   Plus,
   LogOut,
@@ -30,6 +30,8 @@ interface ConfigEditorViewProps {
 
 export default function ConfigEditorView({ user }: ConfigEditorViewProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialServerId = searchParams.get("server");
 
   const [servers, setServers] = useState<any[]>([]);
   const [selectedServer, setSelectedServer] = useState<any | null>(null);
@@ -59,7 +61,8 @@ export default function ConfigEditorView({ user }: ConfigEditorViewProps) {
           const data = await res.json();
           setServers(data.servers || []);
           if (data.servers?.length > 0 && !selectedServer) {
-            loadConfig(data.servers[0]);
+            const target = initialServerId ? data.servers.find((s: any) => s.id === initialServerId) : null;
+            loadConfig(target || data.servers[0]);
           }
         }
       } catch (err) {

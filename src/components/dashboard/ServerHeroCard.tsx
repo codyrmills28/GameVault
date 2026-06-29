@@ -58,15 +58,15 @@ export function ServerHeroCard({
 
   const getGameArt = (game: string) => {
     switch(game) {
-      case "MINECRAFT": return "https://images.unsplash.com/photo-1607513746994-51f730a41fa2?auto=format&fit=crop&q=80&w=1000";
-      case "VALHEIM": return "https://images.unsplash.com/photo-1542228262-3d663b30e152?auto=format&fit=crop&q=80&w=1000";
-      case "ENSHROUDED": return "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1000";
-      case "ZOMBOID": return "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&q=80&w=1000";
-      case "ARK": return "https://images.unsplash.com/photo-1516108170293-8b7a42d8d3e2?auto=format&fit=crop&q=80&w=1000";
-      case "TERRARIA": return "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1000";
-      case "PALWORLD": return "https://images.unsplash.com/photo-1528659106093-979929881fc1?auto=format&fit=crop&q=80&w=1000";
-      case "RUST": return "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1000";
-      default: return "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=1000";
+      case "MINECRAFT": return "/games/minecraft.jpg";
+      case "VALHEIM": return "/games/valheim.jpg";
+      case "ENSHROUDED": return "/games/enshrouded.jpg";
+      case "ZOMBOID": return "/games/zomboid.jpg";
+      case "ARK": return "/games/ark.jpg";
+      case "TERRARIA": return "/games/terraria.jpg";
+      case "PALWORLD": return "/games/palworld.jpg";
+      case "RUST": return "/games/rust.jpg";
+      default: return "/games/generic.jpg";
     }
   };
 

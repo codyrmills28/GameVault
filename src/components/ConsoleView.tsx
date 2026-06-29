@@ -32,9 +32,10 @@ export default function ConsoleView({ servers, user }: ConsoleViewProps) {
   const router = useRouter();
   const { addToast } = useToast();
   const searchParams = useSearchParams();
-  const initialServerId = searchParams.get("server");
+  const serverIdFromUrl = searchParams.get("server");
+
   const [selectedServer, setSelectedServer] = useState<any | null>(
-    servers.find(s => s.id === initialServerId) || servers[0] || null
+    serverIdFromUrl ? (servers.find(s => s.id === serverIdFromUrl) || servers[0]) : (servers[0] || null)
   );
 
   // Console State

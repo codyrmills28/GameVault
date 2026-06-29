@@ -31,9 +31,17 @@ interface BackupsViewProps {
   user: any;
 }
 
+import { useSearchParams } from "next/navigation";
+
 export default function BackupsView({ servers, user }: BackupsViewProps) {
   const router = useRouter();
-  const [selectedServer, setSelectedServer] = useState<any | null>(servers[0] || null);
+  const searchParams = useSearchParams();
+  const serverIdFromUrl = searchParams.get("server");
+  
+  const [selectedServer, setSelectedServer] = useState<any | null>(
+    serverIdFromUrl ? (servers.find(s => s.id === serverIdFromUrl) || servers[0]) : (servers[0] || null)
+  );
+  
   const [backups, setBackups] = useState<any[]>([]);
   const [customBackupName, setCustomBackupName] = useState("");
   const [snapshotInterval, setSnapshotInterval] = useState<number>(0);
