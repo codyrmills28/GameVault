@@ -43,8 +43,8 @@ export async function startRealmSyncServer(): Promise<{ publicIp: string, port: 
         const inviteCode = match[1];
         const action = match[2];
 
-        const dbServer = await prisma.server.findUnique({
-          where: { inviteCode },
+        const dbServer = await prisma.server.findFirst({
+          where: { inviteCode: { endsWith: `/${inviteCode}` } },
           include: { mods: true }
         });
 
