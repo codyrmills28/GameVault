@@ -118,7 +118,7 @@ export class SyncTask extends EventEmitter {
   }
 
   async downloadAndExtractConfigs(gameDir: string) {
-    const configUrl = `http://${this.host}/api/sync/${this.inviteCode}/configs`;
+    const configUrl = `http://${this.host}/sync/${this.inviteCode}/configs`;
     const res = await fetch(configUrl);
     if (!res.ok) {
       const errTxt = await res.text();
