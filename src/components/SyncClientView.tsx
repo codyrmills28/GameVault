@@ -62,10 +62,9 @@ export default function SyncClientView({ link, host, inviteCode, manifest, error
       
       es.addEventListener("error", () => {
         es.close();
-        if (syncing) {
-          setSyncing(false);
-          addToast("error", "Lost connection to sync engine.");
-        }
+        setSyncing(false);
+        setSyncStatus(null);
+        addToast("error", "Lost connection to sync engine.");
       });
       
     } catch (err: any) {

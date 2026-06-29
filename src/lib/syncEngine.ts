@@ -5,8 +5,12 @@ import { EventEmitter } from "events";
 import * as tar from "tar";
 import crypto from "crypto";
 
-// Global in-memory task map
-const tasks = new Map<string, SyncTask>();
+// Global in-memory task map that persists across Next.js reloads/chunks
+const globalForTasks = globalThis as unknown as { tasks: Map<string, SyncTask> };
+if (!globalForTasks.tasks) {
+  globalForTasks.tasks = new Map<string, SyncTask>();
+}
+const tasks = globalForTasks.tasks;
 
 export class SyncTask extends EventEmitter {
   id: string;
