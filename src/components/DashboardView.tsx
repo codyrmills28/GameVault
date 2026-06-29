@@ -1,7 +1,6 @@
 "use client";
 
 import { SidebarNavigation } from "./dashboard/SidebarNavigation";
-import { GlobalHeader } from "./dashboard/GlobalHeader";
 import { ServerHeroCard } from "./dashboard/ServerHeroCard";
 import { HealthSidebar } from "./dashboard/HealthSidebar";
 import { ActivityFeed } from "./dashboard/ActivityFeed";
@@ -582,11 +581,8 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
       <SidebarNavigation user={data.user} />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
         
-        {/* Global Search Header */}
-        <GlobalHeader />
-
         {/* Dashboard Content */}
         <main className="flex-1 overflow-y-auto p-8 flex flex-col gap-8">
           

@@ -1,5 +1,6 @@
 "use client";
 
+import { SidebarNavigation } from "@/components/dashboard/SidebarNavigation";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Download, Play, ShieldAlert, Package, CheckCircle2, Loader2, ArrowLeft } from "lucide-react";
