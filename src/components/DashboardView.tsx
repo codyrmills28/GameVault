@@ -160,6 +160,16 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
   // Stats history for sparklines
   const [serverStats, setServerStats] = useState<Record<string, { cpu: number[]; memory: number[] }>>({});
 
+  // Selected server for Health Sidebar
+  const [selectedServerId, setSelectedServerId] = useState<string | null>(null);
+
+  // Initialize selected server on first load
+  useEffect(() => {
+    if (!selectedServerId && data.servers.length > 0) {
+      setSelectedServerId(data.servers[0].id);
+    }
+  }, [data.servers, selectedServerId]);
+
   // Live install/download progress for STARTING/UPDATING servers
   const [progressMap, setProgressMap] = useState<
     Record<string, { phase: string; percent: number | null; label: string } | null>
@@ -670,6 +680,8 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                     progressMap={progressMap}
                     isServerLoading={actionLoading?.split("-")[0] === server.id}
                     copiedIp={copiedIp}
+                    isSelected={selectedServerId === server.id}
+                    onSelect={() => setSelectedServerId(server.id)}
                     actions={{
                       handlePowerAction,
                       handleArchiveServer,
@@ -679,7 +691,8 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                       setImportWorldPath,
                       setImportError,
                       setImportSuccess,
-                      setCopiedIp
+                      setCopiedIp,
+                      handleGenerateInvite
                     }}
                   />
                 ))}
@@ -709,8 +722,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
 
           {/* Right Column: Server Health */}
           <HealthSidebar 
-            servers={data.servers} 
-            actions={{ handleGenerateInvite }} 
+            server={data.servers.find((s: any) => s.id === selectedServerId) || data.servers[0]} 
           />
           
         </main>
