@@ -265,7 +265,6 @@ export default function ConfigEditorView({ user }: ConfigEditorViewProps) {
                           : "hover:bg-white/5 text-slate-400 hover:text-white border border-transparent"
                       }`}
                     >
-                      <span className="text-lg">{getGameIcon(server.game)}</span>
                       <div className="min-w-0 flex-1">
                         <span className="font-bold text-xs block truncate">{server.name}</span>
                         <span className="text-[10px] text-mutedText block">{server.game}</span>
