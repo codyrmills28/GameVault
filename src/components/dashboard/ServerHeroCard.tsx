@@ -118,7 +118,6 @@ export function ServerHeroCard({
         
         <div className="relative z-10 flex justify-between items-start">
           <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
-            <span className="text-sm">{getGameIcon(server.game)}</span>
             <span className="text-xs font-bold text-white tracking-wide">{server.game}</span>
           </div>
           

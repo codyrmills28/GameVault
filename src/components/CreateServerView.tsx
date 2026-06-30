@@ -391,10 +391,7 @@ export default function CreateServerView({ user }: CreateServerViewProps) {
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/20 pointer-events-none"></div>
                       
                       <div className="relative z-10 flex justify-between items-start">
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl bg-gradient-to-br ${getIconGradient(game.color)} shadow border border-white/10`}>
-                          {game.icon}
-                        </div>
-                        <div className="flex flex-col items-end gap-1">
+                        <div className="flex flex-col items-start gap-1">
                           {selectedGame?.id === game.id && !isLocked && (
                             <span className="text-[10px] bg-accentPurple/30 border border-accentPurple/50 text-white px-2 py-0.5 rounded-full font-bold shadow-[0_0_10px_rgba(167,139,250,0.5)]">
                               Selected

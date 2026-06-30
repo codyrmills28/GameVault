@@ -89,7 +89,6 @@ export function VaultSection({
                 <tr key={archive.id} className="hover:bg-white/5 transition-colors group">
                   <td className="p-4">
                     <div className="flex items-center gap-2">
-                      <span className="text-lg">{getGameIcon(archive.game)}</span>
                       <span className="font-bold text-xs bg-slate-950 px-2 py-0.5 rounded border border-white/5 text-slate-300">{archive.game}</span>
                     </div>
                   </td>
