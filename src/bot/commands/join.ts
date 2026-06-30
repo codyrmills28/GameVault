@@ -33,6 +33,10 @@ export default {
         { name: "Port", value: `\`${server.port}\``, inline: true }
       );
 
+    if (server.inviteCode) {
+      embed.addFields({ name: "Invite Code", value: `\`${server.inviteCode}\` *(Use with RealmSync)*`, inline: false });
+    }
+
     if (server.password && server.password.trim() !== "") {
       embed.addFields({ name: "Password", value: `||${server.password}||`, inline: false });
     } else {

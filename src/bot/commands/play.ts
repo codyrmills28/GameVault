@@ -47,8 +47,13 @@ export default {
     const server = servers[0]; // If multiple, just pick the first one
 
     if (server.status === "RUNNING") {
+      let joinInfo = `\`${server.ipAddress}:${server.port}\``;
+      if (server.inviteCode) {
+        joinInfo += `\n**Invite Code:** \`${server.inviteCode}\` *(Use with RealmSync)*`;
+      }
+
       return interaction.reply({
-        content: `🟢 **${server.name}** is already running!\n**Join IP:** \`${server.ipAddress}:${server.port}\``,
+        content: `🟢 **${server.name}** is already running!\n**Join:** ${joinInfo}`,
       });
     }
 
@@ -98,7 +103,16 @@ export default {
           throw new Error("API responded with " + res.status);
         }
 
-        await interaction.followUp(`🟢 **${server.name} Ready**\n\nJoin: \`${server.ipAddress}:${server.port}\``);
+        // RE-FETCH the server from DB so we get the fresh Public IP resolved by the runner!
+        const { prisma } = require("../../lib/db");
+        const updatedServer = await prisma.server.findUnique({ where: { id: server.id } });
+
+        let joinInfo = `\`${updatedServer.ipAddress}:${updatedServer.port}\``;
+        if (updatedServer.inviteCode) {
+          joinInfo += `\n**Invite Code:** \`${updatedServer.inviteCode}\` *(Use with RealmSync)*`;
+        }
+
+        await interaction.followUp(`🟢 **${updatedServer.name} Ready**\n\nJoin: ${joinInfo}`);
       } catch (error) {
         console.error("Failed to start server:", error);
         await prisma.server.update({
