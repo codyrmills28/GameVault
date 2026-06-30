@@ -34,6 +34,14 @@ model User {
   templateVotes      TemplateVote[]
 }
 
+model DiscordLinkCode {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  discordId String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
 model Subscription {
   id          String   @id @default(cuid())
   userId      String   @unique

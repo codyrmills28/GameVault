@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model DiscordLinkCode
+ * 
+ */
+export type DiscordLinkCode = $Result.DefaultSelection<Prisma.$DiscordLinkCodePayload>
+/**
  * Model Subscription
  * 
  */
@@ -28,6 +33,11 @@ export type Subscription = $Result.DefaultSelection<Prisma.$SubscriptionPayload>
  * 
  */
 export type Server = $Result.DefaultSelection<Prisma.$ServerPayload>
+/**
+ * Model PlannedSession
+ * 
+ */
+export type PlannedSession = $Result.DefaultSelection<Prisma.$PlannedSessionPayload>
 /**
  * Model ServerHostLink
  * 
@@ -218,6 +228,16 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs>;
 
   /**
+   * `prisma.discordLinkCode`: Exposes CRUD operations for the **DiscordLinkCode** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DiscordLinkCodes
+    * const discordLinkCodes = await prisma.discordLinkCode.findMany()
+    * ```
+    */
+  get discordLinkCode(): Prisma.DiscordLinkCodeDelegate<ExtArgs>;
+
+  /**
    * `prisma.subscription`: Exposes CRUD operations for the **Subscription** model.
     * Example usage:
     * ```ts
@@ -236,6 +256,16 @@ export class PrismaClient<
     * ```
     */
   get server(): Prisma.ServerDelegate<ExtArgs>;
+
+  /**
+   * `prisma.plannedSession`: Exposes CRUD operations for the **PlannedSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlannedSessions
+    * const plannedSessions = await prisma.plannedSession.findMany()
+    * ```
+    */
+  get plannedSession(): Prisma.PlannedSessionDelegate<ExtArgs>;
 
   /**
    * `prisma.serverHostLink`: Exposes CRUD operations for the **ServerHostLink** model.
@@ -788,8 +818,10 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    DiscordLinkCode: 'DiscordLinkCode',
     Subscription: 'Subscription',
     Server: 'Server',
+    PlannedSession: 'PlannedSession',
     ServerHostLink: 'ServerHostLink',
     Archive: 'Archive',
     ActivityLog: 'ActivityLog',
@@ -816,7 +848,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "subscription" | "server" | "serverHostLink" | "archive" | "activityLog" | "backup" | "collaborator" | "gameDefinition" | "modInstallation" | "serverSnapshot" | "scheduledTask" | "marketplaceTemplate" | "templateVote"
+      modelProps: "user" | "discordLinkCode" | "subscription" | "server" | "plannedSession" | "serverHostLink" | "archive" | "activityLog" | "backup" | "collaborator" | "gameDefinition" | "modInstallation" | "serverSnapshot" | "scheduledTask" | "marketplaceTemplate" | "templateVote"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -887,6 +919,76 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      DiscordLinkCode: {
+        payload: Prisma.$DiscordLinkCodePayload<ExtArgs>
+        fields: Prisma.DiscordLinkCodeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DiscordLinkCodeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscordLinkCodePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DiscordLinkCodeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscordLinkCodePayload>
+          }
+          findFirst: {
+            args: Prisma.DiscordLinkCodeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscordLinkCodePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DiscordLinkCodeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscordLinkCodePayload>
+          }
+          findMany: {
+            args: Prisma.DiscordLinkCodeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscordLinkCodePayload>[]
+          }
+          create: {
+            args: Prisma.DiscordLinkCodeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscordLinkCodePayload>
+          }
+          createMany: {
+            args: Prisma.DiscordLinkCodeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DiscordLinkCodeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscordLinkCodePayload>[]
+          }
+          delete: {
+            args: Prisma.DiscordLinkCodeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscordLinkCodePayload>
+          }
+          update: {
+            args: Prisma.DiscordLinkCodeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscordLinkCodePayload>
+          }
+          deleteMany: {
+            args: Prisma.DiscordLinkCodeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DiscordLinkCodeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.DiscordLinkCodeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiscordLinkCodePayload>
+          }
+          aggregate: {
+            args: Prisma.DiscordLinkCodeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDiscordLinkCode>
+          }
+          groupBy: {
+            args: Prisma.DiscordLinkCodeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DiscordLinkCodeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DiscordLinkCodeCountArgs<ExtArgs>
+            result: $Utils.Optional<DiscordLinkCodeCountAggregateOutputType> | number
           }
         }
       }
@@ -1027,6 +1129,76 @@ export namespace Prisma {
           count: {
             args: Prisma.ServerCountArgs<ExtArgs>
             result: $Utils.Optional<ServerCountAggregateOutputType> | number
+          }
+        }
+      }
+      PlannedSession: {
+        payload: Prisma.$PlannedSessionPayload<ExtArgs>
+        fields: Prisma.PlannedSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlannedSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlannedSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlannedSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlannedSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.PlannedSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlannedSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlannedSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlannedSessionPayload>
+          }
+          findMany: {
+            args: Prisma.PlannedSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlannedSessionPayload>[]
+          }
+          create: {
+            args: Prisma.PlannedSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlannedSessionPayload>
+          }
+          createMany: {
+            args: Prisma.PlannedSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlannedSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlannedSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.PlannedSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlannedSessionPayload>
+          }
+          update: {
+            args: Prisma.PlannedSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlannedSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlannedSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlannedSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PlannedSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlannedSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.PlannedSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlannedSession>
+          }
+          groupBy: {
+            args: Prisma.PlannedSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlannedSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlannedSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<PlannedSessionCountAggregateOutputType> | number
           }
         }
       }
@@ -2042,6 +2214,7 @@ export namespace Prisma {
     mods: number
     snapshots: number
     scheduledTasks: number
+    plannedSessions: number
   }
 
   export type ServerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2050,6 +2223,7 @@ export namespace Prisma {
     mods?: boolean | ServerCountOutputTypeCountModsArgs
     snapshots?: boolean | ServerCountOutputTypeCountSnapshotsArgs
     scheduledTasks?: boolean | ServerCountOutputTypeCountScheduledTasksArgs
+    plannedSessions?: boolean | ServerCountOutputTypeCountPlannedSessionsArgs
   }
 
   // Custom InputTypes
@@ -2096,6 +2270,13 @@ export namespace Prisma {
    */
   export type ServerCountOutputTypeCountScheduledTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ScheduledTaskWhereInput
+  }
+
+  /**
+   * ServerCountOutputType without action
+   */
+  export type ServerCountOutputTypeCountPlannedSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlannedSessionWhereInput
   }
 
 
@@ -3283,6 +3464,882 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DiscordLinkCode
+   */
+
+  export type AggregateDiscordLinkCode = {
+    _count: DiscordLinkCodeCountAggregateOutputType | null
+    _min: DiscordLinkCodeMinAggregateOutputType | null
+    _max: DiscordLinkCodeMaxAggregateOutputType | null
+  }
+
+  export type DiscordLinkCodeMinAggregateOutputType = {
+    id: string | null
+    code: string | null
+    discordId: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type DiscordLinkCodeMaxAggregateOutputType = {
+    id: string | null
+    code: string | null
+    discordId: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type DiscordLinkCodeCountAggregateOutputType = {
+    id: number
+    code: number
+    discordId: number
+    expiresAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type DiscordLinkCodeMinAggregateInputType = {
+    id?: true
+    code?: true
+    discordId?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type DiscordLinkCodeMaxAggregateInputType = {
+    id?: true
+    code?: true
+    discordId?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type DiscordLinkCodeCountAggregateInputType = {
+    id?: true
+    code?: true
+    discordId?: true
+    expiresAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type DiscordLinkCodeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DiscordLinkCode to aggregate.
+     */
+    where?: DiscordLinkCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscordLinkCodes to fetch.
+     */
+    orderBy?: DiscordLinkCodeOrderByWithRelationInput | DiscordLinkCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DiscordLinkCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscordLinkCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscordLinkCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DiscordLinkCodes
+    **/
+    _count?: true | DiscordLinkCodeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DiscordLinkCodeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DiscordLinkCodeMaxAggregateInputType
+  }
+
+  export type GetDiscordLinkCodeAggregateType<T extends DiscordLinkCodeAggregateArgs> = {
+        [P in keyof T & keyof AggregateDiscordLinkCode]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDiscordLinkCode[P]>
+      : GetScalarType<T[P], AggregateDiscordLinkCode[P]>
+  }
+
+
+
+
+  export type DiscordLinkCodeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiscordLinkCodeWhereInput
+    orderBy?: DiscordLinkCodeOrderByWithAggregationInput | DiscordLinkCodeOrderByWithAggregationInput[]
+    by: DiscordLinkCodeScalarFieldEnum[] | DiscordLinkCodeScalarFieldEnum
+    having?: DiscordLinkCodeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DiscordLinkCodeCountAggregateInputType | true
+    _min?: DiscordLinkCodeMinAggregateInputType
+    _max?: DiscordLinkCodeMaxAggregateInputType
+  }
+
+  export type DiscordLinkCodeGroupByOutputType = {
+    id: string
+    code: string
+    discordId: string
+    expiresAt: Date
+    createdAt: Date
+    _count: DiscordLinkCodeCountAggregateOutputType | null
+    _min: DiscordLinkCodeMinAggregateOutputType | null
+    _max: DiscordLinkCodeMaxAggregateOutputType | null
+  }
+
+  type GetDiscordLinkCodeGroupByPayload<T extends DiscordLinkCodeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DiscordLinkCodeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DiscordLinkCodeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DiscordLinkCodeGroupByOutputType[P]>
+            : GetScalarType<T[P], DiscordLinkCodeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DiscordLinkCodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    discordId?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["discordLinkCode"]>
+
+  export type DiscordLinkCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    discordId?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["discordLinkCode"]>
+
+  export type DiscordLinkCodeSelectScalar = {
+    id?: boolean
+    code?: boolean
+    discordId?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $DiscordLinkCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DiscordLinkCode"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      code: string
+      discordId: string
+      expiresAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["discordLinkCode"]>
+    composites: {}
+  }
+
+  type DiscordLinkCodeGetPayload<S extends boolean | null | undefined | DiscordLinkCodeDefaultArgs> = $Result.GetResult<Prisma.$DiscordLinkCodePayload, S>
+
+  type DiscordLinkCodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<DiscordLinkCodeFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: DiscordLinkCodeCountAggregateInputType | true
+    }
+
+  export interface DiscordLinkCodeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DiscordLinkCode'], meta: { name: 'DiscordLinkCode' } }
+    /**
+     * Find zero or one DiscordLinkCode that matches the filter.
+     * @param {DiscordLinkCodeFindUniqueArgs} args - Arguments to find a DiscordLinkCode
+     * @example
+     * // Get one DiscordLinkCode
+     * const discordLinkCode = await prisma.discordLinkCode.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DiscordLinkCodeFindUniqueArgs>(args: SelectSubset<T, DiscordLinkCodeFindUniqueArgs<ExtArgs>>): Prisma__DiscordLinkCodeClient<$Result.GetResult<Prisma.$DiscordLinkCodePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one DiscordLinkCode that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {DiscordLinkCodeFindUniqueOrThrowArgs} args - Arguments to find a DiscordLinkCode
+     * @example
+     * // Get one DiscordLinkCode
+     * const discordLinkCode = await prisma.discordLinkCode.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DiscordLinkCodeFindUniqueOrThrowArgs>(args: SelectSubset<T, DiscordLinkCodeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DiscordLinkCodeClient<$Result.GetResult<Prisma.$DiscordLinkCodePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first DiscordLinkCode that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscordLinkCodeFindFirstArgs} args - Arguments to find a DiscordLinkCode
+     * @example
+     * // Get one DiscordLinkCode
+     * const discordLinkCode = await prisma.discordLinkCode.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DiscordLinkCodeFindFirstArgs>(args?: SelectSubset<T, DiscordLinkCodeFindFirstArgs<ExtArgs>>): Prisma__DiscordLinkCodeClient<$Result.GetResult<Prisma.$DiscordLinkCodePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first DiscordLinkCode that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscordLinkCodeFindFirstOrThrowArgs} args - Arguments to find a DiscordLinkCode
+     * @example
+     * // Get one DiscordLinkCode
+     * const discordLinkCode = await prisma.discordLinkCode.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DiscordLinkCodeFindFirstOrThrowArgs>(args?: SelectSubset<T, DiscordLinkCodeFindFirstOrThrowArgs<ExtArgs>>): Prisma__DiscordLinkCodeClient<$Result.GetResult<Prisma.$DiscordLinkCodePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more DiscordLinkCodes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscordLinkCodeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DiscordLinkCodes
+     * const discordLinkCodes = await prisma.discordLinkCode.findMany()
+     * 
+     * // Get first 10 DiscordLinkCodes
+     * const discordLinkCodes = await prisma.discordLinkCode.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const discordLinkCodeWithIdOnly = await prisma.discordLinkCode.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DiscordLinkCodeFindManyArgs>(args?: SelectSubset<T, DiscordLinkCodeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscordLinkCodePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a DiscordLinkCode.
+     * @param {DiscordLinkCodeCreateArgs} args - Arguments to create a DiscordLinkCode.
+     * @example
+     * // Create one DiscordLinkCode
+     * const DiscordLinkCode = await prisma.discordLinkCode.create({
+     *   data: {
+     *     // ... data to create a DiscordLinkCode
+     *   }
+     * })
+     * 
+     */
+    create<T extends DiscordLinkCodeCreateArgs>(args: SelectSubset<T, DiscordLinkCodeCreateArgs<ExtArgs>>): Prisma__DiscordLinkCodeClient<$Result.GetResult<Prisma.$DiscordLinkCodePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many DiscordLinkCodes.
+     * @param {DiscordLinkCodeCreateManyArgs} args - Arguments to create many DiscordLinkCodes.
+     * @example
+     * // Create many DiscordLinkCodes
+     * const discordLinkCode = await prisma.discordLinkCode.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DiscordLinkCodeCreateManyArgs>(args?: SelectSubset<T, DiscordLinkCodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DiscordLinkCodes and returns the data saved in the database.
+     * @param {DiscordLinkCodeCreateManyAndReturnArgs} args - Arguments to create many DiscordLinkCodes.
+     * @example
+     * // Create many DiscordLinkCodes
+     * const discordLinkCode = await prisma.discordLinkCode.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DiscordLinkCodes and only return the `id`
+     * const discordLinkCodeWithIdOnly = await prisma.discordLinkCode.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DiscordLinkCodeCreateManyAndReturnArgs>(args?: SelectSubset<T, DiscordLinkCodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiscordLinkCodePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a DiscordLinkCode.
+     * @param {DiscordLinkCodeDeleteArgs} args - Arguments to delete one DiscordLinkCode.
+     * @example
+     * // Delete one DiscordLinkCode
+     * const DiscordLinkCode = await prisma.discordLinkCode.delete({
+     *   where: {
+     *     // ... filter to delete one DiscordLinkCode
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DiscordLinkCodeDeleteArgs>(args: SelectSubset<T, DiscordLinkCodeDeleteArgs<ExtArgs>>): Prisma__DiscordLinkCodeClient<$Result.GetResult<Prisma.$DiscordLinkCodePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one DiscordLinkCode.
+     * @param {DiscordLinkCodeUpdateArgs} args - Arguments to update one DiscordLinkCode.
+     * @example
+     * // Update one DiscordLinkCode
+     * const discordLinkCode = await prisma.discordLinkCode.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DiscordLinkCodeUpdateArgs>(args: SelectSubset<T, DiscordLinkCodeUpdateArgs<ExtArgs>>): Prisma__DiscordLinkCodeClient<$Result.GetResult<Prisma.$DiscordLinkCodePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more DiscordLinkCodes.
+     * @param {DiscordLinkCodeDeleteManyArgs} args - Arguments to filter DiscordLinkCodes to delete.
+     * @example
+     * // Delete a few DiscordLinkCodes
+     * const { count } = await prisma.discordLinkCode.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DiscordLinkCodeDeleteManyArgs>(args?: SelectSubset<T, DiscordLinkCodeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DiscordLinkCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscordLinkCodeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DiscordLinkCodes
+     * const discordLinkCode = await prisma.discordLinkCode.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DiscordLinkCodeUpdateManyArgs>(args: SelectSubset<T, DiscordLinkCodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one DiscordLinkCode.
+     * @param {DiscordLinkCodeUpsertArgs} args - Arguments to update or create a DiscordLinkCode.
+     * @example
+     * // Update or create a DiscordLinkCode
+     * const discordLinkCode = await prisma.discordLinkCode.upsert({
+     *   create: {
+     *     // ... data to create a DiscordLinkCode
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DiscordLinkCode we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DiscordLinkCodeUpsertArgs>(args: SelectSubset<T, DiscordLinkCodeUpsertArgs<ExtArgs>>): Prisma__DiscordLinkCodeClient<$Result.GetResult<Prisma.$DiscordLinkCodePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of DiscordLinkCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscordLinkCodeCountArgs} args - Arguments to filter DiscordLinkCodes to count.
+     * @example
+     * // Count the number of DiscordLinkCodes
+     * const count = await prisma.discordLinkCode.count({
+     *   where: {
+     *     // ... the filter for the DiscordLinkCodes we want to count
+     *   }
+     * })
+    **/
+    count<T extends DiscordLinkCodeCountArgs>(
+      args?: Subset<T, DiscordLinkCodeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DiscordLinkCodeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DiscordLinkCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscordLinkCodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DiscordLinkCodeAggregateArgs>(args: Subset<T, DiscordLinkCodeAggregateArgs>): Prisma.PrismaPromise<GetDiscordLinkCodeAggregateType<T>>
+
+    /**
+     * Group by DiscordLinkCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiscordLinkCodeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DiscordLinkCodeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DiscordLinkCodeGroupByArgs['orderBy'] }
+        : { orderBy?: DiscordLinkCodeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DiscordLinkCodeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDiscordLinkCodeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DiscordLinkCode model
+   */
+  readonly fields: DiscordLinkCodeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DiscordLinkCode.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DiscordLinkCodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DiscordLinkCode model
+   */ 
+  interface DiscordLinkCodeFieldRefs {
+    readonly id: FieldRef<"DiscordLinkCode", 'String'>
+    readonly code: FieldRef<"DiscordLinkCode", 'String'>
+    readonly discordId: FieldRef<"DiscordLinkCode", 'String'>
+    readonly expiresAt: FieldRef<"DiscordLinkCode", 'DateTime'>
+    readonly createdAt: FieldRef<"DiscordLinkCode", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DiscordLinkCode findUnique
+   */
+  export type DiscordLinkCodeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelect<ExtArgs> | null
+    /**
+     * Filter, which DiscordLinkCode to fetch.
+     */
+    where: DiscordLinkCodeWhereUniqueInput
+  }
+
+  /**
+   * DiscordLinkCode findUniqueOrThrow
+   */
+  export type DiscordLinkCodeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelect<ExtArgs> | null
+    /**
+     * Filter, which DiscordLinkCode to fetch.
+     */
+    where: DiscordLinkCodeWhereUniqueInput
+  }
+
+  /**
+   * DiscordLinkCode findFirst
+   */
+  export type DiscordLinkCodeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelect<ExtArgs> | null
+    /**
+     * Filter, which DiscordLinkCode to fetch.
+     */
+    where?: DiscordLinkCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscordLinkCodes to fetch.
+     */
+    orderBy?: DiscordLinkCodeOrderByWithRelationInput | DiscordLinkCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DiscordLinkCodes.
+     */
+    cursor?: DiscordLinkCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscordLinkCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscordLinkCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DiscordLinkCodes.
+     */
+    distinct?: DiscordLinkCodeScalarFieldEnum | DiscordLinkCodeScalarFieldEnum[]
+  }
+
+  /**
+   * DiscordLinkCode findFirstOrThrow
+   */
+  export type DiscordLinkCodeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelect<ExtArgs> | null
+    /**
+     * Filter, which DiscordLinkCode to fetch.
+     */
+    where?: DiscordLinkCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscordLinkCodes to fetch.
+     */
+    orderBy?: DiscordLinkCodeOrderByWithRelationInput | DiscordLinkCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DiscordLinkCodes.
+     */
+    cursor?: DiscordLinkCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscordLinkCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscordLinkCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DiscordLinkCodes.
+     */
+    distinct?: DiscordLinkCodeScalarFieldEnum | DiscordLinkCodeScalarFieldEnum[]
+  }
+
+  /**
+   * DiscordLinkCode findMany
+   */
+  export type DiscordLinkCodeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelect<ExtArgs> | null
+    /**
+     * Filter, which DiscordLinkCodes to fetch.
+     */
+    where?: DiscordLinkCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DiscordLinkCodes to fetch.
+     */
+    orderBy?: DiscordLinkCodeOrderByWithRelationInput | DiscordLinkCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DiscordLinkCodes.
+     */
+    cursor?: DiscordLinkCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DiscordLinkCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DiscordLinkCodes.
+     */
+    skip?: number
+    distinct?: DiscordLinkCodeScalarFieldEnum | DiscordLinkCodeScalarFieldEnum[]
+  }
+
+  /**
+   * DiscordLinkCode create
+   */
+  export type DiscordLinkCodeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelect<ExtArgs> | null
+    /**
+     * The data needed to create a DiscordLinkCode.
+     */
+    data: XOR<DiscordLinkCodeCreateInput, DiscordLinkCodeUncheckedCreateInput>
+  }
+
+  /**
+   * DiscordLinkCode createMany
+   */
+  export type DiscordLinkCodeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DiscordLinkCodes.
+     */
+    data: DiscordLinkCodeCreateManyInput | DiscordLinkCodeCreateManyInput[]
+  }
+
+  /**
+   * DiscordLinkCode createManyAndReturn
+   */
+  export type DiscordLinkCodeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many DiscordLinkCodes.
+     */
+    data: DiscordLinkCodeCreateManyInput | DiscordLinkCodeCreateManyInput[]
+  }
+
+  /**
+   * DiscordLinkCode update
+   */
+  export type DiscordLinkCodeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelect<ExtArgs> | null
+    /**
+     * The data needed to update a DiscordLinkCode.
+     */
+    data: XOR<DiscordLinkCodeUpdateInput, DiscordLinkCodeUncheckedUpdateInput>
+    /**
+     * Choose, which DiscordLinkCode to update.
+     */
+    where: DiscordLinkCodeWhereUniqueInput
+  }
+
+  /**
+   * DiscordLinkCode updateMany
+   */
+  export type DiscordLinkCodeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DiscordLinkCodes.
+     */
+    data: XOR<DiscordLinkCodeUpdateManyMutationInput, DiscordLinkCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which DiscordLinkCodes to update
+     */
+    where?: DiscordLinkCodeWhereInput
+  }
+
+  /**
+   * DiscordLinkCode upsert
+   */
+  export type DiscordLinkCodeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelect<ExtArgs> | null
+    /**
+     * The filter to search for the DiscordLinkCode to update in case it exists.
+     */
+    where: DiscordLinkCodeWhereUniqueInput
+    /**
+     * In case the DiscordLinkCode found by the `where` argument doesn't exist, create a new DiscordLinkCode with this data.
+     */
+    create: XOR<DiscordLinkCodeCreateInput, DiscordLinkCodeUncheckedCreateInput>
+    /**
+     * In case the DiscordLinkCode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DiscordLinkCodeUpdateInput, DiscordLinkCodeUncheckedUpdateInput>
+  }
+
+  /**
+   * DiscordLinkCode delete
+   */
+  export type DiscordLinkCodeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelect<ExtArgs> | null
+    /**
+     * Filter which DiscordLinkCode to delete.
+     */
+    where: DiscordLinkCodeWhereUniqueInput
+  }
+
+  /**
+   * DiscordLinkCode deleteMany
+   */
+  export type DiscordLinkCodeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DiscordLinkCodes to delete
+     */
+    where?: DiscordLinkCodeWhereInput
+  }
+
+  /**
+   * DiscordLinkCode without action
+   */
+  export type DiscordLinkCodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiscordLinkCode
+     */
+    select?: DiscordLinkCodeSelect<ExtArgs> | null
   }
 
 
@@ -4653,6 +5710,7 @@ export namespace Prisma {
     snapshots?: boolean | Server$snapshotsArgs<ExtArgs>
     scheduledTasks?: boolean | Server$scheduledTasksArgs<ExtArgs>
     hostLink?: boolean | Server$hostLinkArgs<ExtArgs>
+    plannedSessions?: boolean | Server$plannedSessionsArgs<ExtArgs>
     _count?: boolean | ServerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["server"]>
 
@@ -4721,6 +5779,7 @@ export namespace Prisma {
     snapshots?: boolean | Server$snapshotsArgs<ExtArgs>
     scheduledTasks?: boolean | Server$scheduledTasksArgs<ExtArgs>
     hostLink?: boolean | Server$hostLinkArgs<ExtArgs>
+    plannedSessions?: boolean | Server$plannedSessionsArgs<ExtArgs>
     _count?: boolean | ServerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ServerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4739,6 +5798,7 @@ export namespace Prisma {
       snapshots: Prisma.$ServerSnapshotPayload<ExtArgs>[]
       scheduledTasks: Prisma.$ScheduledTaskPayload<ExtArgs>[]
       hostLink: Prisma.$ServerHostLinkPayload<ExtArgs> | null
+      plannedSessions: Prisma.$PlannedSessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5137,6 +6197,7 @@ export namespace Prisma {
     snapshots<T extends Server$snapshotsArgs<ExtArgs> = {}>(args?: Subset<T, Server$snapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServerSnapshotPayload<ExtArgs>, T, "findMany"> | Null>
     scheduledTasks<T extends Server$scheduledTasksArgs<ExtArgs> = {}>(args?: Subset<T, Server$scheduledTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledTaskPayload<ExtArgs>, T, "findMany"> | Null>
     hostLink<T extends Server$hostLinkArgs<ExtArgs> = {}>(args?: Subset<T, Server$hostLinkArgs<ExtArgs>>): Prisma__ServerHostLinkClient<$Result.GetResult<Prisma.$ServerHostLinkPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    plannedSessions<T extends Server$plannedSessionsArgs<ExtArgs> = {}>(args?: Subset<T, Server$plannedSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5636,6 +6697,26 @@ export namespace Prisma {
   }
 
   /**
+   * Server.plannedSessions
+   */
+  export type Server$plannedSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
+    where?: PlannedSessionWhereInput
+    orderBy?: PlannedSessionOrderByWithRelationInput | PlannedSessionOrderByWithRelationInput[]
+    cursor?: PlannedSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PlannedSessionScalarFieldEnum | PlannedSessionScalarFieldEnum[]
+  }
+
+  /**
    * Server without action
    */
   export type ServerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5647,6 +6728,985 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ServerInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PlannedSession
+   */
+
+  export type AggregatePlannedSession = {
+    _count: PlannedSessionCountAggregateOutputType | null
+    _min: PlannedSessionMinAggregateOutputType | null
+    _max: PlannedSessionMaxAggregateOutputType | null
+  }
+
+  export type PlannedSessionMinAggregateOutputType = {
+    id: string | null
+    serverId: string | null
+    title: string | null
+    startTime: Date | null
+    channelId: string | null
+    messageId: string | null
+    roster: string | null
+    notified: boolean | null
+    createdAt: Date | null
+  }
+
+  export type PlannedSessionMaxAggregateOutputType = {
+    id: string | null
+    serverId: string | null
+    title: string | null
+    startTime: Date | null
+    channelId: string | null
+    messageId: string | null
+    roster: string | null
+    notified: boolean | null
+    createdAt: Date | null
+  }
+
+  export type PlannedSessionCountAggregateOutputType = {
+    id: number
+    serverId: number
+    title: number
+    startTime: number
+    channelId: number
+    messageId: number
+    roster: number
+    notified: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PlannedSessionMinAggregateInputType = {
+    id?: true
+    serverId?: true
+    title?: true
+    startTime?: true
+    channelId?: true
+    messageId?: true
+    roster?: true
+    notified?: true
+    createdAt?: true
+  }
+
+  export type PlannedSessionMaxAggregateInputType = {
+    id?: true
+    serverId?: true
+    title?: true
+    startTime?: true
+    channelId?: true
+    messageId?: true
+    roster?: true
+    notified?: true
+    createdAt?: true
+  }
+
+  export type PlannedSessionCountAggregateInputType = {
+    id?: true
+    serverId?: true
+    title?: true
+    startTime?: true
+    channelId?: true
+    messageId?: true
+    roster?: true
+    notified?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PlannedSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlannedSession to aggregate.
+     */
+    where?: PlannedSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlannedSessions to fetch.
+     */
+    orderBy?: PlannedSessionOrderByWithRelationInput | PlannedSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlannedSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlannedSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlannedSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PlannedSessions
+    **/
+    _count?: true | PlannedSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlannedSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlannedSessionMaxAggregateInputType
+  }
+
+  export type GetPlannedSessionAggregateType<T extends PlannedSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlannedSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlannedSession[P]>
+      : GetScalarType<T[P], AggregatePlannedSession[P]>
+  }
+
+
+
+
+  export type PlannedSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlannedSessionWhereInput
+    orderBy?: PlannedSessionOrderByWithAggregationInput | PlannedSessionOrderByWithAggregationInput[]
+    by: PlannedSessionScalarFieldEnum[] | PlannedSessionScalarFieldEnum
+    having?: PlannedSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlannedSessionCountAggregateInputType | true
+    _min?: PlannedSessionMinAggregateInputType
+    _max?: PlannedSessionMaxAggregateInputType
+  }
+
+  export type PlannedSessionGroupByOutputType = {
+    id: string
+    serverId: string
+    title: string
+    startTime: Date
+    channelId: string
+    messageId: string
+    roster: string
+    notified: boolean
+    createdAt: Date
+    _count: PlannedSessionCountAggregateOutputType | null
+    _min: PlannedSessionMinAggregateOutputType | null
+    _max: PlannedSessionMaxAggregateOutputType | null
+  }
+
+  type GetPlannedSessionGroupByPayload<T extends PlannedSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlannedSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlannedSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlannedSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], PlannedSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlannedSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serverId?: boolean
+    title?: boolean
+    startTime?: boolean
+    channelId?: boolean
+    messageId?: boolean
+    roster?: boolean
+    notified?: boolean
+    createdAt?: boolean
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["plannedSession"]>
+
+  export type PlannedSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serverId?: boolean
+    title?: boolean
+    startTime?: boolean
+    channelId?: boolean
+    messageId?: boolean
+    roster?: boolean
+    notified?: boolean
+    createdAt?: boolean
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["plannedSession"]>
+
+  export type PlannedSessionSelectScalar = {
+    id?: boolean
+    serverId?: boolean
+    title?: boolean
+    startTime?: boolean
+    channelId?: boolean
+    messageId?: boolean
+    roster?: boolean
+    notified?: boolean
+    createdAt?: boolean
+  }
+
+  export type PlannedSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+  }
+  export type PlannedSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    server?: boolean | ServerDefaultArgs<ExtArgs>
+  }
+
+  export type $PlannedSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PlannedSession"
+    objects: {
+      server: Prisma.$ServerPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      serverId: string
+      title: string
+      startTime: Date
+      channelId: string
+      messageId: string
+      roster: string
+      notified: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["plannedSession"]>
+    composites: {}
+  }
+
+  type PlannedSessionGetPayload<S extends boolean | null | undefined | PlannedSessionDefaultArgs> = $Result.GetResult<Prisma.$PlannedSessionPayload, S>
+
+  type PlannedSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PlannedSessionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PlannedSessionCountAggregateInputType | true
+    }
+
+  export interface PlannedSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PlannedSession'], meta: { name: 'PlannedSession' } }
+    /**
+     * Find zero or one PlannedSession that matches the filter.
+     * @param {PlannedSessionFindUniqueArgs} args - Arguments to find a PlannedSession
+     * @example
+     * // Get one PlannedSession
+     * const plannedSession = await prisma.plannedSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlannedSessionFindUniqueArgs>(args: SelectSubset<T, PlannedSessionFindUniqueArgs<ExtArgs>>): Prisma__PlannedSessionClient<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PlannedSession that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PlannedSessionFindUniqueOrThrowArgs} args - Arguments to find a PlannedSession
+     * @example
+     * // Get one PlannedSession
+     * const plannedSession = await prisma.plannedSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlannedSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, PlannedSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlannedSessionClient<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PlannedSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlannedSessionFindFirstArgs} args - Arguments to find a PlannedSession
+     * @example
+     * // Get one PlannedSession
+     * const plannedSession = await prisma.plannedSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlannedSessionFindFirstArgs>(args?: SelectSubset<T, PlannedSessionFindFirstArgs<ExtArgs>>): Prisma__PlannedSessionClient<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PlannedSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlannedSessionFindFirstOrThrowArgs} args - Arguments to find a PlannedSession
+     * @example
+     * // Get one PlannedSession
+     * const plannedSession = await prisma.plannedSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlannedSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, PlannedSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlannedSessionClient<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PlannedSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlannedSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PlannedSessions
+     * const plannedSessions = await prisma.plannedSession.findMany()
+     * 
+     * // Get first 10 PlannedSessions
+     * const plannedSessions = await prisma.plannedSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const plannedSessionWithIdOnly = await prisma.plannedSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlannedSessionFindManyArgs>(args?: SelectSubset<T, PlannedSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PlannedSession.
+     * @param {PlannedSessionCreateArgs} args - Arguments to create a PlannedSession.
+     * @example
+     * // Create one PlannedSession
+     * const PlannedSession = await prisma.plannedSession.create({
+     *   data: {
+     *     // ... data to create a PlannedSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlannedSessionCreateArgs>(args: SelectSubset<T, PlannedSessionCreateArgs<ExtArgs>>): Prisma__PlannedSessionClient<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PlannedSessions.
+     * @param {PlannedSessionCreateManyArgs} args - Arguments to create many PlannedSessions.
+     * @example
+     * // Create many PlannedSessions
+     * const plannedSession = await prisma.plannedSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlannedSessionCreateManyArgs>(args?: SelectSubset<T, PlannedSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PlannedSessions and returns the data saved in the database.
+     * @param {PlannedSessionCreateManyAndReturnArgs} args - Arguments to create many PlannedSessions.
+     * @example
+     * // Create many PlannedSessions
+     * const plannedSession = await prisma.plannedSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PlannedSessions and only return the `id`
+     * const plannedSessionWithIdOnly = await prisma.plannedSession.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlannedSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, PlannedSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PlannedSession.
+     * @param {PlannedSessionDeleteArgs} args - Arguments to delete one PlannedSession.
+     * @example
+     * // Delete one PlannedSession
+     * const PlannedSession = await prisma.plannedSession.delete({
+     *   where: {
+     *     // ... filter to delete one PlannedSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlannedSessionDeleteArgs>(args: SelectSubset<T, PlannedSessionDeleteArgs<ExtArgs>>): Prisma__PlannedSessionClient<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PlannedSession.
+     * @param {PlannedSessionUpdateArgs} args - Arguments to update one PlannedSession.
+     * @example
+     * // Update one PlannedSession
+     * const plannedSession = await prisma.plannedSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlannedSessionUpdateArgs>(args: SelectSubset<T, PlannedSessionUpdateArgs<ExtArgs>>): Prisma__PlannedSessionClient<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PlannedSessions.
+     * @param {PlannedSessionDeleteManyArgs} args - Arguments to filter PlannedSessions to delete.
+     * @example
+     * // Delete a few PlannedSessions
+     * const { count } = await prisma.plannedSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlannedSessionDeleteManyArgs>(args?: SelectSubset<T, PlannedSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PlannedSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlannedSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PlannedSessions
+     * const plannedSession = await prisma.plannedSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlannedSessionUpdateManyArgs>(args: SelectSubset<T, PlannedSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PlannedSession.
+     * @param {PlannedSessionUpsertArgs} args - Arguments to update or create a PlannedSession.
+     * @example
+     * // Update or create a PlannedSession
+     * const plannedSession = await prisma.plannedSession.upsert({
+     *   create: {
+     *     // ... data to create a PlannedSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PlannedSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlannedSessionUpsertArgs>(args: SelectSubset<T, PlannedSessionUpsertArgs<ExtArgs>>): Prisma__PlannedSessionClient<$Result.GetResult<Prisma.$PlannedSessionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PlannedSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlannedSessionCountArgs} args - Arguments to filter PlannedSessions to count.
+     * @example
+     * // Count the number of PlannedSessions
+     * const count = await prisma.plannedSession.count({
+     *   where: {
+     *     // ... the filter for the PlannedSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlannedSessionCountArgs>(
+      args?: Subset<T, PlannedSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlannedSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PlannedSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlannedSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlannedSessionAggregateArgs>(args: Subset<T, PlannedSessionAggregateArgs>): Prisma.PrismaPromise<GetPlannedSessionAggregateType<T>>
+
+    /**
+     * Group by PlannedSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlannedSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlannedSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlannedSessionGroupByArgs['orderBy'] }
+        : { orderBy?: PlannedSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlannedSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlannedSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PlannedSession model
+   */
+  readonly fields: PlannedSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PlannedSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlannedSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    server<T extends ServerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServerDefaultArgs<ExtArgs>>): Prisma__ServerClient<$Result.GetResult<Prisma.$ServerPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PlannedSession model
+   */ 
+  interface PlannedSessionFieldRefs {
+    readonly id: FieldRef<"PlannedSession", 'String'>
+    readonly serverId: FieldRef<"PlannedSession", 'String'>
+    readonly title: FieldRef<"PlannedSession", 'String'>
+    readonly startTime: FieldRef<"PlannedSession", 'DateTime'>
+    readonly channelId: FieldRef<"PlannedSession", 'String'>
+    readonly messageId: FieldRef<"PlannedSession", 'String'>
+    readonly roster: FieldRef<"PlannedSession", 'String'>
+    readonly notified: FieldRef<"PlannedSession", 'Boolean'>
+    readonly createdAt: FieldRef<"PlannedSession", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PlannedSession findUnique
+   */
+  export type PlannedSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which PlannedSession to fetch.
+     */
+    where: PlannedSessionWhereUniqueInput
+  }
+
+  /**
+   * PlannedSession findUniqueOrThrow
+   */
+  export type PlannedSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which PlannedSession to fetch.
+     */
+    where: PlannedSessionWhereUniqueInput
+  }
+
+  /**
+   * PlannedSession findFirst
+   */
+  export type PlannedSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which PlannedSession to fetch.
+     */
+    where?: PlannedSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlannedSessions to fetch.
+     */
+    orderBy?: PlannedSessionOrderByWithRelationInput | PlannedSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlannedSessions.
+     */
+    cursor?: PlannedSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlannedSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlannedSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlannedSessions.
+     */
+    distinct?: PlannedSessionScalarFieldEnum | PlannedSessionScalarFieldEnum[]
+  }
+
+  /**
+   * PlannedSession findFirstOrThrow
+   */
+  export type PlannedSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which PlannedSession to fetch.
+     */
+    where?: PlannedSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlannedSessions to fetch.
+     */
+    orderBy?: PlannedSessionOrderByWithRelationInput | PlannedSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PlannedSessions.
+     */
+    cursor?: PlannedSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlannedSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlannedSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PlannedSessions.
+     */
+    distinct?: PlannedSessionScalarFieldEnum | PlannedSessionScalarFieldEnum[]
+  }
+
+  /**
+   * PlannedSession findMany
+   */
+  export type PlannedSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
+    /**
+     * Filter, which PlannedSessions to fetch.
+     */
+    where?: PlannedSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PlannedSessions to fetch.
+     */
+    orderBy?: PlannedSessionOrderByWithRelationInput | PlannedSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PlannedSessions.
+     */
+    cursor?: PlannedSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PlannedSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PlannedSessions.
+     */
+    skip?: number
+    distinct?: PlannedSessionScalarFieldEnum | PlannedSessionScalarFieldEnum[]
+  }
+
+  /**
+   * PlannedSession create
+   */
+  export type PlannedSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PlannedSession.
+     */
+    data: XOR<PlannedSessionCreateInput, PlannedSessionUncheckedCreateInput>
+  }
+
+  /**
+   * PlannedSession createMany
+   */
+  export type PlannedSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PlannedSessions.
+     */
+    data: PlannedSessionCreateManyInput | PlannedSessionCreateManyInput[]
+  }
+
+  /**
+   * PlannedSession createManyAndReturn
+   */
+  export type PlannedSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PlannedSessions.
+     */
+    data: PlannedSessionCreateManyInput | PlannedSessionCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PlannedSession update
+   */
+  export type PlannedSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PlannedSession.
+     */
+    data: XOR<PlannedSessionUpdateInput, PlannedSessionUncheckedUpdateInput>
+    /**
+     * Choose, which PlannedSession to update.
+     */
+    where: PlannedSessionWhereUniqueInput
+  }
+
+  /**
+   * PlannedSession updateMany
+   */
+  export type PlannedSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PlannedSessions.
+     */
+    data: XOR<PlannedSessionUpdateManyMutationInput, PlannedSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which PlannedSessions to update
+     */
+    where?: PlannedSessionWhereInput
+  }
+
+  /**
+   * PlannedSession upsert
+   */
+  export type PlannedSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PlannedSession to update in case it exists.
+     */
+    where: PlannedSessionWhereUniqueInput
+    /**
+     * In case the PlannedSession found by the `where` argument doesn't exist, create a new PlannedSession with this data.
+     */
+    create: XOR<PlannedSessionCreateInput, PlannedSessionUncheckedCreateInput>
+    /**
+     * In case the PlannedSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlannedSessionUpdateInput, PlannedSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * PlannedSession delete
+   */
+  export type PlannedSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
+    /**
+     * Filter which PlannedSession to delete.
+     */
+    where: PlannedSessionWhereUniqueInput
+  }
+
+  /**
+   * PlannedSession deleteMany
+   */
+  export type PlannedSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PlannedSessions to delete
+     */
+    where?: PlannedSessionWhereInput
+  }
+
+  /**
+   * PlannedSession without action
+   */
+  export type PlannedSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlannedSession
+     */
+    select?: PlannedSessionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlannedSessionInclude<ExtArgs> | null
   }
 
 
@@ -16774,6 +18834,17 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const DiscordLinkCodeScalarFieldEnum: {
+    id: 'id',
+    code: 'code',
+    discordId: 'discordId',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
+  };
+
+  export type DiscordLinkCodeScalarFieldEnum = (typeof DiscordLinkCodeScalarFieldEnum)[keyof typeof DiscordLinkCodeScalarFieldEnum]
+
+
   export const SubscriptionScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -16815,6 +18886,21 @@ export namespace Prisma {
   };
 
   export type ServerScalarFieldEnum = (typeof ServerScalarFieldEnum)[keyof typeof ServerScalarFieldEnum]
+
+
+  export const PlannedSessionScalarFieldEnum: {
+    id: 'id',
+    serverId: 'serverId',
+    title: 'title',
+    startTime: 'startTime',
+    channelId: 'channelId',
+    messageId: 'messageId',
+    roster: 'roster',
+    notified: 'notified',
+    createdAt: 'createdAt'
+  };
+
+  export type PlannedSessionScalarFieldEnum = (typeof PlannedSessionScalarFieldEnum)[keyof typeof PlannedSessionScalarFieldEnum]
 
 
   export const ServerHostLinkScalarFieldEnum: {
@@ -17130,6 +19216,58 @@ export namespace Prisma {
     role?: StringWithAggregatesFilter<"User"> | string
   }
 
+  export type DiscordLinkCodeWhereInput = {
+    AND?: DiscordLinkCodeWhereInput | DiscordLinkCodeWhereInput[]
+    OR?: DiscordLinkCodeWhereInput[]
+    NOT?: DiscordLinkCodeWhereInput | DiscordLinkCodeWhereInput[]
+    id?: StringFilter<"DiscordLinkCode"> | string
+    code?: StringFilter<"DiscordLinkCode"> | string
+    discordId?: StringFilter<"DiscordLinkCode"> | string
+    expiresAt?: DateTimeFilter<"DiscordLinkCode"> | Date | string
+    createdAt?: DateTimeFilter<"DiscordLinkCode"> | Date | string
+  }
+
+  export type DiscordLinkCodeOrderByWithRelationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    discordId?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DiscordLinkCodeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    AND?: DiscordLinkCodeWhereInput | DiscordLinkCodeWhereInput[]
+    OR?: DiscordLinkCodeWhereInput[]
+    NOT?: DiscordLinkCodeWhereInput | DiscordLinkCodeWhereInput[]
+    discordId?: StringFilter<"DiscordLinkCode"> | string
+    expiresAt?: DateTimeFilter<"DiscordLinkCode"> | Date | string
+    createdAt?: DateTimeFilter<"DiscordLinkCode"> | Date | string
+  }, "id" | "code">
+
+  export type DiscordLinkCodeOrderByWithAggregationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    discordId?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: DiscordLinkCodeCountOrderByAggregateInput
+    _max?: DiscordLinkCodeMaxOrderByAggregateInput
+    _min?: DiscordLinkCodeMinOrderByAggregateInput
+  }
+
+  export type DiscordLinkCodeScalarWhereWithAggregatesInput = {
+    AND?: DiscordLinkCodeScalarWhereWithAggregatesInput | DiscordLinkCodeScalarWhereWithAggregatesInput[]
+    OR?: DiscordLinkCodeScalarWhereWithAggregatesInput[]
+    NOT?: DiscordLinkCodeScalarWhereWithAggregatesInput | DiscordLinkCodeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DiscordLinkCode"> | string
+    code?: StringWithAggregatesFilter<"DiscordLinkCode"> | string
+    discordId?: StringWithAggregatesFilter<"DiscordLinkCode"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"DiscordLinkCode"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"DiscordLinkCode"> | Date | string
+  }
+
   export type SubscriptionWhereInput = {
     AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
     OR?: SubscriptionWhereInput[]
@@ -17233,6 +19371,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotListRelationFilter
     scheduledTasks?: ScheduledTaskListRelationFilter
     hostLink?: XOR<ServerHostLinkNullableRelationFilter, ServerHostLinkWhereInput> | null
+    plannedSessions?: PlannedSessionListRelationFilter
   }
 
   export type ServerOrderByWithRelationInput = {
@@ -17268,6 +19407,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotOrderByRelationAggregateInput
     scheduledTasks?: ScheduledTaskOrderByRelationAggregateInput
     hostLink?: ServerHostLinkOrderByWithRelationInput
+    plannedSessions?: PlannedSessionOrderByRelationAggregateInput
   }
 
   export type ServerWhereUniqueInput = Prisma.AtLeast<{
@@ -17306,6 +19446,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotListRelationFilter
     scheduledTasks?: ScheduledTaskListRelationFilter
     hostLink?: XOR<ServerHostLinkNullableRelationFilter, ServerHostLinkWhereInput> | null
+    plannedSessions?: PlannedSessionListRelationFilter
   }, "id" | "inviteCode">
 
   export type ServerOrderByWithAggregationInput = {
@@ -17368,6 +19509,81 @@ export namespace Prisma {
     snapshotInterval?: IntWithAggregatesFilter<"Server"> | number
     lastSnapshotAt?: DateTimeNullableWithAggregatesFilter<"Server"> | Date | string | null
     inviteCode?: StringNullableWithAggregatesFilter<"Server"> | string | null
+  }
+
+  export type PlannedSessionWhereInput = {
+    AND?: PlannedSessionWhereInput | PlannedSessionWhereInput[]
+    OR?: PlannedSessionWhereInput[]
+    NOT?: PlannedSessionWhereInput | PlannedSessionWhereInput[]
+    id?: StringFilter<"PlannedSession"> | string
+    serverId?: StringFilter<"PlannedSession"> | string
+    title?: StringFilter<"PlannedSession"> | string
+    startTime?: DateTimeFilter<"PlannedSession"> | Date | string
+    channelId?: StringFilter<"PlannedSession"> | string
+    messageId?: StringFilter<"PlannedSession"> | string
+    roster?: StringFilter<"PlannedSession"> | string
+    notified?: BoolFilter<"PlannedSession"> | boolean
+    createdAt?: DateTimeFilter<"PlannedSession"> | Date | string
+    server?: XOR<ServerRelationFilter, ServerWhereInput>
+  }
+
+  export type PlannedSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    serverId?: SortOrder
+    title?: SortOrder
+    startTime?: SortOrder
+    channelId?: SortOrder
+    messageId?: SortOrder
+    roster?: SortOrder
+    notified?: SortOrder
+    createdAt?: SortOrder
+    server?: ServerOrderByWithRelationInput
+  }
+
+  export type PlannedSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PlannedSessionWhereInput | PlannedSessionWhereInput[]
+    OR?: PlannedSessionWhereInput[]
+    NOT?: PlannedSessionWhereInput | PlannedSessionWhereInput[]
+    serverId?: StringFilter<"PlannedSession"> | string
+    title?: StringFilter<"PlannedSession"> | string
+    startTime?: DateTimeFilter<"PlannedSession"> | Date | string
+    channelId?: StringFilter<"PlannedSession"> | string
+    messageId?: StringFilter<"PlannedSession"> | string
+    roster?: StringFilter<"PlannedSession"> | string
+    notified?: BoolFilter<"PlannedSession"> | boolean
+    createdAt?: DateTimeFilter<"PlannedSession"> | Date | string
+    server?: XOR<ServerRelationFilter, ServerWhereInput>
+  }, "id">
+
+  export type PlannedSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    serverId?: SortOrder
+    title?: SortOrder
+    startTime?: SortOrder
+    channelId?: SortOrder
+    messageId?: SortOrder
+    roster?: SortOrder
+    notified?: SortOrder
+    createdAt?: SortOrder
+    _count?: PlannedSessionCountOrderByAggregateInput
+    _max?: PlannedSessionMaxOrderByAggregateInput
+    _min?: PlannedSessionMinOrderByAggregateInput
+  }
+
+  export type PlannedSessionScalarWhereWithAggregatesInput = {
+    AND?: PlannedSessionScalarWhereWithAggregatesInput | PlannedSessionScalarWhereWithAggregatesInput[]
+    OR?: PlannedSessionScalarWhereWithAggregatesInput[]
+    NOT?: PlannedSessionScalarWhereWithAggregatesInput | PlannedSessionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PlannedSession"> | string
+    serverId?: StringWithAggregatesFilter<"PlannedSession"> | string
+    title?: StringWithAggregatesFilter<"PlannedSession"> | string
+    startTime?: DateTimeWithAggregatesFilter<"PlannedSession"> | Date | string
+    channelId?: StringWithAggregatesFilter<"PlannedSession"> | string
+    messageId?: StringWithAggregatesFilter<"PlannedSession"> | string
+    roster?: StringWithAggregatesFilter<"PlannedSession"> | string
+    notified?: BoolWithAggregatesFilter<"PlannedSession"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"PlannedSession"> | Date | string
   }
 
   export type ServerHostLinkWhereInput = {
@@ -18332,6 +20548,62 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
   }
 
+  export type DiscordLinkCodeCreateInput = {
+    id?: string
+    code: string
+    discordId: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type DiscordLinkCodeUncheckedCreateInput = {
+    id?: string
+    code: string
+    discordId: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type DiscordLinkCodeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    discordId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscordLinkCodeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    discordId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscordLinkCodeCreateManyInput = {
+    id?: string
+    code: string
+    discordId: string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type DiscordLinkCodeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    discordId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiscordLinkCodeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    discordId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SubscriptionCreateInput = {
     id?: string
     plan: string
@@ -18432,6 +20704,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateInput = {
@@ -18465,6 +20738,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskUncheckedCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkUncheckedCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerUpdateInput = {
@@ -18498,6 +20772,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateInput = {
@@ -18531,6 +20806,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUncheckedUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUncheckedUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerCreateManyInput = {
@@ -18610,6 +20886,89 @@ export namespace Prisma {
     snapshotInterval?: IntFieldUpdateOperationsInput | number
     lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PlannedSessionCreateInput = {
+    id?: string
+    title: string
+    startTime: Date | string
+    channelId: string
+    messageId: string
+    roster: string
+    notified?: boolean
+    createdAt?: Date | string
+    server: ServerCreateNestedOneWithoutPlannedSessionsInput
+  }
+
+  export type PlannedSessionUncheckedCreateInput = {
+    id?: string
+    serverId: string
+    title: string
+    startTime: Date | string
+    channelId: string
+    messageId: string
+    roster: string
+    notified?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PlannedSessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    roster?: StringFieldUpdateOperationsInput | string
+    notified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    server?: ServerUpdateOneRequiredWithoutPlannedSessionsNestedInput
+  }
+
+  export type PlannedSessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    roster?: StringFieldUpdateOperationsInput | string
+    notified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlannedSessionCreateManyInput = {
+    id?: string
+    serverId: string
+    title: string
+    startTime: Date | string
+    channelId: string
+    messageId: string
+    roster: string
+    notified?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PlannedSessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    roster?: StringFieldUpdateOperationsInput | string
+    notified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlannedSessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serverId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    roster?: StringFieldUpdateOperationsInput | string
+    notified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServerHostLinkCreateInput = {
@@ -19729,6 +22088,30 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type DiscordLinkCodeCountOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    discordId?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DiscordLinkCodeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    discordId?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DiscordLinkCodeMinOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    discordId?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -19871,6 +22254,12 @@ export namespace Prisma {
     isNot?: ServerHostLinkWhereInput | null
   }
 
+  export type PlannedSessionListRelationFilter = {
+    every?: PlannedSessionWhereInput
+    some?: PlannedSessionWhereInput
+    none?: PlannedSessionWhereInput
+  }
+
   export type BackupOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -19884,6 +22273,10 @@ export namespace Prisma {
   }
 
   export type ScheduledTaskOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PlannedSessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -20043,6 +22436,42 @@ export namespace Prisma {
   export type ServerRelationFilter = {
     is?: ServerWhereInput
     isNot?: ServerWhereInput
+  }
+
+  export type PlannedSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    serverId?: SortOrder
+    title?: SortOrder
+    startTime?: SortOrder
+    channelId?: SortOrder
+    messageId?: SortOrder
+    roster?: SortOrder
+    notified?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlannedSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    serverId?: SortOrder
+    title?: SortOrder
+    startTime?: SortOrder
+    channelId?: SortOrder
+    messageId?: SortOrder
+    roster?: SortOrder
+    notified?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlannedSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    serverId?: SortOrder
+    title?: SortOrder
+    startTime?: SortOrder
+    channelId?: SortOrder
+    messageId?: SortOrder
+    roster?: SortOrder
+    notified?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type ServerHostLinkCountOrderByAggregateInput = {
@@ -20908,6 +23337,13 @@ export namespace Prisma {
     connect?: ServerHostLinkWhereUniqueInput
   }
 
+  export type PlannedSessionCreateNestedManyWithoutServerInput = {
+    create?: XOR<PlannedSessionCreateWithoutServerInput, PlannedSessionUncheckedCreateWithoutServerInput> | PlannedSessionCreateWithoutServerInput[] | PlannedSessionUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: PlannedSessionCreateOrConnectWithoutServerInput | PlannedSessionCreateOrConnectWithoutServerInput[]
+    createMany?: PlannedSessionCreateManyServerInputEnvelope
+    connect?: PlannedSessionWhereUniqueInput | PlannedSessionWhereUniqueInput[]
+  }
+
   export type BackupUncheckedCreateNestedManyWithoutServerInput = {
     create?: XOR<BackupCreateWithoutServerInput, BackupUncheckedCreateWithoutServerInput> | BackupCreateWithoutServerInput[] | BackupUncheckedCreateWithoutServerInput[]
     connectOrCreate?: BackupCreateOrConnectWithoutServerInput | BackupCreateOrConnectWithoutServerInput[]
@@ -20947,6 +23383,13 @@ export namespace Prisma {
     create?: XOR<ServerHostLinkCreateWithoutServerInput, ServerHostLinkUncheckedCreateWithoutServerInput>
     connectOrCreate?: ServerHostLinkCreateOrConnectWithoutServerInput
     connect?: ServerHostLinkWhereUniqueInput
+  }
+
+  export type PlannedSessionUncheckedCreateNestedManyWithoutServerInput = {
+    create?: XOR<PlannedSessionCreateWithoutServerInput, PlannedSessionUncheckedCreateWithoutServerInput> | PlannedSessionCreateWithoutServerInput[] | PlannedSessionUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: PlannedSessionCreateOrConnectWithoutServerInput | PlannedSessionCreateOrConnectWithoutServerInput[]
+    createMany?: PlannedSessionCreateManyServerInputEnvelope
+    connect?: PlannedSessionWhereUniqueInput | PlannedSessionWhereUniqueInput[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -21071,6 +23514,20 @@ export namespace Prisma {
     update?: XOR<XOR<ServerHostLinkUpdateToOneWithWhereWithoutServerInput, ServerHostLinkUpdateWithoutServerInput>, ServerHostLinkUncheckedUpdateWithoutServerInput>
   }
 
+  export type PlannedSessionUpdateManyWithoutServerNestedInput = {
+    create?: XOR<PlannedSessionCreateWithoutServerInput, PlannedSessionUncheckedCreateWithoutServerInput> | PlannedSessionCreateWithoutServerInput[] | PlannedSessionUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: PlannedSessionCreateOrConnectWithoutServerInput | PlannedSessionCreateOrConnectWithoutServerInput[]
+    upsert?: PlannedSessionUpsertWithWhereUniqueWithoutServerInput | PlannedSessionUpsertWithWhereUniqueWithoutServerInput[]
+    createMany?: PlannedSessionCreateManyServerInputEnvelope
+    set?: PlannedSessionWhereUniqueInput | PlannedSessionWhereUniqueInput[]
+    disconnect?: PlannedSessionWhereUniqueInput | PlannedSessionWhereUniqueInput[]
+    delete?: PlannedSessionWhereUniqueInput | PlannedSessionWhereUniqueInput[]
+    connect?: PlannedSessionWhereUniqueInput | PlannedSessionWhereUniqueInput[]
+    update?: PlannedSessionUpdateWithWhereUniqueWithoutServerInput | PlannedSessionUpdateWithWhereUniqueWithoutServerInput[]
+    updateMany?: PlannedSessionUpdateManyWithWhereWithoutServerInput | PlannedSessionUpdateManyWithWhereWithoutServerInput[]
+    deleteMany?: PlannedSessionScalarWhereInput | PlannedSessionScalarWhereInput[]
+  }
+
   export type BackupUncheckedUpdateManyWithoutServerNestedInput = {
     create?: XOR<BackupCreateWithoutServerInput, BackupUncheckedCreateWithoutServerInput> | BackupCreateWithoutServerInput[] | BackupUncheckedCreateWithoutServerInput[]
     connectOrCreate?: BackupCreateOrConnectWithoutServerInput | BackupCreateOrConnectWithoutServerInput[]
@@ -21149,6 +23606,34 @@ export namespace Prisma {
     delete?: ServerHostLinkWhereInput | boolean
     connect?: ServerHostLinkWhereUniqueInput
     update?: XOR<XOR<ServerHostLinkUpdateToOneWithWhereWithoutServerInput, ServerHostLinkUpdateWithoutServerInput>, ServerHostLinkUncheckedUpdateWithoutServerInput>
+  }
+
+  export type PlannedSessionUncheckedUpdateManyWithoutServerNestedInput = {
+    create?: XOR<PlannedSessionCreateWithoutServerInput, PlannedSessionUncheckedCreateWithoutServerInput> | PlannedSessionCreateWithoutServerInput[] | PlannedSessionUncheckedCreateWithoutServerInput[]
+    connectOrCreate?: PlannedSessionCreateOrConnectWithoutServerInput | PlannedSessionCreateOrConnectWithoutServerInput[]
+    upsert?: PlannedSessionUpsertWithWhereUniqueWithoutServerInput | PlannedSessionUpsertWithWhereUniqueWithoutServerInput[]
+    createMany?: PlannedSessionCreateManyServerInputEnvelope
+    set?: PlannedSessionWhereUniqueInput | PlannedSessionWhereUniqueInput[]
+    disconnect?: PlannedSessionWhereUniqueInput | PlannedSessionWhereUniqueInput[]
+    delete?: PlannedSessionWhereUniqueInput | PlannedSessionWhereUniqueInput[]
+    connect?: PlannedSessionWhereUniqueInput | PlannedSessionWhereUniqueInput[]
+    update?: PlannedSessionUpdateWithWhereUniqueWithoutServerInput | PlannedSessionUpdateWithWhereUniqueWithoutServerInput[]
+    updateMany?: PlannedSessionUpdateManyWithWhereWithoutServerInput | PlannedSessionUpdateManyWithWhereWithoutServerInput[]
+    deleteMany?: PlannedSessionScalarWhereInput | PlannedSessionScalarWhereInput[]
+  }
+
+  export type ServerCreateNestedOneWithoutPlannedSessionsInput = {
+    create?: XOR<ServerCreateWithoutPlannedSessionsInput, ServerUncheckedCreateWithoutPlannedSessionsInput>
+    connectOrCreate?: ServerCreateOrConnectWithoutPlannedSessionsInput
+    connect?: ServerWhereUniqueInput
+  }
+
+  export type ServerUpdateOneRequiredWithoutPlannedSessionsNestedInput = {
+    create?: XOR<ServerCreateWithoutPlannedSessionsInput, ServerUncheckedCreateWithoutPlannedSessionsInput>
+    connectOrCreate?: ServerCreateOrConnectWithoutPlannedSessionsInput
+    upsert?: ServerUpsertWithoutPlannedSessionsInput
+    connect?: ServerWhereUniqueInput
+    update?: XOR<XOR<ServerUpdateToOneWithWhereWithoutPlannedSessionsInput, ServerUpdateWithoutPlannedSessionsInput>, ServerUncheckedUpdateWithoutPlannedSessionsInput>
   }
 
   export type ServerCreateNestedOneWithoutHostLinkInput = {
@@ -21718,6 +24203,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutUserInput = {
@@ -21750,6 +24236,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskUncheckedCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkUncheckedCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutUserInput = {
@@ -22426,6 +24913,37 @@ export namespace Prisma {
     create: XOR<ServerHostLinkCreateWithoutServerInput, ServerHostLinkUncheckedCreateWithoutServerInput>
   }
 
+  export type PlannedSessionCreateWithoutServerInput = {
+    id?: string
+    title: string
+    startTime: Date | string
+    channelId: string
+    messageId: string
+    roster: string
+    notified?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PlannedSessionUncheckedCreateWithoutServerInput = {
+    id?: string
+    title: string
+    startTime: Date | string
+    channelId: string
+    messageId: string
+    roster: string
+    notified?: boolean
+    createdAt?: Date | string
+  }
+
+  export type PlannedSessionCreateOrConnectWithoutServerInput = {
+    where: PlannedSessionWhereUniqueInput
+    create: XOR<PlannedSessionCreateWithoutServerInput, PlannedSessionUncheckedCreateWithoutServerInput>
+  }
+
+  export type PlannedSessionCreateManyServerInputEnvelope = {
+    data: PlannedSessionCreateManyServerInput | PlannedSessionCreateManyServerInput[]
+  }
+
   export type UserUpsertWithoutServersInput = {
     update: XOR<UserUpdateWithoutServersInput, UserUncheckedUpdateWithoutServersInput>
     create: XOR<UserCreateWithoutServersInput, UserUncheckedCreateWithoutServersInput>
@@ -22700,6 +25218,185 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PlannedSessionUpsertWithWhereUniqueWithoutServerInput = {
+    where: PlannedSessionWhereUniqueInput
+    update: XOR<PlannedSessionUpdateWithoutServerInput, PlannedSessionUncheckedUpdateWithoutServerInput>
+    create: XOR<PlannedSessionCreateWithoutServerInput, PlannedSessionUncheckedCreateWithoutServerInput>
+  }
+
+  export type PlannedSessionUpdateWithWhereUniqueWithoutServerInput = {
+    where: PlannedSessionWhereUniqueInput
+    data: XOR<PlannedSessionUpdateWithoutServerInput, PlannedSessionUncheckedUpdateWithoutServerInput>
+  }
+
+  export type PlannedSessionUpdateManyWithWhereWithoutServerInput = {
+    where: PlannedSessionScalarWhereInput
+    data: XOR<PlannedSessionUpdateManyMutationInput, PlannedSessionUncheckedUpdateManyWithoutServerInput>
+  }
+
+  export type PlannedSessionScalarWhereInput = {
+    AND?: PlannedSessionScalarWhereInput | PlannedSessionScalarWhereInput[]
+    OR?: PlannedSessionScalarWhereInput[]
+    NOT?: PlannedSessionScalarWhereInput | PlannedSessionScalarWhereInput[]
+    id?: StringFilter<"PlannedSession"> | string
+    serverId?: StringFilter<"PlannedSession"> | string
+    title?: StringFilter<"PlannedSession"> | string
+    startTime?: DateTimeFilter<"PlannedSession"> | Date | string
+    channelId?: StringFilter<"PlannedSession"> | string
+    messageId?: StringFilter<"PlannedSession"> | string
+    roster?: StringFilter<"PlannedSession"> | string
+    notified?: BoolFilter<"PlannedSession"> | boolean
+    createdAt?: DateTimeFilter<"PlannedSession"> | Date | string
+  }
+
+  export type ServerCreateWithoutPlannedSessionsInput = {
+    id?: string
+    name: string
+    game: string
+    ramAllocation: number
+    region: string
+    status: string
+    runnerType?: string
+    localPath?: string | null
+    pid?: number | null
+    password?: string | null
+    enableUpnp?: boolean
+    ipAddress: string
+    port: number
+    paramValues?: string | null
+    healthStatus?: string
+    cpuUsage?: number
+    memoryUsage?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    snapshotInterval?: number
+    lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
+    user: UserCreateNestedOneWithoutServersInput
+    definition?: GameDefinitionCreateNestedOneWithoutServersInput
+    backups?: BackupCreateNestedManyWithoutServerInput
+    collaborators?: CollaboratorCreateNestedManyWithoutServerInput
+    mods?: ModInstallationCreateNestedManyWithoutServerInput
+    snapshots?: ServerSnapshotCreateNestedManyWithoutServerInput
+    scheduledTasks?: ScheduledTaskCreateNestedManyWithoutServerInput
+    hostLink?: ServerHostLinkCreateNestedOneWithoutServerInput
+  }
+
+  export type ServerUncheckedCreateWithoutPlannedSessionsInput = {
+    id?: string
+    userId: string
+    name: string
+    game: string
+    ramAllocation: number
+    region: string
+    status: string
+    runnerType?: string
+    localPath?: string | null
+    pid?: number | null
+    password?: string | null
+    enableUpnp?: boolean
+    ipAddress: string
+    port: number
+    definitionId?: string | null
+    paramValues?: string | null
+    healthStatus?: string
+    cpuUsage?: number
+    memoryUsage?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    snapshotInterval?: number
+    lastSnapshotAt?: Date | string | null
+    inviteCode?: string | null
+    backups?: BackupUncheckedCreateNestedManyWithoutServerInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutServerInput
+    mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
+    snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
+    scheduledTasks?: ScheduledTaskUncheckedCreateNestedManyWithoutServerInput
+    hostLink?: ServerHostLinkUncheckedCreateNestedOneWithoutServerInput
+  }
+
+  export type ServerCreateOrConnectWithoutPlannedSessionsInput = {
+    where: ServerWhereUniqueInput
+    create: XOR<ServerCreateWithoutPlannedSessionsInput, ServerUncheckedCreateWithoutPlannedSessionsInput>
+  }
+
+  export type ServerUpsertWithoutPlannedSessionsInput = {
+    update: XOR<ServerUpdateWithoutPlannedSessionsInput, ServerUncheckedUpdateWithoutPlannedSessionsInput>
+    create: XOR<ServerCreateWithoutPlannedSessionsInput, ServerUncheckedCreateWithoutPlannedSessionsInput>
+    where?: ServerWhereInput
+  }
+
+  export type ServerUpdateToOneWithWhereWithoutPlannedSessionsInput = {
+    where?: ServerWhereInput
+    data: XOR<ServerUpdateWithoutPlannedSessionsInput, ServerUncheckedUpdateWithoutPlannedSessionsInput>
+  }
+
+  export type ServerUpdateWithoutPlannedSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    game?: StringFieldUpdateOperationsInput | string
+    ramAllocation?: FloatFieldUpdateOperationsInput | number
+    region?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    runnerType?: StringFieldUpdateOperationsInput | string
+    localPath?: NullableStringFieldUpdateOperationsInput | string | null
+    pid?: NullableIntFieldUpdateOperationsInput | number | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    enableUpnp?: BoolFieldUpdateOperationsInput | boolean
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    port?: IntFieldUpdateOperationsInput | number
+    paramValues?: NullableStringFieldUpdateOperationsInput | string | null
+    healthStatus?: StringFieldUpdateOperationsInput | string
+    cpuUsage?: FloatFieldUpdateOperationsInput | number
+    memoryUsage?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    snapshotInterval?: IntFieldUpdateOperationsInput | number
+    lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutServersNestedInput
+    definition?: GameDefinitionUpdateOneWithoutServersNestedInput
+    backups?: BackupUpdateManyWithoutServerNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutServerNestedInput
+    mods?: ModInstallationUpdateManyWithoutServerNestedInput
+    snapshots?: ServerSnapshotUpdateManyWithoutServerNestedInput
+    scheduledTasks?: ScheduledTaskUpdateManyWithoutServerNestedInput
+    hostLink?: ServerHostLinkUpdateOneWithoutServerNestedInput
+  }
+
+  export type ServerUncheckedUpdateWithoutPlannedSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    game?: StringFieldUpdateOperationsInput | string
+    ramAllocation?: FloatFieldUpdateOperationsInput | number
+    region?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    runnerType?: StringFieldUpdateOperationsInput | string
+    localPath?: NullableStringFieldUpdateOperationsInput | string | null
+    pid?: NullableIntFieldUpdateOperationsInput | number | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    enableUpnp?: BoolFieldUpdateOperationsInput | boolean
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    port?: IntFieldUpdateOperationsInput | number
+    definitionId?: NullableStringFieldUpdateOperationsInput | string | null
+    paramValues?: NullableStringFieldUpdateOperationsInput | string | null
+    healthStatus?: StringFieldUpdateOperationsInput | string
+    cpuUsage?: FloatFieldUpdateOperationsInput | number
+    memoryUsage?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    snapshotInterval?: IntFieldUpdateOperationsInput | number
+    lastSnapshotAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCode?: NullableStringFieldUpdateOperationsInput | string | null
+    backups?: BackupUncheckedUpdateManyWithoutServerNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutServerNestedInput
+    mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
+    snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
+    scheduledTasks?: ScheduledTaskUncheckedUpdateManyWithoutServerNestedInput
+    hostLink?: ServerHostLinkUncheckedUpdateOneWithoutServerNestedInput
+  }
+
   export type ServerCreateWithoutHostLinkInput = {
     id?: string
     name: string
@@ -22730,6 +25427,7 @@ export namespace Prisma {
     mods?: ModInstallationCreateNestedManyWithoutServerInput
     snapshots?: ServerSnapshotCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskCreateNestedManyWithoutServerInput
+    plannedSessions?: PlannedSessionCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutHostLinkInput = {
@@ -22762,6 +25460,7 @@ export namespace Prisma {
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskUncheckedCreateNestedManyWithoutServerInput
+    plannedSessions?: PlannedSessionUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutHostLinkInput = {
@@ -22810,6 +25509,7 @@ export namespace Prisma {
     mods?: ModInstallationUpdateManyWithoutServerNestedInput
     snapshots?: ServerSnapshotUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUpdateManyWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutHostLinkInput = {
@@ -22842,6 +25542,7 @@ export namespace Prisma {
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUncheckedUpdateManyWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type UserCreateWithoutArchivesInput = {
@@ -23042,6 +25743,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutBackupsInput = {
@@ -23074,6 +25776,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskUncheckedCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkUncheckedCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutBackupsInput = {
@@ -23122,6 +25825,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutBackupsInput = {
@@ -23154,6 +25858,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUncheckedUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUncheckedUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerCreateWithoutCollaboratorsInput = {
@@ -23186,6 +25891,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutCollaboratorsInput = {
@@ -23218,6 +25924,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskUncheckedCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkUncheckedCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutCollaboratorsInput = {
@@ -23305,6 +26012,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutCollaboratorsInput = {
@@ -23337,6 +26045,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUncheckedUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUncheckedUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type UserUpsertWithoutCollaboratorAccessInput = {
@@ -23453,6 +26162,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutDefinitionInput = {
@@ -23485,6 +26195,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskUncheckedCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkUncheckedCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutDefinitionInput = {
@@ -23587,6 +26298,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutModsInput = {
@@ -23619,6 +26331,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskUncheckedCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkUncheckedCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutModsInput = {
@@ -23667,6 +26380,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutModsInput = {
@@ -23699,6 +26413,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUncheckedUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUncheckedUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerCreateWithoutSnapshotsInput = {
@@ -23731,6 +26446,7 @@ export namespace Prisma {
     mods?: ModInstallationCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutSnapshotsInput = {
@@ -23763,6 +26479,7 @@ export namespace Prisma {
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
     scheduledTasks?: ScheduledTaskUncheckedCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkUncheckedCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutSnapshotsInput = {
@@ -23811,6 +26528,7 @@ export namespace Prisma {
     mods?: ModInstallationUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutSnapshotsInput = {
@@ -23843,6 +26561,7 @@ export namespace Prisma {
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUncheckedUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUncheckedUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerCreateWithoutScheduledTasksInput = {
@@ -23875,6 +26594,7 @@ export namespace Prisma {
     mods?: ModInstallationCreateNestedManyWithoutServerInput
     snapshots?: ServerSnapshotCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionCreateNestedManyWithoutServerInput
   }
 
   export type ServerUncheckedCreateWithoutScheduledTasksInput = {
@@ -23907,6 +26627,7 @@ export namespace Prisma {
     mods?: ModInstallationUncheckedCreateNestedManyWithoutServerInput
     snapshots?: ServerSnapshotUncheckedCreateNestedManyWithoutServerInput
     hostLink?: ServerHostLinkUncheckedCreateNestedOneWithoutServerInput
+    plannedSessions?: PlannedSessionUncheckedCreateNestedManyWithoutServerInput
   }
 
   export type ServerCreateOrConnectWithoutScheduledTasksInput = {
@@ -23955,6 +26676,7 @@ export namespace Prisma {
     mods?: ModInstallationUpdateManyWithoutServerNestedInput
     snapshots?: ServerSnapshotUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutScheduledTasksInput = {
@@ -23987,6 +26709,7 @@ export namespace Prisma {
     mods?: ModInstallationUncheckedUpdateManyWithoutServerNestedInput
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUncheckedUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type TemplateVoteCreateWithoutTemplateInput = {
@@ -24344,6 +27067,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutUserInput = {
@@ -24376,6 +27100,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUncheckedUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUncheckedUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateManyWithoutUserInput = {
@@ -24546,6 +27271,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type PlannedSessionCreateManyServerInput = {
+    id?: string
+    title: string
+    startTime: Date | string
+    channelId: string
+    messageId: string
+    roster: string
+    notified?: boolean
+    createdAt?: Date | string
+  }
+
   export type BackupUpdateWithoutServerInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -24702,6 +27438,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PlannedSessionUpdateWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    roster?: StringFieldUpdateOperationsInput | string
+    notified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlannedSessionUncheckedUpdateWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    roster?: StringFieldUpdateOperationsInput | string
+    notified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlannedSessionUncheckedUpdateManyWithoutServerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    channelId?: StringFieldUpdateOperationsInput | string
+    messageId?: StringFieldUpdateOperationsInput | string
+    roster?: StringFieldUpdateOperationsInput | string
+    notified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ServerCreateManyDefinitionInput = {
     id?: string
     userId: string
@@ -24758,6 +27527,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateWithoutDefinitionInput = {
@@ -24790,6 +27560,7 @@ export namespace Prisma {
     snapshots?: ServerSnapshotUncheckedUpdateManyWithoutServerNestedInput
     scheduledTasks?: ScheduledTaskUncheckedUpdateManyWithoutServerNestedInput
     hostLink?: ServerHostLinkUncheckedUpdateOneWithoutServerNestedInput
+    plannedSessions?: PlannedSessionUncheckedUpdateManyWithoutServerNestedInput
   }
 
   export type ServerUncheckedUpdateManyWithoutDefinitionInput = {
@@ -24872,6 +27643,10 @@ export namespace Prisma {
      */
     export type UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use DiscordLinkCodeDefaultArgs instead
+     */
+    export type DiscordLinkCodeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DiscordLinkCodeDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use SubscriptionDefaultArgs instead
      */
     export type SubscriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SubscriptionDefaultArgs<ExtArgs>
@@ -24879,6 +27654,10 @@ export namespace Prisma {
      * @deprecated Use ServerDefaultArgs instead
      */
     export type ServerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ServerDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PlannedSessionDefaultArgs instead
+     */
+    export type PlannedSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PlannedSessionDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ServerHostLinkDefaultArgs instead
      */
