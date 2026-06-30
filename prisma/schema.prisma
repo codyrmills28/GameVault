@@ -21,6 +21,7 @@ model User {
   email        String        @unique
   passwordHash String
   name         String
+  discordId    String?       @unique
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   role         String        @default("USER") // "USER" | "ADMIN"
@@ -77,6 +78,21 @@ model Server {
   scheduledTasks   ScheduledTask[]
   hostLink         ServerHostLink?
   inviteCode       String?         @unique // For RealmSync
+  plannedSessions  PlannedSession[]
+}
+
+model PlannedSession {
+  id          String   @id @default(cuid())
+  serverId    String
+  title       String
+  startTime   DateTime
+  channelId   String   // The Discord channel where the event was posted
+  messageId   String   // The Discord message ID of the embed
+  roster      String   // JSON array of Discord User IDs who clicked "I'm In"
+  notified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  server      Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
 }
 
 
