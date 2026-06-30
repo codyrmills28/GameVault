@@ -44,7 +44,7 @@ export function VaultSection({
             <img 
               src="/vault-empty.png" 
               alt="Empty Vault" 
-              className="w-32 h-auto group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10 mix-blend-screen opacity-90" 
+              className="w-32 h-auto group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 relative z-10" 
             />
           </div>
           <h3 className="text-xl font-extrabold text-white mb-2">Vault is empty</h3>
