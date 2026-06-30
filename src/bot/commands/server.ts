@@ -69,6 +69,15 @@ export default {
       });
     }
 
+    const callApi = async (action: string) => {
+      const res = await fetch("http://localhost:3000/api/bot/action", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${process.env.DISCORD_BOT_TOKEN}` },
+        body: JSON.stringify({ action, serverId: server.id })
+      });
+      if (!res.ok) throw new Error("API Error " + res.status);
+    };
+
     if (subcommand === "start") {
       if (server.status === "RUNNING") return interaction.reply({ content: `**${server.name}** is already running.`, ephemeral: true });
       
@@ -102,12 +111,9 @@ export default {
 
         await i.update({ content: `⚡ Starting **${server.name}**...`, components: [] });
         try {
-          await prisma.server.update({ where: { id: server.id }, data: { status: "STARTING" }});
-          await runner.start(server);
-          await prisma.server.update({ where: { id: server.id }, data: { status: "RUNNING" }});
+          await callApi("start");
           await interaction.followUp(`🟢 **${server.name} Started**`);
         } catch (error) {
-          await prisma.server.update({ where: { id: server.id }, data: { status: "CRASHED" }});
           await interaction.followUp(`🔴 Failed to start **${server.name}**.`);
         }
       });
@@ -133,9 +139,12 @@ export default {
         if (i.customId === "cancel") return i.update({ content: "Shutdown cancelled.", components: [] });
 
         await i.update({ content: `🛑 Stopping **${server.name}**...`, components: [] });
-        await runner.stop(server.id);
-        await prisma.server.update({ where: { id: server.id }, data: { status: "STOPPED" }});
-        await interaction.followUp(`🔴 **${server.name} Stopped**`);
+        try {
+          await callApi("stop");
+          await interaction.followUp(`🔴 **${server.name} Stopped**`);
+        } catch(e) {
+          await interaction.followUp(`🔴 Failed to stop **${server.name}**.`);
+        }
       });
       return;
     }
@@ -146,11 +155,12 @@ export default {
       await interaction.reply({ content: `🔄 Restarting **${server.name}** in 5 minutes (Auto-warning players)...` });
       // In a real implementation, we would send an RCON command to warn players here.
       setTimeout(async () => {
-        await runner.stop(server.id);
-        await prisma.server.update({ where: { id: server.id }, data: { status: "STARTING" }});
-        await runner.start(server);
-        await prisma.server.update({ where: { id: server.id }, data: { status: "RUNNING" }});
-        await interaction.followUp(`🟢 **${server.name} Restarted**`);
+        try {
+          await callApi("restart");
+          await interaction.followUp(`🟢 **${server.name} Restarted**`);
+        } catch(e) {
+          await interaction.followUp(`🔴 Failed to restart **${server.name}**.`);
+        }
       }, 5000); // Mock 5 minute wait with 5 seconds for testing
       return;
     }

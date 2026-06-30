@@ -84,19 +84,19 @@ export default {
       await i.update({ content: `⚡ Starting **${server.name}**...`, components: [] });
 
       try {
-        await prisma.server.update({
-          where: { id: server.id },
-          data: { status: "STARTING" },
+        // Use the internal API so Next.js handles it and emits SSE events to the dashboard
+        const res = await fetch("http://localhost:3000/api/bot/action", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${process.env.DISCORD_BOT_TOKEN}`
+          },
+          body: JSON.stringify({ action: "start", serverId: server.id })
         });
 
-        // Use the factory to get the correct runner
-        const runner = getRunner(server.runnerType);
-        await runner.start(server);
-        
-        await prisma.server.update({
-          where: { id: server.id },
-          data: { status: "RUNNING" },
-        });
+        if (!res.ok) {
+          throw new Error("API responded with " + res.status);
+        }
 
         await interaction.followUp(`🟢 **${server.name} Ready**\n\nJoin: \`${server.ipAddress}:${server.port}\``);
       } catch (error) {
