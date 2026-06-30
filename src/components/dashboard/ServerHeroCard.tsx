@@ -52,6 +52,9 @@ export function ServerHeroCard({
       case "ZOMBOID": return "from-stone-600/80 to-neutral-900/80";
       case "ARK": return "from-emerald-700/80 to-teal-900/80";
       case "RUST": return "from-red-700/80 to-orange-900/80";
+      case "SATISFACTORY": return "from-orange-500/80 to-stone-900/80";
+      case "VRISING": return "from-red-900/80 to-black/80";
+      case "WINDROSE": return "from-sky-500/80 to-blue-900/80";
       default: return "from-purple-600/80 to-slate-900/80";
     }
   };
@@ -66,6 +69,9 @@ export function ServerHeroCard({
       case "TERRARIA": return "/games/terraria.jpg";
       case "PALWORLD": return "/games/palworld.jpg";
       case "RUST": return "/games/rust.jpg";
+      case "SATISFACTORY": return "/games/satisfactory.jpg";
+      case "VRISING": return "/games/vrising.jpg";
+      case "WINDROSE": return "/games/windrose.jpg";
       default: return "/games/generic.jpg";
     }
   };
@@ -80,6 +86,9 @@ export function ServerHeroCard({
       case "TERRARIA": return "🌳";
       case "PALWORLD": return "🦊";
       case "RUST": return "⚙️";
+      case "SATISFACTORY": return "🏭";
+      case "VRISING": return "🦇";
+      case "WINDROSE": return "⚔️";
       default: return "🎮";
     }
   };

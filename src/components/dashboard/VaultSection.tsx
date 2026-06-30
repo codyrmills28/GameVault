@@ -22,6 +22,9 @@ export function VaultSection({
       case "TERRARIA": return "🌳";
       case "PALWORLD": return "🦊";
       case "RUST": return "⚙️";
+      case "SATISFACTORY": return "🏭";
+      case "VRISING": return "🦇";
+      case "WINDROSE": return "⚔️";
       default: return "🎮";
     }
   };

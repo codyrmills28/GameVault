@@ -542,7 +542,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
 
   // Helper for game icons
   const getGameIcon = (game: string) => {
-    switch (game.toUpperCase()) {
+    switch(game) {
       case "MINECRAFT": return "⛏️";
       case "VALHEIM": return "⛵";
       case "ENSHROUDED": return "🔥";
@@ -551,6 +551,9 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
       case "TERRARIA": return "🌳";
       case "PALWORLD": return "🦊";
       case "RUST": return "⚙️";
+      case "SATISFACTORY": return "🏭";
+      case "VRISING": return "🦇";
+      case "WINDROSE": return "⚔️";
       default: return "🎮";
     }
   };
