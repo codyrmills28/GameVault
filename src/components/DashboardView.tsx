@@ -607,7 +607,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
           
           <div className="flex gap-8 items-start w-full">
             {/* Center Column: KPI, Servers */}
-            <div className="flex-1 space-y-8 min-w-0">
+            <div className="flex-1 max-w-7xl space-y-8 min-w-0">
               
               {/* KPI Cards */}
               <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -687,7 +687,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
                 </Link>
               </div>
               
-              <div className={`grid grid-cols-1 gap-6 ${data.servers.length === 1 ? 'lg:grid-cols-1' : 'lg:grid-cols-2 2xl:grid-cols-3'}`}>
+              <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                 {data.servers.map((server: any) => (
                   <ServerHeroCard
                     key={server.id}
@@ -738,7 +738,7 @@ export default function DashboardView({ initialData }: DashboardViewProps) {
           </div>
 
           {/* Vault and Feed Row */}
-          <div className="grid grid-cols-1 xl:grid-cols-[400px_1fr] gap-8 h-[420px] items-stretch w-full">
+          <div className="grid grid-cols-1 xl:grid-cols-[400px_1fr] gap-8 h-[420px] items-stretch w-full max-w-[calc(1280px+320px+2rem)]">
             <VaultSection archives={data.archives} actions={{ handleRestoreArchive, handleDeleteArchive }} actionLoading={actionLoading} />
             <ActivityFeed activityLogs={data.activityLogs} />
           </div>
