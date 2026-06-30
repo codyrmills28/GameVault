@@ -57,6 +57,8 @@ for (const file of eventFiles) {
   }
 }
 
+import { startEventWatcher } from "./watchers/eventWatcher";
+
 (async () => {
   try {
     console.log(`Started refreshing ${slashCommands.length} application (/) commands.`);
@@ -72,5 +74,10 @@ for (const file of eventFiles) {
     console.error(error);
   }
 })();
+
+client.once('ready', () => {
+  console.log(`Bot Ready! Logged in as ${client.user?.tag}`);
+  startEventWatcher(client);
+});
 
 client.login(TOKEN);
