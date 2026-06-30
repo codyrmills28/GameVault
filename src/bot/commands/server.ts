@@ -35,7 +35,7 @@ export default {
     const subcommand = interaction.options.getSubcommand();
     const gameQuery = interaction.options.getString("game")?.toLowerCase();
 
-    const { error, server } = await findAuthorizedServer(interaction.user.id, gameQuery);
+    const { error, server } = await findAuthorizedServer(interaction, gameQuery);
     
     if (error || !server) {
       return interaction.reply({ content: error || "Could not find any server matching that query.", ephemeral: true });

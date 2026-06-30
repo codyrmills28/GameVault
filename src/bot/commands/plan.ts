@@ -16,7 +16,7 @@ export default {
     const timeQuery = interaction.options.getString("time")!;
     const title = interaction.options.getString("title") || "Game Session";
 
-    const { error, server, user } = await findAuthorizedServer(interaction.user.id, gameQuery);
+    const { error, server, user } = await findAuthorizedServer(interaction, gameQuery);
     
     if (error || !server || !user) {
       return interaction.reply({ content: error || "Not found.", ephemeral: true });

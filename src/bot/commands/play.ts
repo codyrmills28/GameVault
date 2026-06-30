@@ -15,7 +15,7 @@ export default {
   async execute(interaction: ChatInputCommandInteraction) {
     const gameQuery = interaction.options.getString("game")?.toLowerCase();
 
-    const { error, server, user } = await findAuthorizedServer(interaction.user.id, gameQuery);
+    const { error, server, user } = await findAuthorizedServer(interaction, gameQuery);
     
     if (error || !server) {
       return interaction.reply({ content: error, ephemeral: true });

@@ -87,6 +87,17 @@ model Server {
   hostLink         ServerHostLink?
   inviteCode       String?         @unique // For RealmSync
   plannedSessions  PlannedSession[]
+  discordRoles     DiscordRoleAccess[]
+}
+
+model DiscordRoleAccess {
+  id        String   @id @default(cuid())
+  serverId  String
+  roleId    String
+  server    Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([serverId, roleId])
 }
 
 model PlannedSession {

@@ -13,7 +13,7 @@ export default {
     const gameQuery = interaction.options.getString("game")?.toLowerCase();
     const lines = Math.min(interaction.options.getInteger("lines") || 15, 50);
 
-    const { error, server } = await findAuthorizedServer(interaction.user.id, gameQuery);
+    const { error, server } = await findAuthorizedServer(interaction, gameQuery);
     
     if (error || !server) {
       return interaction.reply({ content: error, ephemeral: true });
